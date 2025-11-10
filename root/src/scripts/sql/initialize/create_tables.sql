@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Category (
 
 CREATE TABLE IF NOT EXISTS Club (
     club_id INT AUTO_INCREMENT PRIMARY KEY,
-    club_name VARCHAR(100) NOT NULL,
+    club_name VARCHAR(100) NOT NULL UNIQUE,
     club_email VARCHAR(100) UNIQUE,
     club_description TEXT,
     creation_date DATE DEFAULT (CURRENT_DATE),
@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS Event (
     event_condition ENUM('none', 'women_only', 'undergrad_only', 'first_year_only') DEFAULT 'none',
     registration_open BOOLEAN DEFAULT TRUE,
     event_fee DECIMAL(8,2) DEFAULT 0.00,
+    UNIQUE KEY unique_club_event (club_id, event_name),
     FOREIGN KEY (club_id) REFERENCES Club(club_id) ON DELETE CASCADE
 );
 
@@ -51,6 +52,7 @@ CREATE TABLE IF NOT EXISTS Notification (
     notification_type ENUM('reminder', 'announcement', 'update') DEFAULT 'announcement',
     notification_status ENUM('unread', 'read') DEFAULT 'unread',
     notification_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_user_event_message (user_id, event_id, notification_message(255)),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
 );
@@ -60,6 +62,7 @@ CREATE TABLE IF NOT EXISTS Registration (
     user_id INT NOT NULL,
     event_id INT NOT NULL,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_user_event (user_id, event_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
 );
@@ -87,7 +90,7 @@ CREATE TABLE IF NOT EXISTS Executive (
     user_id INT NOT NULL,
     club_id INT NOT NULL,
     executive_role VARCHAR(50) DEFAULT 'member',
-    PRIMARY KEY (user_id, club_id),
+    PRIMARY KEY (user_id, club_id, executive_role),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (club_id) REFERENCES Club(club_id) ON DELETE CASCADE
 );
@@ -98,6 +101,7 @@ CREATE TABLE IF NOT EXISTS Comments (
     event_id INT NOT NULL,
     comment_message TEXT NOT NULL,
     comment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_comment (user_id, event_id, comment_message(255)),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
 );
@@ -113,7 +117,7 @@ CREATE TABLE IF NOT EXISTS User_Interests (
 CREATE TABLE IF NOT EXISTS Club_Tags (
     club_id INT NOT NULL,
     category_id INT NOT NULL,
-    PRIMARY KEY (category_id, club_id),
-    FOREIGN KEY (category_id) REFERENCES Category(category_id) ON DELETE CASCADE,
-    FOREIGN KEY (club_id) REFERENCES Club(club_id) ON DELETE CASCADE
+    PRIMARY KEY (club_id, category_id),
+    FOREIGN KEY (club_id) REFERENCES Club(club_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES Category(category_id) ON DELETE CASCADE
 );
