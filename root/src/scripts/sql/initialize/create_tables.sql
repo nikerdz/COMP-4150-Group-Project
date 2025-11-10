@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS Event (
     capacity INT,
     event_status ENUM('pending', 'approved', 'cancelled') DEFAULT 'pending',
     event_condition ENUM('none', 'women_only', 'undergrad_only', 'first_year_only') DEFAULT 'none',
+    registration_open BOOLEAN DEFAULT TRUE,
     event_fee DECIMAL(8,2) DEFAULT 0.00,
     FOREIGN KEY (club_id) REFERENCES Club(club_id) ON DELETE CASCADE
 );
