@@ -76,8 +76,8 @@ VALUES (2,'Drama Night','Evening performance by club members','Auditorium','2024
 -- -------------------------
 -- Registration
 -- -------------------------
-INSERT IGNORE INTO `Registration` (user_id, event_id, rsvp, registration_date) VALUES (1,1,TRUE,'2024-11-01 12:00:00');
-INSERT IGNORE INTO `Registration` (user_id, event_id, rsvp, registration_date) VALUES (2,2,TRUE,'2024-11-02 12:00:00');
+INSERT IGNORE INTO `Registration` (user_id, event_id, registration_date) VALUES (1,1,TRUE,'2024-11-01 12:00:00');
+INSERT IGNORE INTO `Registration` (user_id, event_id, registration_date) VALUES (2,2,TRUE,'2024-11-02 12:00:00');
 
 -- -------------------------
 -- Payment
