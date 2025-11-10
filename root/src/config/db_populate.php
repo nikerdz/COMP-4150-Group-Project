@@ -1,9 +1,8 @@
 <?php
-// Include database configuration
-require_once __DIR__ . '/db_config.php';
+require 'db_config.php';
 
-// Path to SQL script containing INSERT statements
-$sqlFile = __DIR__ . '/../scripts/db/populate_tables.sql'; // Adjust path if needed
+// Path to SQL script containing sample data insertion commands
+$sqlFile = __DIR__ . '\..\scripts\sql\initialize\populate_tables.sql';
 
 if (!file_exists($sqlFile)) {
     die("SQL file not found: $sqlFile");

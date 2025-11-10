@@ -7,6 +7,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Path to SQL script containing CREATE TABLE statements
+$sqlFile = __DIR__ . '\..\scripts\sql\initialize\create_tables.sql';
+
 // Create database if not exists
 $sql = "CREATE DATABASE IF NOT EXISTS `" . DB_NAME . "`";
 if ($conn->query($sql) === TRUE) {
@@ -18,8 +21,6 @@ if ($conn->query($sql) === TRUE) {
 // Select the database
 $conn->select_db(DB_NAME);
 
-// Path to SQL script containing CREATE TABLE statements
-$sqlFile = __DIR__ . '/../scripts/db/create_tables.sql';
 if (!file_exists($sqlFile)) {
     die("SQL file not found: $sqlFile");
 }
