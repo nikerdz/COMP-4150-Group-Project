@@ -59,7 +59,6 @@ CREATE TABLE IF NOT EXISTS Registration (
     registration_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     event_id INT NOT NULL,
-    rsvp BOOLEAN DEFAULT TRUE,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
