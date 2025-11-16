@@ -42,8 +42,6 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     <ul class="sidebar-links">
         <!-- Always visible -->
         <li><a href="<?php echo PUBLIC_URL; ?>">HOME</a></li>
-        <li><a href="<?php echo PUBLIC_URL; ?>about.php">ABOUT</a></li>
-        <li><a href="<?php echo PUBLIC_URL; ?>contact.php">CONTACT</a></li>
 
         <?php if(isset($_SESSION['user_id'])): ?>
             <!-- Visible only if logged in -->
@@ -56,6 +54,9 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <li><a href="<?php echo PUBLIC_URL; ?>login.php">LOGIN</a></li>
             <li><a href="<?php echo PUBLIC_URL; ?>register.php">REGISTER</a></li>
         <?php endif; ?>
+
+        <li><a href="<?php echo PUBLIC_URL; ?>about.php">ABOUT</a></li>
+        <li><a href="<?php echo PUBLIC_URL; ?>contact.php">CONTACT</a></li>
     </ul>
 </div>
 
