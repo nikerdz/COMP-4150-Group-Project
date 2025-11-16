@@ -22,7 +22,7 @@ session_start();
 
 <main>
 
-    <!-- Reuse same hero style as home -->
+    <!-- Reuse same hero style as home  -->
     <div class="hero-section">
         <div class="hero-container">
             <h1>About ClubHub</h1>
