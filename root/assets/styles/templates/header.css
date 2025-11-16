@@ -23,30 +23,39 @@
     padding: 0 20px;
 }
 
-.header-btn {
-    background: none;
-    border: none;
-    font-size: 28px;
-    cursor: pointer;
-    color: #f76c6c;
-    transition: transform 0.2s;
-}
-
-.header-btn:hover {
-    transform: scale(1.2);
-}
-
 .logo {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .logo img {
-    width: 25%;
-    height: 25%;
+    width: 225px;
+    height: auto;
+    display: block;
 }
 
 .logo img:hover {
     cursor: pointer;
+}
+
+.header-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-btn img {
+    width: 75px;
+    height: auto;
+    transition: transform 0.2s;
+}
+
+.header-btn img:hover {
+    transform: scale(1.1);
 }
