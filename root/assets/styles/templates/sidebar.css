@@ -21,7 +21,6 @@
 
 .sidebar.open { left: 0; }
 
-/* Close button (if you add one in markup) */
 .close-btn {
     background: none;
     border: none;
@@ -60,7 +59,6 @@
 
     font-family: "JosefinSans", sans-serif;
     font-size: 1.1rem;
-    font-weight: 600;
     letter-spacing: 0.2px;
 
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
@@ -76,7 +74,6 @@
 .sidebar-links li a:focus {
     background: #ffffff;
     color: #f76c6c;
-    box-shadow: 0 6px 14px #f71111;
     outline: none;
     transform: translateY(-1px);
 }
