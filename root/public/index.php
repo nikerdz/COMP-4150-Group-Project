@@ -25,7 +25,7 @@ session_start();
     <div class="hero-section">
         <div class="hero-container">
             <h1>Welcome to ClubHub!</h1>
-            <p>Connect, explore, and share your club experiences.</p>
+            <p>Discover, explore, and connect your campus experiences.</p>
             <br>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <?php if (!empty($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
