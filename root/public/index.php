@@ -23,37 +23,40 @@ session_start();
 
 <main>
     <div class="hero-section">
-        <h1>Welcome to ClubHub!</h1>
-        <p>Connect, explore, and share your club experiences.</p>
-        <br>
-        <?php if (isset($_SESSION['user_id'])): ?>
-            <?php if (!empty($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
-                <a href="<?php echo ADMIN_URL; ?>dashboard.php" class="btn">Admin Dashboard</a>
+        <div class="hero-container">
+            <h1>Welcome to ClubHub!</h1>
+            <p>Connect, explore, and share your club experiences.</p>
+            <br>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if (!empty($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
+                    <a href="<?php echo ADMIN_URL; ?>dashboard.php" class="btn">Admin Dashboard</a>
+                <?php else: ?>
+                    <a href="<?php echo USER_URL; ?>dashboard.php" class="btn">My Dashboard</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="<?php echo USER_URL; ?>dashboard.php" class="btn">My Dashboard</a>
+                <a href="register.php" class="btn">Get Started</a>
             <?php endif; ?>
-        <?php else: ?>
-            <a href="register.php" class="btn">Get Started</a>
-        <?php endif; ?>
+        </div>
     </div>
 
-    <section class="features">
+<section class="features">
+    <div class="features-container">
         <div class="feature">
-            <h2>Organize Your Clubs</h2>
-            <p>Create, manage, and keep track of your university or community clubs easily.</p>
-            <img src="<?php echo IMG_URL; ?>clubs_graphic.png" alt="Clubs" width="200">
+            <h2>Discover</h2>
+            <p>Find clubs that match your interests and uncover new communities to join.</p>
+            <img src="<?php echo IMG_URL; ?>discover.png" alt="discover" width="200">
         </div>
 
         <div class="feature">
-            <h2>Connect & Collaborate</h2>
-            <p>Join clubs, find members, and share ideas with others.</p>
-            <img src="<?php echo IMG_URL; ?>connect_graphic.png" alt="People connecting" width="200">
+            <h2>Explore</h2>
+            <p>Browse upcoming events and stay updated on what’s happening around campus.</p>
+            <img src="<?php echo IMG_URL; ?>explore.png" alt="explore" width="200">
         </div>
 
         <div class="feature">
-            <h2>Discover Events</h2>
-            <p>Browse and attend events hosted by clubs in your community.</p>
-            <img src="<?php echo IMG_URL; ?>events_graphic.png" alt="Event poster" width="200">
+            <h2>Connect</h2>
+            <p>Meet new people, collaborate with others, and strengthen your community ties.</p>
+            <img src="<?php echo IMG_URL; ?>connect.png" alt="connect" width="200">
         </div>
     </section>
 </main>
