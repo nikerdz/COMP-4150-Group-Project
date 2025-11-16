@@ -3,8 +3,10 @@
 ========================== */
 
 @import url('templates/header.css');
+@import url('templates/footer.css');
 @import url('templates/navbar.css');
 @import url('templates/landing.css');
+@import url('templates/sidebar.css');
 
 /* ==========================
    Font Styles

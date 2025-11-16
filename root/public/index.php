@@ -15,12 +15,10 @@ session_start();
 
     <!-- Styles & Scripts -->
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?php echo time(); ?>">
-    <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
 </head>
 <body>
 
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
-
 <main>
     <div class="hero-section">
         <div class="hero-container">
@@ -62,6 +60,7 @@ session_start();
 </main>
 
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
-
+<?php include_once(LAYOUT_PATH . 'footer.php'); ?>
+<script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

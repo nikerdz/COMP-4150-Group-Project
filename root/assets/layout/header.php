@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         <div class="container">
 
             <!-- Left Button: Sidebar -->
-            <button class="header-btn" onclick="openSidebar()">
+            <button class="header-btn" onclick="toggleSidebar()">
                 <img src="<?php echo IMG_URL; ?>btn/menu.png" alt="Menu">
             </button>
 
@@ -36,3 +36,19 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         </div>
     </nav>
 </header>
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+    <ul class="sidebar-links">
+        <li><a href="<?php echo PUBLIC_URL; ?>">Home</a></li>
+        <?php if(isset($_SESSION['user_id'])): ?>
+            <li><a href="<?php echo USER_URL; ?>dashboard.php">Dashboard</a></li>
+        <?php endif; ?>
+        <li><a href="<?php echo CLUB_URL; ?>">Clubs</a></li>
+        <li><a href="<?php echo EVENT_URL; ?>">Events</a></li>
+        <?php if(!isset($_SESSION['user_id'])): ?>
+            <li><a href="<?php echo PUBLIC_URL; ?>login.php">Login</a></li>
+            <li><a href="<?php echo PUBLIC_URL; ?>register.php">Register</a></li>
+        <?php endif; ?>
+    </ul>
+</div>
