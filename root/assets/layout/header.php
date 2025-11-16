@@ -40,15 +40,22 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 <!-- Sidebar -->
 <div id="sidebar" class="sidebar">
     <ul class="sidebar-links">
+        <!-- Always visible -->
         <li><a href="<?php echo PUBLIC_URL; ?>">Home</a></li>
+        <li><a href="<?php echo PUBLIC_URL; ?>about.php">About</a></li>
+        <li><a href="<?php echo PUBLIC_URL; ?>contact.php">Contact</a></li>
+
         <?php if(isset($_SESSION['user_id'])): ?>
-            <li><a href="<?php echo USER_URL; ?>dashboard.php">Dashboard</a></li>
-        <?php endif; ?>
-        <li><a href="<?php echo CLUB_URL; ?>">Clubs</a></li>
-        <li><a href="<?php echo EVENT_URL; ?>">Events</a></li>
-        <?php if(!isset($_SESSION['user_id'])): ?>
+            <!-- Visible only if logged in -->
+            <li><a href="<?php echo USER_URL; ?>user-profile.php">Profile</a></li>
+            <li><a href="<?php echo CLUB_URL; ?>">Clubs</a></li>
+            <li><a href="<?php echo EVENT_URL; ?>">Events</a></li>
+            <li><a href="<?php echo PUBLIC_URL; ?>logout.php">Logout</a></li>
+        <?php else: ?>
+            <!-- Visible only if NOT logged in -->
             <li><a href="<?php echo PUBLIC_URL; ?>login.php">Login</a></li>
             <li><a href="<?php echo PUBLIC_URL; ?>register.php">Register</a></li>
         <?php endif; ?>
     </ul>
 </div>
+
