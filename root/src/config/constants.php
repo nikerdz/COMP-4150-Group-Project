@@ -31,7 +31,7 @@ define('SOURCE_URL', BASE_URL . 'src/');            // URL to source folder
 define('CONFIG_URL', SOURCE_URL . 'config/');       // URL to config folder
 
 // SOURCE - Scripts
-define('SCRIPTS_URL', SOURCE_URL . '/scripts');     // URL to scripts folder
+define('SCRIPTS_URL', SOURCE_URL . 'scripts/');     // URL to scripts folder
 define('JS_URL', SCRIPTS_URL . 'js/');              // URL to JS scripts folder
 define('PHP_URL', SCRIPTS_URL . 'php/');            // URL to PHP scripts folder
 define('SQL_URL', SCRIPTS_URL . 'sql/');            // URL to SQL scripts folder
