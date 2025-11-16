@@ -165,3 +165,69 @@
     font-size: 30px;
     color: #555;
 }
+
+/* ==========================
+   About Page Sections
+========================== */
+
+.about-features {
+    padding: 40px 0px 60px;
+    background: #a8d0e6;
+}
+
+/* Grid container for the 4 cards */
+.about-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* Each card */
+.about-feature {
+    background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
+.feature:hover,
+.about-feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+/* Heading in cards */
+.about-feature h2 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #f76c6c;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+/* Text in cards */
+.about-feature p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 25px;
+    text-align: center;
+    color: #1c348d;
+    line-height: 1.6;
+}
+@media (min-width: 900px) {
+    .about-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .about-feature {
+        text-align: left;
+    }
+}
