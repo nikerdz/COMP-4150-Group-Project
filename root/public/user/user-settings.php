@@ -1,0 +1,1 @@
+<!-- For the loggedin user to edit their profile and delete their account-->

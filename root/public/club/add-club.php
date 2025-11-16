@@ -1,0 +1,1 @@
+<!-- where logged in users can choose to becomme a club exec by adding a club -->

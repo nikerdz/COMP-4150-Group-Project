@@ -1,0 +1,1 @@
+<!-- viewing all events pertaining to the logged in (or other) user (registered, wishlisted, for the clubs theyve joined etc) -->

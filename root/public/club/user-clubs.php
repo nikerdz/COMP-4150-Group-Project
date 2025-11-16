@@ -1,0 +1,1 @@
+<!-- viewing all clubs the logged in (or other) user has joined or is an exec for -->

@@ -1,0 +1,1 @@
+<!-- Main explore page where user can see featured/categorized events and clubs and choose to view all events and all clubs -->

@@ -1,0 +1,1 @@
+<!-- listing all clubs with search bar and filters -->

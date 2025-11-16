@@ -1,0 +1,1 @@
+<!-- for viewing approved published events and where user can register for them, or where club exec can view registrations and choose to edit the event -->

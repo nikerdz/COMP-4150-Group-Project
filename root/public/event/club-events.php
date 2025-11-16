@@ -1,0 +1,1 @@
+<!-- listing all events for a specific club -->

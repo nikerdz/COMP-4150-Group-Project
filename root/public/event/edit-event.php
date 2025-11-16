@@ -1,0 +1,1 @@
+<!-- for club execs to edit events or delete them -->
