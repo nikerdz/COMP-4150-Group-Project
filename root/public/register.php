@@ -21,8 +21,6 @@ session_start();
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
 <main>
-
-    <!-- Auth / Register Card -->
     <section class="auth-section">
         <div class="auth-card">
             <h1>Create Your ClubHub Account</h1>
@@ -45,7 +43,7 @@ session_start();
                 </div>
 
                 <div class="auth-field">
-                    <label for="email">UWindsor Email</label>
+                    <label for="email">Email</label>
                     <input type="email" id="email" name="email" required>
                 </div>
 
@@ -69,7 +67,7 @@ session_start();
 
                     <div class="auth-field">
                         <label for="year_of_study">Year of Study</label>
-                        <input type="number" id="year_of_study" name="year_of_study" min="1" max="6">
+                        <input type="number" id="year_of_study" name="year_of_study" min="1" max="999999">
                     </div>
                 </div>
 
@@ -77,7 +75,7 @@ session_start();
 
                 <p class="auth-footer-text">
                     Already have an account?
-                    <a href="<?php echo PUBLIC_URL; ?>login.php">Log in here</a>.
+                    <a href="<?php echo PUBLIC_URL; ?>login.php">Log in</a>.
                 </p>
 
             </form>
