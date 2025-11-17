@@ -2,15 +2,18 @@
 require_once('../../../config/constants.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    $name = htmlspecialchars($_POST['name']);
-    $email = htmlspecialchars($_POST['email']);
-    $subject = htmlspecialchars($_POST['subject']);
-    $message = htmlspecialchars($_POST['message']);
+
+    $name    = htmlspecialchars($_POST['name'] ?? '');
+    $email   = htmlspecialchars($_POST['email'] ?? '');
+    $subject = htmlspecialchars($_POST['subject'] ?? '');
+    $message = htmlspecialchars($_POST['message'] ?? '');
 
     $to = "khan661@uwindsor.ca, sheikh83@uwindsor.ca";
-    $headers = "From: $email\r\n";
+
+    $headers  = "From: $email\r\n";
     $headers .= "Reply-To: $email\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
     $fullMessage =
         "New message from ClubHub Contact Form\n\n" .
         "Name: $name\n" .
