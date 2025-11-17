@@ -1,15 +1,40 @@
 /* ==========================
    Sidebar
 ========================== */
-/* ==========================
-   Sidebar
-========================== */
+/* 
+
 .sidebar {
     position: fixed;
     top: 20px;
-    left: -300px;                     /* hidden by default */
-    width: min(300px, 80vw);          /* shrink on small screens */
+    left: -300px;                     
+    width: min(300px, 80vw);         
     height: calc(100vh - 40px);
+    background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
+    border-radius: 0 20px 20px 0;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+    z-index: 2000;
+    transition: left 0.3s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-sizing: border-box;           
+}
+
+old side bar code
+========================== */
+
+
+.sidebar {
+    position: fixed;
+    top: 50%;
+    left: -320px;
+    transform: translateY(-50%);
+
+    width: min(300px, 80vw);
+    max-height: 80vh;
+    height: auto;
+
     background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
     border-radius: 0 20px 20px 0;
     box-shadow: 5px 0 15px rgba(0,0,0,0.2);
@@ -21,6 +46,7 @@
     overflow-y: auto;
     box-sizing: border-box;
 }
+
 
 /* when opened (JS adds .open) */
 .sidebar.open { left: 0; }
@@ -101,7 +127,7 @@
 
 /* Sidebar logo */
 .sidebar-logo {
-    max-width: 160px;
+    max-width: 100px;
     width: 18vw;
     height: auto;
     display: block;

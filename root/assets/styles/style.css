@@ -33,19 +33,30 @@
     line-height: 1.6;
 }
 
+/* Make footer stick to bottom using flex layout */
+html, body {
+    height: 100%;
+}
+
 body {
     background: #a8d0e6;
     color: #1c348d;
     margin: 0;
     padding-top: 20px;
+    display: flex;
+    flex-direction: column; /* header + main + footer stacked */
 }
 
+/* Main content area grows to fill the space between header & footer */
 main {
-    max-width: 1100px; 
+    flex: 1;                 /* take up remaining vertical space */
+    width: 100%;
+    max-width: 1100px;       /* center content like your other sections */
     margin: 0 auto;
     padding: 0 20px;
-    width: 100%;
+    box-sizing: border-box;
 }
+
 
 /* ==========================
    Responsive Design 

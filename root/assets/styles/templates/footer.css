@@ -2,19 +2,16 @@
    Footer
 ========================== */
 .footer {
-    position: relative;
-    bottom: 0;
     width: 100%;
     display: flex;
     justify-content: center;
-    z-index: 100;
-    margin-top: 20px; 
+    margin-top: 20px;      /* space above footer */
 }
 
 .footer-container {
     background: #f76c6c;
-    border-radius: 20px 20px 0 0; 
-    max-width: 1100px; 
+    border-radius: 20px 20px 0 0;
+    max-width: 1100px;
     width: 100%;
     padding: 15px 20px;
     display: flex;
@@ -34,7 +31,6 @@
     color: #f3e7df;
     text-decoration: none;
     margin-left: 15px;
-
 }
 
 .footer-right a:hover {
@@ -48,6 +44,7 @@
         gap: 10px;
         text-align: center;
     }
+
     .footer-right a {
         margin-left: 0;
         margin-right: 10px;

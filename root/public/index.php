@@ -20,6 +20,7 @@ session_start();
 
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
+<main>
     <div class="hero-section">
         <div class="hero-container">
             <h1>Welcome to ClubHub!</h1>
@@ -56,7 +57,9 @@ session_start();
                 <p>Meet new people, collaborate with others, and strengthen your community ties.</p>
                 <img src="<?php echo IMG_URL; ?>connect.png" alt="connect" width="200">
             </div>
+        </div>
     </section>
+</main>
 
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
