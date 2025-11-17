@@ -1,0 +1,95 @@
+<?php
+require_once('../src/config/constants.php');
+session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ClubHub | Register</title>
+
+    <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
+    <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?php echo time(); ?>">
+</head>
+
+<body>
+
+<?php include_once(LAYOUT_PATH . 'header.php'); ?>
+
+<main>
+
+    <!-- Auth / Register Card -->
+    <section class="auth-section">
+        <div class="auth-card">
+            <h1>Create Your ClubHub Account</h1>
+            <p class="auth-subtitle">
+                Join ClubHub to discover clubs, explore events, and manage your campus life all in one place.
+            </p>
+
+            <form action="<?php echo PHP_URL; ?>handle_register.php" method="POST" class="auth-form">
+                
+                <div class="auth-row">
+                    <div class="auth-field">
+                        <label for="first_name">First Name</label>
+                        <input type="text" id="first_name" name="first_name" required>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" required>
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label for="email">UWindsor Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="auth-row">
+                    <div class="auth-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
+                    </div>
+                </div>
+
+                <div class="auth-row">
+                    <div class="auth-field">
+                        <label for="faculty">Faculty</label>
+                        <input type="text" id="faculty" name="faculty">
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="year_of_study">Year of Study</label>
+                        <input type="number" id="year_of_study" name="year_of_study" min="1" max="6">
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">Create Account</button>
+
+                <p class="auth-footer-text">
+                    Already have an account?
+                    <a href="<?php echo PUBLIC_URL; ?>login.php">Log in here</a>.
+                </p>
+
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
+<?php include_once(LAYOUT_PATH . 'footer.php'); ?>
+
+<script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
+
+</body>
+</html>
