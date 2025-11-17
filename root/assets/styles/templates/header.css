@@ -63,3 +63,39 @@
   .header-btn img { width: 60px; } 
   .logo img { width: 180px; }
 }
+
+/* ==========================
+   Easter Egg – Floating Duck
+========================== */
+
+.duck-easter-egg {
+    position: fixed;
+    width: 60px;          /* smaller than main logo */
+    height: auto;
+    pointer-events: none; /* don't block clicks */
+    z-index: 3000;
+    opacity: 0;           /* JS will animate this */
+}
+
+@keyframes duckZigzag {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.7);
+    }
+    10% {
+        opacity: 1;
+    }
+    25% {
+        transform: translate(-20px, -40px) scale(0.8);
+    }
+    50% {
+        transform: translate(20px, -90px) scale(0.9);
+    }
+    75% {
+        transform: translate(-15px, -140px) scale(1.0);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(10px, -190px) scale(1.05);
+    }
+}

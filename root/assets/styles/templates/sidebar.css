@@ -24,14 +24,10 @@
     box-sizing: border-box;
 }
 
-
-/* when opened (JS adds .open) */
 .sidebar.open { left: 0; }
 
-/* smoother scrolling (optional) */
 .sidebar { scroll-behavior: smooth; }
 
-/* Close button (if you add one in markup) */
 .close-btn {
     background: none;
     border: none;
@@ -42,7 +38,6 @@
     cursor: pointer;
 }
 
-/* Links list */
 .sidebar-links {
     list-style: none;
     padding: 0;
@@ -53,8 +48,8 @@
     flex: 1 1 auto;
 }
 
-/* Make each anchor a full-width "box" */
-.sidebar-links li a {
+.sidebar-links li a,
+.sidebar-auth a {
     display: block;
     width: 100%;
     padding: 14px 16px;
@@ -77,9 +72,10 @@
         transform 0.12s ease;
 }
 
-/* Hover & keyboard focus */
 .sidebar-links li a:hover,
-.sidebar-links li a:focus {
+.sidebar-links li a:focus,
+.sidebar-auth a:hover,
+.sidebar-auth a:focus {
     background: #f3e7df;
     color: #f76c6c;
     box-shadow: 0 6px 14px rgba(28,52,141,0.25);
@@ -87,23 +83,30 @@
     transform: translateY(-1px);
 }
 
-/* Active press */
-.sidebar-links li a:active {
+.sidebar-links li a:active,
+.sidebar-auth a:active {
     transform: translateY(0);
     box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
-/* Logo at bottom of sidebar */
 .sidebar-footer {
     margin-top: 20px;
     padding-top: 10px;
     border-top: 1px solid rgba(28,52,141,0.25);
+    
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    gap: 12px;
 }
 
-/* Sidebar logo */
+.sidebar-auth {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .sidebar-logo {
     max-width: 100px;
     width: 18vw;
@@ -112,31 +115,30 @@
     transition: 0.3s ease;
 }
 
-/* Optional subtle hover (won’t cause scrollbars) */
 .sidebar-logo:hover {
     transform: scale(1.1);
     transition: 0.3s ease;
 }
 
-/* Reduce sidebar width on very narrow screens */
+
 @media (max-width: 480px) {
     .sidebar {
         top: 0;
         height: 100vh;
         width: 75vw;
         border-radius: 0 16px 16px 0;
+        transform: none;
     }
 }
 
-/* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
     .sidebar,
     .sidebar-links li a,
+    .sidebar-auth a,
     .sidebar-logo {
         transition: none;
     }
 }
-
 
 /* ==========================
    Sidebar Overlay (click outside to close)
@@ -144,7 +146,7 @@
 .sidebar-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.15);
     z-index: 1500;
     opacity: 0;
     pointer-events: none;
@@ -155,4 +157,3 @@
     opacity: 1;
     pointer-events: auto;
 }
-

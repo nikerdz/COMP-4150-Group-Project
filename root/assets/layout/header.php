@@ -59,10 +59,17 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         <li><a href="<?php echo PUBLIC_URL; ?>contact.php">CONTACT</a></li>
     </ul>
 
-    <!-- Sidebar logo at bottom -->
+        <!-- Sidebar logo at bottom -->
     <div class="sidebar-footer">
-        <img src="<?php echo IMG_URL; ?>logo_hub.png" alt="ClubHub Logo" class="sidebar-logo">
+        <img
+            src="<?php echo IMG_URL; ?>logo_hub.png"
+            alt="ClubHub Logo"
+            class="sidebar-logo"
+            id="sidebar-logo"
+            data-duck-src="<?php echo IMG_URL; ?>dancing-duck.gif"
+        >
     </div>
+
 </div>
 
 <!-- Sidebar overlay (click outside to close) -->

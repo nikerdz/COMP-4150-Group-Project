@@ -34,9 +34,95 @@ function toggleSidebar() {
     }
 }
 
-// Optional: close sidebar with ESC key
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeSidebar();
+    }
+});
+// ==========================
+// Easter Egg – Duck on fast sidebar logo clicks
+// ==========================
+
+let logoClickCount = 0;
+let logoClickTimer = null;
+const CLICK_WINDOW_MS = 600; // time window for "fast" clicks
+
+function handleLogoEasterEggClick(e) {
+    // don't navigate anywhere if it's inside a link (safe even on <img>)
+    if (e.preventDefault) e.preventDefault();
+
+    const logoTarget = e.currentTarget;
+    const duckSrc = logoTarget.dataset.duckSrc;
+    if (!duckSrc) return;
+
+    // reset click window after inactivity
+    if (logoClickTimer) {
+        clearTimeout(logoClickTimer);
+    }
+    logoClickTimer = setTimeout(() => {
+        logoClickCount = 0;
+        logoClickTimer = null;
+    }, CLICK_WINDOW_MS);
+
+    logoClickCount++;
+
+    // after 3+ quick clicks, spawn duck each time
+    if (logoClickCount >= 3) {
+        spawnDuck(duckSrc, e);
+    }
+}
+
+function spawnDuck(duckSrc, event) {
+    const duck = document.createElement('img');
+    duck.src = duckSrc;
+    duck.alt = 'Dancing duck';
+    duck.className = 'duck-easter-egg';
+
+    document.body.appendChild(duck);
+
+    // starting point = where user clicked
+    const startX = event.clientX || (window.innerWidth / 2);
+    const startY = event.clientY || (window.innerHeight / 2);
+
+    // randomize path
+    const amplitude = 20 + Math.random() * 40;          // side-to-side distance
+    const verticalDistance = 120 + Math.random() * 80;  // how far up it floats
+    const duration = 1200 + Math.random() * 600;        // 1.2–1.8s
+    const frequency = 1.5 + Math.random() * 2.5;        // how wiggly the zigzag is
+
+    const startTime = performance.now();
+
+    function animate(time) {
+        const elapsed = time - startTime;
+        let t = elapsed / duration;
+        if (t > 1) t = 1; // clamp to [0,1]
+
+        // progress-based position
+        const y = startY - t * verticalDistance; // move up
+        const x = startX + Math.sin(t * Math.PI * frequency) * amplitude; // zig-zag
+
+        const scale = 0.8 + t * 0.4;  // slightly grow as it goes up
+        const opacity = 1 - t;        // fade out
+
+        duck.style.left = (x - 30) + 'px';
+        duck.style.top  = (y - 30) + 'px';
+        duck.style.opacity = opacity;
+        duck.style.transform = `scale(${scale})`;
+
+        if (t < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            duck.remove();
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+// Attach handler to sidebar logo once DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebarLogo = document.getElementById('sidebar-logo');
+    if (sidebarLogo) {
+        sidebarLogo.addEventListener('click', handleLogoEasterEggClick);
     }
 });
