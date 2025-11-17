@@ -22,18 +22,15 @@ session_start();
 
 <main>
 
-    <div class="contact-intro-box">
+   
+
+    <div class="contact-container">
+        <h1>Contact Us</h1>
         <p>
             We’d love to hear from you! Whether you have questions, feedback, concerns, 
             or ideas to improve ClubHub, feel free to reach out. Your voice helps us make 
             the platform better for everyone.
         </p>
-    </div>
-
-    <div class="contact-container">
-
-        <h1>Contact Us</h1>
-
         <?php if (isset($_GET['success'])): ?>
             <p class="contact-success">Your message has been sent!</p>
         <?php elseif (isset($_GET['error'])): ?>
