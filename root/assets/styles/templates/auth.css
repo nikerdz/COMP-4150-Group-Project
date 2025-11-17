@@ -1,0 +1,128 @@
+
+/* ==========================
+   Register / Auth Page Styles
+========================== */
+
+.auth-section {
+    padding: 40px 20px 60px;
+}
+
+.auth-card {
+    max-width: 1075px;
+    margin: 20px auto 0 auto;
+    width: 100%;
+    background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
+    border-radius: 15px;
+    padding: 40px 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+
+    border: 3px solid #f3e7df;
+}
+
+.auth-card h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.6rem;
+    text-align: center;
+    color: #f76c6c;
+    margin-bottom: 10px;
+}
+
+.auth-subtitle {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #1c348d;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.auth-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.auth-field {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.auth-field label {
+    font-weight: bold;
+    color: #f76c6c;
+}
+
+.auth-field input {
+    padding: 10px 12px;
+    border: 2px solid #1c348d;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #1c348d;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.auth-field input::placeholder {
+    color: rgba(28, 52, 141, 0.55);
+}
+
+.auth-btn {
+    background: #f76c6c;
+    color: #f3e7df;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    align-self: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.auth-btn:hover {
+    background: #1c348d;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    transform: translateY(-1px);
+}
+
+.auth-footer-text {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #1c348d;
+}
+
+.auth-footer-text a {
+    color: #f76c6c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-footer-text a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 30px 18px;
+    }
+
+    .auth-card h1 {
+        font-size: 2.1rem;
+    }
+
+    .auth-subtitle {
+        font-size: 1rem;
+    }
+}
