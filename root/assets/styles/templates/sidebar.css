@@ -84,7 +84,7 @@ old side bar code
     border: 2px solid #f76c6c;
     border-radius: 12px;
     background: #f76c6c;
-    color: #ffffff;
+    color: #f3e7df;
     text-decoration: none;
     
     font-family: "JosefinSans", sans-serif;
@@ -102,7 +102,7 @@ old side bar code
 /* Hover & keyboard focus */
 .sidebar-links li a:hover,
 .sidebar-links li a:focus {
-    background: #ffffff;
+    background: #f3e7df;
     color: #f76c6c;
     box-shadow: 0 6px 14px rgba(28,52,141,0.25);
     outline: none;
@@ -131,11 +131,13 @@ old side bar code
     width: 18vw;
     height: auto;
     display: block;
+    transition: 0.3s ease;
 }
 
 /* Optional subtle hover (won’t cause scrollbars) */
 .sidebar-logo:hover {
-    transform: scale(1.03);
+    transform: scale(1.1);
+    transition: 0.3s ease;
 }
 
 /* Reduce sidebar width on very narrow screens */

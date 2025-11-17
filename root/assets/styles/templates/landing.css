@@ -193,6 +193,7 @@
     line-height: 1.6;
     color: #1c348d;
     margin-bottom: 20px;
+    text-align: center
 }
 
 .contact-container {
@@ -222,7 +223,6 @@
     font-weight: bold;
     color: #1c348d;
 }
-
 
 .contact-form input,
 .contact-form textarea {
