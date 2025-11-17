@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subject = htmlspecialchars($_POST['subject']);
     $message = htmlspecialchars($_POST['message']);
 
-    $to = "khan661@uwindsor.ca";
+    $to = "khan661@uwindsor.ca, sheikh83@uwindsor.ca";
     $headers = "From: $email\r\n";
     $headers .= "Reply-To: $email\r\n";
     $fullMessage =
