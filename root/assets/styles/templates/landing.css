@@ -220,7 +220,7 @@
 
 .contact-form label {
     font-weight: bold;
-    color: #f76c6c;
+    color: #1c348d;
 }
 
 
@@ -228,7 +228,7 @@
 .contact-form textarea {
     color: #1c348d;
     padding: 10px;
-    border: 2px solid #f76c6c;
+    border: 2px solid #1c348d;
     border-radius: 10px;
     font-size: 1rem;
     width: 100%;
@@ -257,10 +257,11 @@
     cursor: pointer;
     transition: 0.2s;
     margin-top: 20px;
+    transition: background 0.3s, transform 0.3s;
 }
 
 .contact-form button:hover {
-    background: #162a6d;
+    transform: scale(1.01);
 }
 
 .contact-success {
