@@ -23,7 +23,7 @@ session_start();
 <main>
     <section class="auth-section">
         <div class="auth-card">
-            <h1>Create Your ClubHub Account</h1>
+            <h1>Register</h1>
             <p class="auth-subtitle">
                 Join ClubHub to discover clubs, explore events, and manage your campus life all in one place.
             </p>
@@ -75,7 +75,7 @@ session_start();
 
                 <p class="auth-footer-text">
                     Already have an account?
-                    <a href="<?php echo PUBLIC_URL; ?>login.php">Log in</a>.
+                    <a href="<?php echo PUBLIC_URL; ?>login.php">Log in</a>
                 </p>
 
             </form>
