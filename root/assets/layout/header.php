@@ -58,6 +58,11 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         <li><a href="<?php echo PUBLIC_URL; ?>about.php">ABOUT</a></li>
         <li><a href="<?php echo PUBLIC_URL; ?>contact.php">CONTACT</a></li>
     </ul>
+
+    <!-- Sidebar logo at bottom -->
+    <div class="sidebar-footer">
+        <img src="<?php echo IMG_URL; ?>logo_hub.png" alt="ClubHub Logo" class="sidebar-logo">
+    </div>
 </div>
 
 <!-- Sidebar overlay (click outside to close) -->
