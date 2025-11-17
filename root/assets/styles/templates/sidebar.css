@@ -54,7 +54,7 @@
     border: 2px solid #f76c6c;
     border-radius: 12px;
     background: #f76c6c;
-    color: #ffffff;
+    color: #f3e7df;
     text-decoration: none;
 
     font-family: "JosefinSans", sans-serif;
@@ -72,7 +72,7 @@
 /* Hover & keyboard focus */
 .sidebar-links li a:hover,
 .sidebar-links li a:focus {
-    background: #ffffff;
+    background: #f3e7df;
     color: #f76c6c;
     outline: none;
     transform: translateY(-1px);
@@ -92,7 +92,6 @@
         transition: none;
     }
 }
-
 
 /* ==========================
    Sidebar Overlay (click outside to close)
