@@ -1,10 +1,28 @@
 <?php
+
+// ***************************************************
+// Path Constants (for php requireonce(), includes, and asset links)
+// ***************************************************
+
 // Root directory
 define('ROOT_PATH', realpath(__DIR__ . '/../../') . '/');
-define('PUBLIC_PATH', ROOT_PATH . 'public/');
-define('SOURCE_PATH', ROOT_PATH . 'src/');
+
+// ASSETS
 define('ASSETS_PATH', ROOT_PATH . 'assets/');
 define('LAYOUT_PATH', ASSETS_PATH . 'layout/');
+
+// PUBLIC
+define('PUBLIC_PATH', ROOT_PATH . 'public/');
+
+// SOURCE
+define('SOURCE_PATH', ROOT_PATH . 'src/');
+define('MODELS_PATH', SOURCE_PATH . 'models/');
+define('CONFIG_PATH', SOURCE_PATH . 'config/');
+
+
+// ***************************************************
+// URL Constants (for page and image links)
+// ***************************************************
 
 // Base URL for project
 define('BASE_URL', '/COMP-4150-Group-Project/root/');
@@ -29,6 +47,7 @@ define('EVENT_URL', PUBLIC_URL . 'event/');         // URL to event html/php fil
 // SOURCE
 define('SOURCE_URL', BASE_URL . 'src/');            // URL to source folder
 define('CONFIG_URL', SOURCE_URL . 'config/');       // URL to config folder
+define('MODELS_URL', SOURCE_URL . 'models/');       // URL to config folder
 
 // SOURCE - Scripts
 define('SCRIPTS_URL', SOURCE_URL . 'scripts/');     // URL to scripts folder

@@ -28,7 +28,7 @@ session_start();
                 Join ClubHub to discover clubs, explore events, and manage your campus life all in one place.
             </p>
 
-            <form action="<?php echo PHP_URL; ?>handle_register.php" method="POST" class="auth-form">
+            <form action="<?php echo PHP_URL; ?>auth_handle_register.php" method="POST" class="auth-form">
                 
                 <div class="auth-row">
                     <div class="auth-field">
