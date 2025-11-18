@@ -40,7 +40,7 @@ $firstName = isset($_SESSION['user_name'])
 <main>
 
     <!-- Hero / Welcome Section -->
-    <section class="dashboard-hero">
+        <section class="dashboard-hero">
         <div class="dashboard-hero-inner">
             <h1>Welcome back, <?php echo $firstName; ?></h1>
             <p>
@@ -50,79 +50,53 @@ $firstName = isset($_SESSION['user_name'])
         </div>
     </section>
 
-    <!-- Quick Links Section -->
+        <!-- Quick Links Section -->
     <section class="dashboard-quicklinks">
         <div class="dashboard-quicklinks-inner">
-            <div class="quicklinks-grid">
 
-                <!-- My Clubs -->
-                <a
-                    href="<?php echo CLUB_URL; ?>user-clubs.php"
-                    class="quicklink-item"
-                >
-                    <img
-                        src="<?php echo IMG_URL; ?>btn/club.png"
-                        alt="My Clubs"
-                        class="quicklink-img"
-                    >
-                    <span class="quicklink-label">My Clubs</span>
+            <!-- My Clubs -->
+            <div class="dashboard-quicklink">
+                <a href="<?php echo CLUB_URL; ?>user-clubs.php" class="quicklink-icon">
+                    <img src="<?php echo IMG_URL; ?>btn/club.png" alt="My Clubs">
                 </a>
-
-                <!-- My Events -->
-                <a
-                    href="<?php echo EVENT_URL; ?>user-events.php"
-                    class="quicklink-item"
-                >
-                    <img
-                        src="<?php echo IMG_URL; ?>btn/event.png"
-                        alt="My Events"
-                        class="quicklink-img"
-                    >
-                    <span class="quicklink-label">My Events</span>
-                </a>
-
-                <!-- Explore -->
-                <a
-                    href="<?php echo USER_URL; ?>explore.php"
-                    class="quicklink-item"
-                >
-                    <img
-                        src="<?php echo IMG_URL; ?>btn/explorebtn.png"
-                        alt="Explore"
-                        class="quicklink-img"
-                    >
-                    <span class="quicklink-label">Explore</span>
-                </a>
-
-                <!-- My Profile -->
-                <a
-                    href="<?php echo USER_URL; ?>profile.php"
-                    class="quicklink-item"
-                >
-                    <img
-                        src="<?php echo IMG_URL; ?>btn/profile.png"
-                        alt="My Profile"
-                        class="quicklink-img"
-                    >
-                    <span class="quicklink-label">My Profile</span>
-                </a>
-
-                <!-- Settings -->
-                <a
-                    href="<?php echo USER_URL; ?>settings.php"
-                    class="quicklink-item"
-                >
-                    <img
-                        src="<?php echo IMG_URL; ?>btn/settings.png"
-                        alt="Settings"
-                        class="quicklink-img"
-                    >
-                    <span class="quicklink-label">Settings</span>
-                </a>
-
+                <span class="quicklink-label">My Clubs</span>
             </div>
+
+            <!-- My Events -->
+            <div class="dashboard-quicklink">
+                <a href="<?php echo EVENT_URL; ?>user-events.php" class="quicklink-icon">
+                    <img src="<?php echo IMG_URL; ?>btn/event.png" alt="My Events">
+                </a>
+                <span class="quicklink-label">My Events</span>
+            </div>
+
+            <!-- Explore -->
+            <div class="dashboard-quicklink">
+                <a href="<?php echo USER_URL; ?>explore.php" class="quicklink-icon">
+                    <img src="<?php echo IMG_URL; ?>btn/explorebtn.png" alt="Explore">
+                </a>
+                <span class="quicklink-label">Explore</span>
+            </div>
+
+            <!-- My Profile -->
+            <div class="dashboard-quicklink">
+                <a href="<?php echo USER_URL; ?>profile.php" class="quicklink-icon">
+                    <img src="<?php echo IMG_URL; ?>btn/profile.png" alt="My Profile">
+                </a>
+                <span class="quicklink-label">My Profile</span>
+            </div>
+
+            <!-- Settings -->
+            <div class="dashboard-quicklink">
+                <a href="<?php echo USER_URL; ?>settings.php" class="quicklink-icon">
+                    <img src="<?php echo IMG_URL; ?>btn/settings.png" alt="Settings">
+                </a>
+                <span class="quicklink-label">Settings</span>
+            </div>
+
         </div>
     </section>
+
 
     <!-- Row 1: Your Clubs & Upcoming Events -->
     <section class="dashboard-section">
@@ -173,7 +147,7 @@ $firstName = isset($_SESSION['user_name'])
                             Work through LeetCode, Kaggle, and ML concepts with other students.
                         </p>
                     </article>
-                    
+
                 </div>
             </div>
 
