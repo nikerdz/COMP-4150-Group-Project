@@ -43,9 +43,9 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         <?php if(isset($_SESSION['user_id'])): ?>
             <!-- Visible only if logged in -->
             <li><a href="<?php echo USER_URL; ?>dashboard.php">DASHBOARD</a></li>
-            <li><a href="<?php echo USER_URL; ?>user-profile.php">PROFILE</a></li>
-            <li><a href="<?php echo CLUB_URL; ?>">CLUBS</a></li>
-            <li><a href="<?php echo EVENT_URL; ?>">EVENTS</a></li>
+            <li><a href="<?php echo USER_URL; ?>profile.php">PROFILE</a></li>
+            <li><a href="<?php echo CLUB_URL; ?>all-clubs.php">CLUBS</a></li>
+            <li><a href="<?php echo EVENT_URL; ?>all-events.php">EVENTS</a></li>
             <li><a href="<?php echo PHP_URL; ?>auth_handle_logout.php">LOGOUT</a></li>
         <?php else: ?>
             <!-- Visible only if NOT logged in -->
