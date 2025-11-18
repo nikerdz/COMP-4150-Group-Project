@@ -1,17 +1,18 @@
 <?php
 require_once(__DIR__ . '/../../config/constants.php');
 require_once(CONFIG_PATH . 'db_config.php');
+require_once(MODELS_PATH . 'User.php');
 
 session_start();
 
-// If user is already logged in, don't let them log in again
+// If user is already logged in
 if (isset($_SESSION['user_id'])) {
     header("Location: " . PUBLIC_URL . "index.php");
     exit();
 }
 
 /**
- * Helper: store error in session and go back to login page
+ * Helper: store error in session and redirect
  */
 function login_error_and_back(string $message): void {
     $_SESSION['login_error'] = $message;
@@ -19,12 +20,11 @@ function login_error_and_back(string $message): void {
     exit();
 }
 
-// Only handle POST requests
+// Only process POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     login_error_and_back("Invalid request method.");
 }
 
-// Basic required fields
 if (empty($_POST['email']) || empty($_POST['password'])) {
     login_error_and_back("Please enter both email and password.");
 }
@@ -32,50 +32,37 @@ if (empty($_POST['email']) || empty($_POST['password'])) {
 $email    = trim($_POST['email']);
 $password = $_POST['password'];
 
-try {
-    // Use the PDO connection from db_config.php
-    /** @var PDO $pdo */
-    $stmt = $pdo->prepare("
-        SELECT 
-            user_id,
-            first_name,
-            last_name,
-            user_email,
-            user_password,
-            user_type,
-            user_status
-        FROM User
-        WHERE user_email = :email
-        LIMIT 1
-    ");
-    $stmt->execute([':email' => $email]);
-    $user = $stmt->fetch();
+// Create User model instance
+$userModel = new User();
 
-    // No user with that email
+try {
+    // Attempt to find user by email
+    $user = $userModel->findByEmail($email);
+
+    // No user found
     if (!$user) {
         login_error_and_back("No account found with that email.");
     }
 
-    // Optional: block suspended users
-    if (isset($user['user_status']) && $user['user_status'] === 'suspended') {
-        login_error_and_back("Your account is suspended. Please contact an administrator.");
+    // Block suspended users
+    if (!empty($user['user_status']) && $user['user_status'] === 'suspended') {
+        login_error_and_back("Your account is suspended. Please contact admin.");
     }
 
-    // Check password
+    // Validate password
     if (!password_verify($password, $user['user_password'])) {
         login_error_and_back("Incorrect password.");
     }
 
-    // ✅ Successful login: store details in session
+    // Login successful - Set session values
     $_SESSION['user_id']    = $user['user_id'];
     $_SESSION['user_email'] = $user['user_email'];
     $_SESSION['user_name']  = $user['first_name'] ?? '';
-    $_SESSION['is_admin']   = (isset($user['user_type']) && $user['user_type'] === 'admin');
+    $_SESSION['is_admin']   = (!empty($user['user_type']) && $user['user_type'] === 'admin');
 
-    // Clear old error if any
     unset($_SESSION['login_error']);
 
-    // Redirect based on role (adjust if you want something else)
+    // Redirect based on user type
     if (!empty($_SESSION['is_admin'])) {
         header("Location: " . ADMIN_URL . "dashboard.php");
     } else {
@@ -84,6 +71,5 @@ try {
     exit();
 
 } catch (PDOException $e) {
-    // You can log $e->getMessage() somewhere if you want
     login_error_and_back("Login failed. Please try again later.");
 }
