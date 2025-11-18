@@ -57,12 +57,12 @@ if (scrollBtn) {
 
 
 // ==========================
-// Got the bag after 3 tries
+// Got the bag after 3 tries 
 // ==========================
 
 let logoClickCount = 0;
 let logoClickTimer = null;
-const CLICK_WINDOW_MS = 600;
+const CLICK_WINDOW_MS = 200;
 
 function handleLogoEasterEggClick(e) {
     if (e.preventDefault) e.preventDefault();
