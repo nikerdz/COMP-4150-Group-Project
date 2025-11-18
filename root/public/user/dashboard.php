@@ -51,58 +51,56 @@ $firstName = isset($_SESSION['first_name'])
         </div>
 
         <div class="dashboard-carousel" data-carousel>
-            <button class="carousel-btn prev" type="button" aria-label="Previous">
-                ‹
-            </button>
+            <button class="carousel-btn prev" type="button" aria-label="Previous">‹</button>
 
-            <div class="dashboard-carousel-track">
-                <!-- Filler cards for now -->
-                <article class="dash-card">
-                    <h3>Women in Tech – Hackathon</h3>
-                    <p class="dash-tag dash-tag-registered">★ You&rsquo;re registered</p>
-                    <p class="dash-meta">March 21 · 6:00 PM · Essex Hall</p>
-                    <p class="dash-text">
-                        A beginner-friendly evening hackathon focused on real campus challenges.
-                    </p>
-                </article>
+            <div class="dash-track-wrapper">
+                <div class="dashboard-carousel-track">
+                    <!-- Filler cards for now -->
+                    <article class="dash-card">
+                        <h3>Women in Tech – Hackathon</h3>
+                        <p class="dash-tag dash-tag-registered">★ You&rsquo;re registered</p>
+                        <p class="dash-meta">March 21 · 6:00 PM · Essex Hall</p>
+                        <p class="dash-text">
+                            A beginner-friendly evening hackathon focused on real campus challenges.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Computer Science Society – Weekly Meetup</h3>
-                    <p class="dash-meta">Every Thursday · 5:30 PM · Lambton 210</p>
-                    <p class="dash-text">
-                        Casual hangout for CS students: project help, interview prep, and gaming.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Computer Science Society – Weekly Meetup</h3>
+                        <p class="dash-meta">Every Thursday · 5:30 PM · Lambton 210</p>
+                        <p class="dash-text">
+                            Casual hangout for CS students: project help, interview prep, and gaming.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Photography Club – Photo Walk</h3>
-                    <p class="dash-meta">April 3 · 4:00 PM · Riverfront</p>
-                    <p class="dash-text">
-                        Explore Windsor and learn composition techniques while shooting outdoors.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Photography Club – Photo Walk</h3>
+                        <p class="dash-meta">April 3 · 4:00 PM · Riverfront</p>
+                        <p class="dash-text">
+                            Explore Windsor and learn composition techniques while shooting outdoors.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Entrepreneurship Hub – Pitch Night</h3>
-                    <p class="dash-tag">Club Event</p>
-                    <p class="dash-meta">April 12 · 7:00 PM · EPICentre</p>
-                    <p class="dash-text">
-                        Watch live pitches, meet mentors, and vote for your favourite startup idea.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Entrepreneurship Hub – Pitch Night</h3>
+                        <p class="dash-tag">Club Event</p>
+                        <p class="dash-meta">April 12 · 7:00 PM · EPICentre</p>
+                        <p class="dash-text">
+                            Watch live pitches, meet mentors, and vote for your favourite startup idea.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>ACM – Coding Contest Prep</h3>
-                    <p class="dash-meta">Fridays · 3:00 PM · Online</p>
-                    <p class="dash-text">
-                        Practice competitive programming problems with guidance from senior students.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>ACM – Coding Contest Prep</h3>
+                        <p class="dash-meta">Fridays · 3:00 PM · Online</p>
+                        <p class="dash-text">
+                            Practice competitive programming problems with guidance from senior students.
+                        </p>
+                    </article>
+                </div>
             </div>
 
-            <button class="carousel-btn next" type="button" aria-label="Next">
-                ›
-            </button>
+            <button class="carousel-btn next" type="button" aria-label="Next">›</button>
         </div>
     </section>
 
@@ -114,47 +112,45 @@ $firstName = isset($_SESSION['first_name'])
         </div>
 
         <div class="dashboard-carousel" data-carousel>
-            <button class="carousel-btn prev" type="button" aria-label="Previous">
-                ‹
-            </button>
+            <button class="carousel-btn prev" type="button" aria-label="Previous">‹</button>
 
-            <div class="dashboard-carousel-track">
-                <article class="dash-card">
-                    <h3>Game Dev Night</h3>
-                    <p class="dash-meta">April 5 · 7:30 PM · Makerspace</p>
-                    <p class="dash-text">
-                        Learn the basics of Unity and build a simple 2D game with other students.
-                    </p>
-                </article>
+            <div class="dash-track-wrapper">
+                <div class="dashboard-carousel-track">
+                    <article class="dash-card">
+                        <h3>Game Dev Night</h3>
+                        <p class="dash-meta">April 5 · 7:30 PM · Makerspace</p>
+                        <p class="dash-text">
+                            Learn the basics of Unity and build a simple 2D game with other students.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Mental Health & Exams</h3>
-                    <p class="dash-meta">March 28 · 2:00 PM · Online</p>
-                    <p class="dash-text">
-                        A wellness workshop on handling stress, burnout, and exam pressure.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Mental Health & Exams</h3>
+                        <p class="dash-meta">March 28 · 2:00 PM · Online</p>
+                        <p class="dash-text">
+                            A wellness workshop on handling stress, burnout, and exam pressure.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Finance 101 for Students</h3>
-                    <p class="dash-meta">April 9 · 1:00 PM · Odette</p>
-                    <p class="dash-text">
-                        Learn budgeting, credit scores, and how to plan for big purchases.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Finance 101 for Students</h3>
+                        <p class="dash-meta">April 9 · 1:00 PM · Odette</p>
+                        <p class="dash-text">
+                            Learn budgeting, credit scores, and how to plan for big purchases.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>International Night</h3>
-                    <p class="dash-meta">April 20 · 6:30 PM · CAW Centre</p>
-                    <p class="dash-text">
-                        Cultural performances, food, and music from student groups across campus.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>International Night</h3>
+                        <p class="dash-meta">April 20 · 6:30 PM · CAW Centre</p>
+                        <p class="dash-text">
+                            Cultural performances, food, and music from student groups across campus.
+                        </p>
+                    </article>
+                </div>
             </div>
 
-            <button class="carousel-btn next" type="button" aria-label="Next">
-                ›
-            </button>
+            <button class="carousel-btn next" type="button" aria-label="Next">›</button>
         </div>
     </section>
 
@@ -166,47 +162,45 @@ $firstName = isset($_SESSION['first_name'])
         </div>
 
         <div class="dashboard-carousel" data-carousel>
-            <button class="carousel-btn prev" type="button" aria-label="Previous">
-                ‹
-            </button>
+            <button class="carousel-btn prev" type="button" aria-label="Previous">‹</button>
 
-            <div class="dashboard-carousel-track">
-                <article class="dash-card">
-                    <h3>Robotics Club</h3>
-                    <p class="dash-meta">Mechatronics · Weekly builds</p>
-                    <p class="dash-text">
-                        Work on hands-on robotics projects and prepare for inter-university competitions.
-                    </p>
-                </article>
+            <div class="dash-track-wrapper">
+                <div class="dashboard-carousel-track">
+                    <article class="dash-card">
+                        <h3>Robotics Club</h3>
+                        <p class="dash-meta">Mechatronics · Weekly builds</p>
+                        <p class="dash-text">
+                            Work on hands-on robotics projects and prepare for inter-university competitions.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Debate Society</h3>
-                    <p class="dash-meta">Public Speaking · Competitive</p>
-                    <p class="dash-text">
-                        Sharpen your argument skills, meet confident speakers, and compete in tournaments.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Debate Society</h3>
+                        <p class="dash-meta">Public Speaking · Competitive</p>
+                        <p class="dash-text">
+                            Sharpen your argument skills, meet confident speakers, and compete in tournaments.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Anime & Manga Club</h3>
-                    <p class="dash-meta">Social · Weekly watch parties</p>
-                    <p class="dash-text">
-                        Relax, talk anime, and hang out with people who like the same shows as you.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Anime & Manga Club</h3>
+                        <p class="dash-meta">Social · Weekly watch parties</p>
+                        <p class="dash-text">
+                            Relax, talk anime, and hang out with people who like the same shows as you.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Music Production Club</h3>
-                    <p class="dash-meta">Creative · Studio sessions</p>
-                    <p class="dash-text">
-                        Learn mixing, beats, and production tips using accessible tools and software.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Music Production Club</h3>
+                        <p class="dash-meta">Creative · Studio sessions</p>
+                        <p class="dash-text">
+                            Learn mixing, beats, and production tips using accessible tools and software.
+                        </p>
+                    </article>
+                </div>
             </div>
 
-            <button class="carousel-btn next" type="button" aria-label="Next">
-                ›
-            </button>
+            <button class="carousel-btn next" type="button" aria-label="Next">›</button>
         </div>
     </section>
 
@@ -218,47 +212,45 @@ $firstName = isset($_SESSION['first_name'])
         </div>
 
         <div class="dashboard-carousel" data-carousel>
-            <button class="carousel-btn prev" type="button" aria-label="Previous">
-                ‹
-            </button>
+            <button class="carousel-btn prev" type="button" aria-label="Previous">‹</button>
 
-            <div class="dashboard-carousel-track">
-                <article class="dash-card">
-                    <h3>Data Science Study Group</h3>
-                    <p class="dash-meta">CS · Weekly · Intermediate</p>
-                    <p class="dash-text">
-                        Work through LeetCode, Kaggle, and ML concepts with other students.
-                    </p>
-                </article>
+            <div class="dash-track-wrapper">
+                <div class="dashboard-carousel-track">
+                    <article class="dash-card">
+                        <h3>Data Science Study Group</h3>
+                        <p class="dash-meta">CS · Weekly · Intermediate</p>
+                        <p class="dash-text">
+                            Work through LeetCode, Kaggle, and ML concepts with other students.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Women in STEM Mentorship</h3>
-                    <p class="dash-meta">Mentorship · Multi-faculty</p>
-                    <p class="dash-text">
-                        Connect with upper-year students and alumni from STEM disciplines.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Women in STEM Mentorship</h3>
+                        <p class="dash-meta">Mentorship · Multi-faculty</p>
+                        <p class="dash-text">
+                            Connect with upper-year students and alumni from STEM disciplines.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Campus Photography Challenge</h3>
-                    <p class="dash-meta">Photo Contest · Month-long</p>
-                    <p class="dash-text">
-                        Submit your best campus shots and get featured on the club page.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Campus Photography Challenge</h3>
+                        <p class="dash-meta">Photo Contest · Month-long</p>
+                        <p class="dash-text">
+                            Submit your best campus shots and get featured on the club page.
+                        </p>
+                    </article>
 
-                <article class="dash-card">
-                    <h3>Beginner Gym Buddy Group</h3>
-                    <p class="dash-meta">Recreation · Flexible times</p>
-                    <p class="dash-text">
-                        Join small groups to stay accountable and learn basic gym routines.
-                    </p>
-                </article>
+                    <article class="dash-card">
+                        <h3>Beginner Gym Buddy Group</h3>
+                        <p class="dash-meta">Recreation · Flexible times</p>
+                        <p class="dash-text">
+                            Join small groups to stay accountable and learn basic gym routines.
+                        </p>
+                    </article>
+                </div>
             </div>
 
-            <button class="carousel-btn next" type="button" aria-label="Next">
-                ›
-            </button>
+            <button class="carousel-btn next" type="button" aria-label="Next">›</button>
         </div>
     </section>
 
