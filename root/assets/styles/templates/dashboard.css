@@ -1,0 +1,243 @@
+/* ==========================
+   Dashboard – Hero
+========================== */
+
+.dashboard-hero {
+    background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
+    color: #f76c6c;
+    padding: 70px 20px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    max-width: 1075px;
+    margin: 10px auto 20px auto;
+    width: 100%;
+
+    border: 3px solid #f3e7df;
+    box-shadow: 0 0 10px #f3e7df, 0 0 20px #f3e7df;
+    animation: dashboard-glow 2s infinite alternate;
+}
+
+.dashboard-hero-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.dashboard-hero-inner h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.7rem;
+    margin-bottom: 10px;
+}
+
+.dashboard-hero-inner p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 1.15rem;
+    color: #1c348d;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Subtle glow reuse */
+@keyframes dashboard-glow {
+    0% {
+        box-shadow: 0 0 5px #f3e7df, 0 0 10px #f3e7df;
+    }
+    50% {
+        box-shadow: 0 0 15px #f3e7df, 0 0 30px #f3e7df;
+    }
+    100% {
+        box-shadow: 0 0 25px #f3e7df, 0 0 50px #f3e7df;
+    }
+}
+
+/* ==========================
+   Dashboard – Sections
+========================== */
+
+.dashboard-section {
+    margin: 25px 0 35px;
+}
+
+.dashboard-section-header {
+    max-width: 1075px;
+    margin: 0 auto 10px auto;
+    padding: 0 2px;
+}
+
+.dashboard-section-header h2 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2rem;
+    color: #f76c6c;
+    margin-bottom: 4px;
+}
+
+.dashboard-section-header p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 0.98rem;
+    color: #1c348d;
+}
+
+/* ==========================
+   Dashboard – Carousel
+========================== */
+
+.dashboard-carousel {
+    max-width: 1075px;
+    margin: 10px auto 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.dashboard-carousel-track {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 4px 6px;
+}
+
+/* Hide default ugly scrollbar (keeps scrolling) */
+.dashboard-carousel-track::-webkit-scrollbar {
+    height: 8px;
+}
+.dashboard-carousel-track::-webkit-scrollbar-thumb {
+    background: rgba(28, 52, 141, 0.5);
+    border-radius: 4px;
+}
+.dashboard-carousel-track::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.4);
+}
+
+/* Cards inside carousels */
+.dash-card {
+    min-width: 260px;
+    max-width: 320px;
+    flex: 0 0 auto;
+
+    background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-card h3 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 1.2rem;
+    color: #f76c6c;
+    margin-bottom: 2px;
+}
+
+.dash-meta {
+    font-size: 0.85rem;
+    color: #1c348d;
+    font-weight: bold;
+}
+
+.dash-text {
+    font-size: 0.9rem;
+    color: #1c348d;
+}
+
+.dash-tag,
+.dash-tag-registered {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.dash-tag {
+    background: #1c348d;
+    color: #f3e7df;
+}
+
+.dash-tag-registered {
+    background: #f76c6c;
+    color: #f3e7df;
+}
+
+/* Card hover */
+.dash-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+}
+
+/* Carousel buttons */
+.carousel-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: none;
+    background: #f76c6c;
+    color: #f3e7df;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.carousel-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+    background: #1c348d;
+}
+
+.dash-track-wrapper {
+    overflow: hidden;         /* no visible scrollbar */
+    border-radius: 15px;
+}
+/* ==========================
+   Responsive tweaks
+========================== */
+
+@media (max-width: 900px) {
+    .dashboard-hero {
+        padding: 60px 16px;
+    }
+
+    .dashboard-hero-inner h1 {
+        font-size: 2.2rem;
+    }
+
+    .dashboard-carousel {
+        grid-template-columns: 1fr;
+    }
+
+    .carousel-btn {
+        order: -1;
+        margin: 0 auto 6px auto;
+    }
+
+    .dashboard-carousel-track {
+        padding-top: 4px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dash-card {
+        min-width: 220px;
+        max-width: 260px;
+        padding: 18px 14px;
+    }
+
+    .dashboard-section-header h2 {
+        font-size: 1.7rem;
+    }
+}
