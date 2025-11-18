@@ -2,6 +2,7 @@
    Import Style Templates
 ========================== */
 
+@import url('templates/colours.css');
 @import url('templates/header.css');
 @import url('templates/footer.css');
 @import url('templates/navbar.css');
@@ -39,8 +40,8 @@ html, body {
 }
 
 body {
-    background: #a8d0e6;
-    color: #1c348d;
+    background: var(--light-blue);
+    color: var(--dark-blue);
     margin: 0;
     padding-top: 20px;
     display: flex;

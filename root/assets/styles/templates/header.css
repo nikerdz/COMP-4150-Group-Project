@@ -1,8 +1,10 @@
 /* ==========================
    Header
 ========================== */
+@import url('templates/colours.css');
+
 .header {
-    background: #a8d0e6;
+    background: var(--light-blue);
     position: static;
     top: 0;
     left: 0;

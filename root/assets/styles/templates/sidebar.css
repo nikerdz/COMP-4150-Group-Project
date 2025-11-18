@@ -1,6 +1,7 @@
 /* ==========================
    Sidebar
 ========================== */
+@import url('templates/colours.css');
 
 .sidebar {
     position: fixed;
@@ -12,7 +13,7 @@
     max-height: 80vh;
     height: auto;
 
-    background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
     border-radius: 0 20px 20px 0;
     box-shadow: 5px 0 15px rgba(0,0,0,0.2);
     z-index: 2000;
@@ -33,7 +34,7 @@
     border: none;
     font-size: 2rem;
     font-weight: bold;
-    color: #1c348d;
+    color: var(--dark-blue);
     align-self: flex-end;
     cursor: pointer;
 }
@@ -53,10 +54,10 @@
     display: block;
     width: 100%;
     padding: 14px 16px;
-    border: 2px solid #f76c6c;
+    border: 2px solid var(--red);
     border-radius: 12px;
-    background: #f76c6c;
-    color: #f3e7df;
+    background: var(--red);
+    color: var(--cream);
     text-decoration: none;
     
     font-family: "JosefinSans", sans-serif;
@@ -76,8 +77,8 @@
 .sidebar-links li a:focus,
 .sidebar-auth a:hover,
 .sidebar-auth a:focus {
-    background: #f3e7df;
-    color: #f76c6c;
+    background: var(--cream);
+    color: var(--red);
     box-shadow: 0 6px 14px rgba(28,52,141,0.25);
     outline: none;
     transform: translateY(-1px);
