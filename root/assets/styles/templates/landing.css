@@ -50,7 +50,7 @@
 }
 
 .hero-section p {
-    color: #1c348d;
+    color: var(--dark-blue);
     font-family: "JosefinSans", sans-serif;
     font-weight: bold;
     font-size: 30px;
