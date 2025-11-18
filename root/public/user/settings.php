@@ -1,6 +1,6 @@
 <!-- For the loggedin user to edit their profile and delete their account-->
  <?php
-require_once('../src/config/constants.php');
+require_once('../../src/config/constants.php');
 session_start();
 ?>
 

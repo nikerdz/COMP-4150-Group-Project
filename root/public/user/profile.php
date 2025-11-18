@@ -1,6 +1,6 @@
 <!-- For the logged in user to view their profile and edit it -->
  <?php
-require_once('../src/config/constants.php');
+require_once('../../src/config/constants.php');
 session_start();
 ?>
 

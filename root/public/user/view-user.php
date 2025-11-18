@@ -1,6 +1,6 @@
 <!-- For viewing user profiles besides the logged in user -->
  <?php
-require_once('../src/config/constants.php');
+require_once('../../src/config/constants.php');
 session_start();
 ?>
 
