@@ -2,13 +2,15 @@
 require_once('../../src/config/constants.php');
 session_start();
 
+// Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: " . PUBLIC_URL . "login.php");
     exit();
 }
 
-$firstName = isset($_SESSION['first_name'])
-    ? htmlspecialchars($_SESSION['first_name'])
+// Use the first name that was stored in session at login
+$firstName = isset($_SESSION['user_name'])
+    ? htmlspecialchars($_SESSION['user_name'])
     : 'there';
 ?>
 
@@ -31,6 +33,7 @@ $firstName = isset($_SESSION['first_name'])
 
 <main>
 
+    <!-- Hero / Welcome Section -->
     <section class="dashboard-hero">
         <div class="dashboard-hero-inner">
             <h1>Welcome back, <?php echo $firstName; ?></h1>
@@ -38,6 +41,80 @@ $firstName = isset($_SESSION['first_name'])
                 Here&rsquo;s a quick overview of your clubs, upcoming events, and recent activity.<br>
                 Jump back into what matters most on campus.
             </p>
+        </div>
+    </section>
+
+    <!-- Quick Links Section -->
+    <section class="dashboard-quicklinks">
+        <div class="dashboard-quicklinks-inner">
+            <div class="quicklinks-grid">
+
+                <!-- My Clubs -->
+                <a
+                    href="<?php echo CLUB_URL; ?>user-clubs.php"
+                    class="quicklink-item"
+                >
+                    <img
+                        src="<?php echo IMG_URL; ?>btn/club.png"
+                        alt="My Clubs"
+                        class="quicklink-img"
+                    >
+                    <span class="quicklink-label">My Clubs</span>
+                </a>
+
+                <!-- My Events -->
+                <a
+                    href="<?php echo EVENT_URL; ?>user-events.php"
+                    class="quicklink-item"
+                >
+                    <img
+                        src="<?php echo IMG_URL; ?>btn/event.png"
+                        alt="My Events"
+                        class="quicklink-img"
+                    >
+                    <span class="quicklink-label">My Events</span>
+                </a>
+
+                <!-- Explore -->
+                <a
+                    href="<?php echo USER_URL; ?>explore.php"
+                    class="quicklink-item"
+                >
+                    <img
+                        src="<?php echo IMG_URL; ?>btn/explorebtn.png"
+                        alt="Explore"
+                        class="quicklink-img"
+                    >
+                    <span class="quicklink-label">Explore</span>
+                </a>
+
+                <!-- My Profile -->
+                <a
+                    href="<?php echo USER_URL; ?>profile.php"
+                    class="quicklink-item"
+                >
+                    <img
+                        src="<?php echo IMG_URL; ?>btn/profile.png"
+                        alt="My Profile"
+                        class="quicklink-img"
+                    >
+                    <span class="quicklink-label">My Profile</span>
+                </a>
+
+                <!-- Settings -->
+                <a
+                    href="<?php echo USER_URL; ?>settings.php"
+                    class="quicklink-item"
+                >
+                    <img
+                        src="<?php echo IMG_URL; ?>btn/settings.png"
+                        alt="Settings"
+                        class="quicklink-img"
+                    >
+                    <span class="quicklink-label">Settings</span>
+                </a>
+
+            </div>
         </div>
     </section>
 
@@ -53,7 +130,7 @@ $firstName = isset($_SESSION['first_name'])
 
             <div class="dash-track-wrapper">
                 <div class="dashboard-carousel-track">
-                    <!-- Filler cards for now -->
+
                     <article class="dash-card">
                         <h3>Women in Tech – Hackathon</h3>
                         <p class="dash-tag dash-tag-registered">★ You&rsquo;re registered</p>
@@ -62,6 +139,7 @@ $firstName = isset($_SESSION['first_name'])
                             A beginner-friendly evening hackathon focused on real campus challenges.
                         </p>
                     </article>
+
                 </div>
             </div>
 
@@ -69,7 +147,7 @@ $firstName = isset($_SESSION['first_name'])
         </div>
     </section>
 
-    <!-- Row 2: Recommended for You (filler) -->
+    <!-- Row 2: Recommended for You -->
     <section class="dashboard-section">
         <div class="dashboard-section-header">
             <h2>Recommended for You</h2>
@@ -81,6 +159,7 @@ $firstName = isset($_SESSION['first_name'])
 
             <div class="dash-track-wrapper">
                 <div class="dashboard-carousel-track">
+
                     <article class="dash-card">
                         <h3>Data Science Study Group</h3>
                         <p class="dash-meta">CS · Weekly · Intermediate</p>
@@ -88,6 +167,7 @@ $firstName = isset($_SESSION['first_name'])
                             Work through LeetCode, Kaggle, and ML concepts with other students.
                         </p>
                     </article>
+                    
                 </div>
             </div>
 
