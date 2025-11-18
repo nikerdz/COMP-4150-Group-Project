@@ -35,9 +35,9 @@ $firstName = isset($_SESSION['first_name'])
     <!-- Hero / Welcome Section -->
     <section class="dashboard-hero">
         <div class="dashboard-hero-inner">
-            <h1>Welcome back, <?php echo $firstName; ?> 👋</h1>
+            <h1>Welcome back, <?php echo $firstName; ?></h1>
             <p>
-                Here&rsquo;s a quick overview of your clubs, upcoming events, and recent activity.
+                Here&rsquo;s a quick overview of your clubs, upcoming events, and recent activity.<br>
                 Jump back into what matters most on campus.
             </p>
         </div>
