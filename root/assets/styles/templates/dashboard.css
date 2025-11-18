@@ -177,7 +177,7 @@
 .carousel-btn {
     width: 40px;
     height: 40px;
-    border-radius: 999px;
+    border-radius: 10px;
     border: none;
     background: #f76c6c;
     color: #f3e7df;
