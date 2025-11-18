@@ -55,29 +55,67 @@ main {
     padding: 0 20px;
     box-sizing: border-box;
 }
-
 .scroll-top-btn {
-    background: none;
-    border: none;
-    padding: 0;
     position: fixed;
-    bottom: 50px;
-    right: 50px;
+    bottom: 60px;
+    right: 32px;
+
+    width: clamp(44px, 7vw, 64px);
+    height: clamp(44px, 7vw, 64px);
+
+    background: #f76c6c;
+    border-radius: 10px;
+    border: 3px solid #f3e7df;
+    padding: 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     cursor: pointer;
-    display: none; /* hidden by default */
-    transition: 0.3s ease;
     z-index: 9999;
+
+    /* Start hidden */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    pointer-events: none;
+
+    /* Smooth fade + slide */
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
+}
+
+/* When visible (JS adds this class) */
+.scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 .scroll-top-btn img {
-    width: 100px;
+    width: 70%;          /* keep some padding inside circle */
     height: auto;
+    display: block;
 }
 
-.scroll-top-btn:hover {
-    transform: scale(1.1);
-    transition: 0.3s ease;
+/* Hover effect (only when visible) */
+.scroll-top-btn.visible:hover {
+    transform: translateY(-2px) scale(1.05);
 }
+
+/* On smaller screens, tuck it closer to the edges */
+@media (max-width: 600px) {
+    .scroll-top-btn {
+        bottom: 18px;
+        right: 18px;
+    }
+}
+
+
 
 /* ==========================
    Responsive Design 
