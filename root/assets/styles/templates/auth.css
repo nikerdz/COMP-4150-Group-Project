@@ -75,6 +75,36 @@
     color: rgba(28, 52, 141, 0.55);
 }
 
+.auth-field select {
+    font-family: "JosefinSans", sans-serif;
+    padding: 10px 12px;
+    border: 2px solid var(--dark-blue);
+    border-radius: 10px;
+    font-size: 1rem;
+    color: var(--dark-blue);
+    background: #ffffff;
+    box-sizing: border-box;
+    cursor: pointer;
+    appearance: none; /* removes native arrow styling */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l6 7 6-7' stroke='%231c348d' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+}
+
+.auth-field select:focus {
+    outline: none;
+    border-color: var(--red);
+    box-shadow: 0 0 0 2px rgba(247, 108, 108, 0.3);
+}
+
+.auth-field select option {
+    color: var(--dark-blue);
+    background: #ffffff;
+    font-size: 1rem;
+    padding: 8px;
+}
+
 .auth-btn {
     background: var(--red);
     color: var(--cream);
