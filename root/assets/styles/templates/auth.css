@@ -130,3 +130,49 @@
         font-size: 1rem;
     }
 }
+
+/* ==========================
+   Auth Toast (floating message)
+========================== */
+
+.auth-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 90px;
+    background: #f3e7df;
+    color: #1c348d;
+    padding: 10px 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    font-size: 0.95rem;
+    font-weight: 600;
+    z-index: 3000;
+
+    opacity: 0;
+    transform: translateY(10px);
+    animation: authToastFade 5s ease-out forwards;
+}
+
+.auth-toast-success {
+    border-left: 4px solid #28a745;   /* green accent */
+}
+
+/* Fade in, stay, then fade out */
+@keyframes authToastFade {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    15% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}

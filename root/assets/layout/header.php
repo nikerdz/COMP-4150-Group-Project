@@ -46,7 +46,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <li><a href="<?php echo USER_URL; ?>user-profile.php">PROFILE</a></li>
             <li><a href="<?php echo CLUB_URL; ?>">CLUBS</a></li>
             <li><a href="<?php echo EVENT_URL; ?>">EVENTS</a></li>
-            <li><a href="<?php echo PUBLIC_URL; ?>logout.php">LOGOUT</a></li>
+            <li><a href="<?php echo PHP_URL; ?>auth_handle_logout.php">LOGOUT</a></li>
         <?php else: ?>
             <!-- Visible only if NOT logged in -->
              <li><a href="<?php echo PUBLIC_URL; ?>">HOME</a></li>
