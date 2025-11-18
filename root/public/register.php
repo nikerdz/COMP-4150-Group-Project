@@ -51,7 +51,7 @@ session_start();
                 </div>
 
                 <div class="auth-field">
-                    <label for="email">Email</label>
+                    <label for="email">UWindsor Email Address</label>
                     <input type="email" id="email" name="email" required>
                 </div>
 
@@ -70,8 +70,21 @@ session_start();
                 <div class="auth-row">
                     <div class="auth-field">
                         <label for="faculty">Faculty</label>
-                        <input type="text" id="faculty" name="faculty">
+                        <select id="faculty" name="faculty" required>
+                            <option value="" disabled selected>Select your faculty</option>
+                            <option value="Arts, Humanities & Social Sciences">Arts, Humanities & Social Sciences</option>
+                            <option value="Odette School of Business">Business (Odette)</option>
+                            <option value="Education">Education</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Graduate Studies">Graduate Studies</option>
+                            <option value="Human Kinetics">Human Kinetics</option>
+                            <option value="Law">Law</option>
+                            <option value="Nursing">Nursing</option>
+                            <option value="Science">Science</option>
+                        </select>
                     </div>
+                </div>
+
 
                     <div class="auth-field">
                         <label for="year_of_study">Year of Study</label>
