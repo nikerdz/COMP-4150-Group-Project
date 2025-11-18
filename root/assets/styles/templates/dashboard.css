@@ -53,6 +53,75 @@
 }
 
 /* ==========================
+   Dashboard – Quick Links
+========================== */
+
+.dashboard-quicklinks {
+    max-width: 1075px;
+    margin: 15px auto 25px auto;
+    padding: 18px 22px 22px;
+    border-radius: 12px;
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+}
+
+.dashboard-quicklinks-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.quicklinks-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.quicklink-item {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 120px;
+    max-width: 160px;
+    cursor: pointer;
+}
+
+.quicklink-img {
+    width: 110px;
+    height: auto;
+    display: block;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.quicklink-item:hover .quicklink-img {
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+}
+
+.quicklink-label {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 0.95rem;
+    color: var(--dark-blue);
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .quicklinks-grid {
+        justify-content: center;
+    }
+
+    .quicklink-img {
+        width: 70px;
+    }
+
+    .quicklink-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* ==========================
    Dashboard – Sections
 ========================== */
 
@@ -95,32 +164,28 @@
     max-width: 1075px;
     margin: 10px auto 0 auto;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto; /* keep buttons beside cards */
+    grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 10px;
     align-items: center;
 }
 
-/* New wrapper that has the rounded clipping */
 .dash-track-wrapper {
-    overflow: hidden;          /* this is where clipping happens */
-    border-radius: 32px;       /* rounded outer edge */
+    overflow: hidden;
+    border-radius: 15px;
 }
 
-/* The actual track – let it overflow inside wrapper */
 .dashboard-carousel-track {
     display: flex;
     gap: 18px;
-    overflow-x: auto;          /* scrollable inside wrapper */
+    overflow-x: auto;
     scroll-behavior: smooth;
     padding: 5px 4px 5px;
 
-    /* hide scrollbar but keep scrolling */
     scrollbar-width: none;
 }
 .dashboard-carousel-track::-webkit-scrollbar {
     display: none;
 }
-
 
 .dash-card {
     min-width: 260px;
@@ -204,11 +269,6 @@
     background: var(--dark-blue);
 }
 
-.dash-track-wrapper {
-    overflow: hidden;
-    border-radius: 15px;
-}
-
 /* ==========================
    Responsive tweaks
 ========================== */
@@ -221,6 +281,7 @@
     .dashboard-hero-inner h1 {
         font-size: 2.2rem;
     }
+
     .dashboard-carousel {
         grid-template-columns: min-content 1fr min-content;
         gap: 6px;
