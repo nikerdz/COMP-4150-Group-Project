@@ -54,11 +54,16 @@ try {
         login_error_and_back("Incorrect password.");
     }
 
-    // Login successful - Set session values
-    $_SESSION['user_id']    = $user['user_id'];
-    $_SESSION['user_email'] = $user['user_email'];
-    $_SESSION['user_name']  = $user['first_name'] ?? '';
-    $_SESSION['is_admin']   = (!empty($user['user_type']) && $user['user_type'] === 'admin');
+    // ✅ Login successful - Set session values
+    $_SESSION['user_id']       = $user['user_id'];
+    $_SESSION['user_email']    = $user['user_email'];
+
+    // Name pulled directly from the DB row we just fetched
+    $_SESSION['first_name']    = $user['first_name'] ?? '';
+    $_SESSION['last_name']     = $user['last_name'] ?? '';
+    $_SESSION['user_name']     = $user['first_name'] ?? ''; // alias if you want
+
+    $_SESSION['is_admin']      = (!empty($user['user_type']) && $user['user_type'] === 'admin');
 
     unset($_SESSION['login_error']);
 
