@@ -27,6 +27,14 @@ session_start();
             <p class="auth-subtitle">
                 Join ClubHub to discover clubs, explore events, and manage your campus life all in one place.
             </p>
+            <?php if (isset($_SESSION['register_error'])): ?>
+                <p class="contact-error" style="text-align:center; color:#d9534f; font-weight:bold; margin-bottom:10px;">
+                    <?php 
+                        echo htmlspecialchars($_SESSION['register_error']); 
+                        unset($_SESSION['register_error']); // clear it so it doesn't persist
+                    ?>
+                </p>
+            <?php endif; ?>
 
             <form action="<?php echo PHP_URL; ?>auth_handle_register.php" method="POST" class="auth-form">
                 

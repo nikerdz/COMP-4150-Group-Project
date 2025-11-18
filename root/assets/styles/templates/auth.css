@@ -33,6 +33,7 @@
     color: #1c348d;
     max-width: 800px;
     margin: 0 auto 30px auto;
+    margin-bottom: 20px;
 }
 
 .auth-form {
@@ -107,6 +108,13 @@
 
 .auth-footer-text a:hover {
     text-decoration: underline;
+}
+.auth-error {
+    margin: 10px 0 26px;
+    text-align: center;
+    color: #d9534f;
+    font-weight: bold;
+    font-size: 0.95rem;
 }
 
 @media (max-width: 768px) {

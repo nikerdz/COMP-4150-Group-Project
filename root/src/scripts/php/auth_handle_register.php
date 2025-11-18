@@ -5,60 +5,72 @@ require_once(MODELS_PATH . 'User.php');
 
 session_start();
 
+// If user is already logged in, don't let them re-register
 if (isset($_SESSION['user_id'])) {
-    header("Location: ../public/index.php");
+    header("Location: " . PUBLIC_URL . "index.php");
     exit();
 }
 
+// Helper function for setting an error and redirecting back to register page
+function register_error_and_back(string $message): void {
+    $_SESSION['register_error'] = $message;
+    header("Location: " . PUBLIC_URL . "register.php");
+    exit();
+}
+
+// Basic required field validation
 if (
     empty($_POST['first_name']) || empty($_POST['last_name']) ||
     empty($_POST['email']) || empty($_POST['password']) ||
     empty($_POST['confirm_password'])
 ) {
-    header("Location: " . PUBLIC_URL . "register.php?error=Please fill in all required fields.");
-    exit();
+    register_error_and_back("Please fill in all required fields.");
 }
 
-$first = trim($_POST['first_name']);
-$last = trim($_POST['last_name']);
-$email = trim($_POST['email']);
-$pass = $_POST['password'];
-$confirm = $_POST['confirm_password'];
-$faculty = $_POST['faculty'] ?? null;
-$year = $_POST['year_of_study'] ?? null;
+// Clean inputs
+$first    = trim($_POST['first_name']);
+$last     = trim($_POST['last_name']);
+$email    = trim($_POST['email']);
+$pass     = $_POST['password'];
+$confirm  = $_POST['confirm_password'];
+$faculty  = $_POST['faculty']        ?? null;
+$year     = $_POST['year_of_study']  ?? null;
 
+// Password match check
 if ($pass !== $confirm) {
-    header("Location: " . PUBLIC_URL . "register.php?error=Passwords do not match.");
-    exit();
+    register_error_and_back("Passwords do not match.");
 }
 
+// UWindsor email check
 if (!preg_match("/@uwindsor\.ca$/", $email)) {
-    header("Location: " . PUBLIC_URL . "register.php?error=Email must be a UWindsor email.");
-    exit();
+    register_error_and_back("Email must be a UWindsor (@uwindsor.ca) email.");
 }
 
+// Hash the password
 $hashed = password_hash($pass, PASSWORD_DEFAULT);
 
 try {
+    // Use your User model to insert into DB
     $userModel = new User();
     $userModel->register([
-        'first_name' => $first,
-        'last_name' => $last,
-        'email' => $email,
-        'password' => $hashed,
-        'faculty' => $faculty,
-        'year_of_study' => $year
+        'first_name'     => $first,
+        'last_name'      => $last,
+        'email'          => $email,
+        'password'       => $hashed,
+        'faculty'        => $faculty,
+        'year_of_study'  => $year
     ]);
 
+    // On success: redirect to login with a success message (URL query is fine here)
     header("Location: " . PUBLIC_URL . "login.php?success=Account created! Please log in.");
     exit();
 
 } catch (PDOException $e) {
+    // Duplicate email / unique constraint violation
     if ($e->getCode() == 23000) {
-        header("Location: " . PUBLIC_URL . "register.php?error=Email already registered.");
-        exit();
+        register_error_and_back("Email already registered.");
     }
 
-    header("Location: " . PUBLIC_URL . "register.php?error=Registration failed.");
-    exit();
+    // Generic error
+    register_error_and_back("Registration failed. Please try again later.");
 }
