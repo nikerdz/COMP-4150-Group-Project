@@ -40,7 +40,6 @@
     margin: 0 auto;
 }
 
-/* Subtle glow reuse */
 @keyframes dashboard-glow {
     0% {
         box-shadow: 0 0 5px #f3e7df, 0 0 10px #f3e7df;
@@ -97,21 +96,17 @@
 .dashboard-carousel-track {
     display: flex;
     gap: 18px;
-    overflow-x: hidden;          /* no visible scrollbar, but JS scroll still works */
+    overflow-x: hidden;
     scroll-behavior: smooth;
     padding: 10px 4px 6px;
 
-    /* hide scrollbar in Firefox as well */
     scrollbar-width: none;
 }
 
-/* Hide scrollbar in WebKit browsers (Chrome, Edge, Safari) */
 .dashboard-carousel-track::-webkit-scrollbar {
     display: none;
 }
 
-
-/* Cards inside carousels */
 .dash-card {
     min-width: 260px;
     max-width: 320px;
@@ -167,13 +162,11 @@
     color: #f3e7df;
 }
 
-/* Card hover */
 .dash-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
 
-/* Carousel buttons */
 .carousel-btn {
     width: 40px;
     height: 40px;
@@ -197,7 +190,7 @@
 }
 
 .dash-track-wrapper {
-    overflow: hidden;         /* no visible scrollbar */
+    overflow: hidden;
     border-radius: 15px;
 }
 /* ==========================
@@ -212,8 +205,6 @@
     .dashboard-hero-inner h1 {
         font-size: 2.2rem;
     }
-
-    /* Keep buttons LEFT / RIGHT of cards, just make them smaller + closer */
     .dashboard-carousel {
         grid-template-columns: min-content 1fr min-content;
         gap: 6px;
@@ -223,7 +214,7 @@
         width: 32px;
         height: 32px;
         font-size: 1.1rem;
-        margin: 0;      /* no top/bottom margin so they don't drift */
+        margin: 0;
     }
 
     .dashboard-carousel-track {
