@@ -56,6 +56,28 @@ main {
     box-sizing: border-box;
 }
 
+.scroll-top-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    cursor: pointer;
+    display: none; /* hidden by default */
+    transition: 0.3s ease;
+    z-index: 9999;
+}
+
+.scroll-top-btn img {
+    width: 100px;
+    height: auto;
+}
+
+.scroll-top-btn:hover {
+    transform: scale(1.1);
+    transition: 0.3s ease;
+}
 
 /* ==========================
    Responsive Design 

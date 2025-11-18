@@ -34,11 +34,31 @@ function toggleSidebar() {
     }
 }
 
+const scrollBtn = document.getElementById('scrollTopBtn');
+
+// Show button when scrolling down
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+        scrollBtn.style.display = 'block';
+    } else {
+        scrollBtn.style.display = 'none';
+    }
+});
+
+// Click to scroll to top smoothly
+scrollBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeSidebar();
     }
 });
+
 // ==========================
 // Got the bag after 3 tries
 // ==========================
