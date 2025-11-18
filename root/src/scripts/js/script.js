@@ -135,4 +135,58 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarLogo) {
         sidebarLogo.addEventListener('click', handleLogoEasterEggClick);
     }
+
+    // Initialize dashboard carousels (if present on this page)
+    setupDashboardCarousels();
+});
+// ==========================
+// Dashboard carousels (left/right, looping)
+// ==========================
+
+document.addEventListener('DOMContentLoaded', () => {
+    const carousels = document.querySelectorAll('.dashboard-carousel');
+
+    carousels.forEach(carousel => {
+        const track = carousel.querySelector('.dashboard-carousel-track');
+        const prevBtn = carousel.querySelector('.carousel-btn.prev');
+        const nextBtn = carousel.querySelector('.carousel-btn.next');
+
+        if (!track || !prevBtn || !nextBtn) return;
+
+        // One card width to scroll each click
+        const getStep = () => {
+            const firstCard = track.querySelector('.dash-card');
+            if (!firstCard) return track.clientWidth * 0.8;
+            const style = window.getComputedStyle(firstCard);
+            const gap = parseFloat(style.marginRight || 0);
+            return firstCard.offsetWidth + gap;
+        };
+
+        function scrollNext() {
+            const step = getStep();
+            const maxScroll = track.scrollWidth - track.clientWidth - 5;
+
+            if (track.scrollLeft >= maxScroll) {
+                // Loop back to start
+                track.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                track.scrollBy({ left: step, behavior: 'smooth' });
+            }
+        }
+
+        function scrollPrev() {
+            const step = getStep();
+
+            if (track.scrollLeft <= 5) {
+                // Jump to end
+                const maxScroll = track.scrollWidth - track.clientWidth;
+                track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            } else {
+                track.scrollBy({ left: -step, behavior: 'smooth' });
+            }
+        }
+
+        nextBtn.addEventListener('click', scrollNext);
+        prevBtn.addEventListener('click', scrollPrev);
+    });
 });
