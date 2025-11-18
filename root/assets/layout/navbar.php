@@ -4,9 +4,9 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 
 <?php if (isset($_SESSION['user_id'])): ?>
 <footer class="bottom-nav">
-    <a href="<?php echo PUBLIC_URL; ?>">Home</a>
-    <a href="<?php echo USER_URL; ?>">Dashboard</a>
-    <a href="<?php echo CLUB_URL; ?>">Clubs</a>
-    <a href="<?php echo EVENT_URL; ?>">Events</a>
+    <a href="<?php echo USER_URL; ?>dashboard.php">DASHBOARD</a>
+    <a href="<?php echo USER_URL; ?>explore.php">EXPLORE</a>
+    <a href="<?php echo USER_URL; ?>profile.php">PROFILE</a>
+    <a href="<?php echo USER_URL; ?>settings.php">SETTINGS</a>
 </footer>
 <?php endif; ?>

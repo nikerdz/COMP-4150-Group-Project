@@ -1,7 +1,7 @@
-
 /* ==========================
    Register / Auth Page Styles
 ========================== */
+@import url('templates/colours.css');
 
 .auth-section {
     padding: 40px 0px 60px;
@@ -11,7 +11,7 @@
     max-width: 1075px;
     margin: 20px auto 0 auto;
     width: 100%;
-    background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
     border-radius: 15px;
     padding: 40px 30px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.15);
@@ -22,7 +22,7 @@
     font-weight: lighter;
     font-size: 2.6rem;
     text-align: center;
-    color: #f76c6c;
+    color: var(--red);
     margin-bottom: 10px;
 }
 
@@ -30,7 +30,7 @@
     font-family: "JosefinSans", sans-serif;
     font-size: 1.1rem;
     text-align: center;
-    color: #1c348d;
+    color: var(--dark-blue);
     max-width: 800px;
     margin: 0 auto 30px auto;
     margin-bottom: 20px;
@@ -58,15 +58,15 @@
 
 .auth-field label {
     font-weight: bold;
-    color: #1c348d;
+    color: var(--dark-blue);
 }
 
 .auth-field input {
     padding: 10px 12px;
-    border: 2px solid #1c348d;
+    border: 2px solid var(--dark-blue);
     border-radius: 10px;
     font-size: 1rem;
-    color: #1c348d;
+    color: var(--dark-blue);
     background: #ffffff;
     box-sizing: border-box;
 }
@@ -76,8 +76,8 @@
 }
 
 .auth-btn {
-    background: #f76c6c;
-    color: #f3e7df;
+    background: var(--red);
+    color: var(--cream);
     padding: 12px 24px;
     border: none;
     border-radius: 12px;
@@ -97,11 +97,11 @@
     margin-top: 15px;
     text-align: center;
     font-size: 0.95rem;
-    color: #1c348d;
+    color: var(--dark-blue);
 }
 
 .auth-footer-text a {
-    color: #f76c6c;
+    color: var(--red);
     text-decoration: none;
     font-weight: bold;
 }
@@ -112,7 +112,7 @@
 .auth-error {
     margin: 10px 0 26px;
     text-align: center;
-    color: #d9534f;
+    color: var(--red);
     font-weight: bold;
     font-size: 0.95rem;
 }

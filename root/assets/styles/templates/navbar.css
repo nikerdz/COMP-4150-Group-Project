@@ -1,6 +1,8 @@
 /* ==========================
     Bottom Navigation Bar
 ========================== */
+@import url('templates/colours.css');
+
 .bottom-nav {
     position: fixed;
     bottom: 20px;
@@ -8,7 +10,7 @@
     transform: translateX(-50%);
     width: 90%;
     max-width: 600px;
-    background: linear-gradient(to bottom, #f3e7df, #a8d0e6);
+    background: var(--red);
     border-radius: 25px;
     display: flex;
     justify-content: space-around;
@@ -16,18 +18,18 @@
     padding: 15px 0;
     font-family: "JosefinSans", sans-serif;
     font-weight: bold;
-    color: #f76c6c;
+    color: var(--red);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     z-index: 999;
 }
 
 .bottom-nav a {
-    color: #f76c6c;
+    color: var(--cream);
     text-decoration: none;
     font-size: 16px;
     transition: color 0.3s;
 }
 
 .bottom-nav a:hover {
-    color: #1c348d;
+    color: var(--dark-blue);
 }
