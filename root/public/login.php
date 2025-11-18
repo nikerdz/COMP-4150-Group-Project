@@ -28,11 +28,13 @@ session_start();
 
             <h1>Log In</h1>
             <p class="auth-subtitle">Access your ClubHub account and stay connected with your clubs.</p>
-            <?php if (isset($_GET['error'])): ?>
-                <p class="contact-error" style="text-align:center; color:#d9534f; font-weight:bold;">
-                    <?php echo htmlspecialchars($_GET['error']); ?>
-                </p>
-            <?php endif; ?>
+                <?php if (!empty($_SESSION['login_error'])): ?>
+                    <p class="auth-error">
+                        <?php echo htmlspecialchars($_SESSION['login_error']); ?>
+                    </p>
+                    <?php unset($_SESSION['login_error']); ?>
+                <?php endif; ?>
+
 
             <?php if (isset($_GET['success'])): ?>
                 <div class="auth-toast auth-toast-success">
