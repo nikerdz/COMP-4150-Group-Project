@@ -40,7 +40,6 @@
     margin: 0 auto;
 }
 
-/* Subtle glow reuse */
 @keyframes dashboard-glow {
     0% {
         box-shadow: 0 0 5px var(--cream), 0 0 10px var(--cream);
@@ -104,15 +103,14 @@
     overflow-x: hidden;
     scroll-behavior: smooth;
     padding: 10px 4px 6px;
+
     scrollbar-width: none;
 }
 
-/* Hide scrollbar in WebKit browsers */
 .dashboard-carousel-track::-webkit-scrollbar {
     display: none;
 }
 
-/* Cards inside carousels */
 .dash-card {
     min-width: 260px;
     max-width: 320px;
@@ -168,13 +166,11 @@
     color: var(--cream);
 }
 
-/* Card hover */
 .dash-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
 
-/* Carousel buttons */
 .carousel-btn {
     width: 40px;
     height: 40px;
@@ -214,7 +210,6 @@
     .dashboard-hero-inner h1 {
         font-size: 2.2rem;
     }
-
     .dashboard-carousel {
         grid-template-columns: min-content 1fr min-content;
         gap: 6px;
