@@ -27,8 +27,8 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <?php else: ?>
 
                 <!-- User logged in → show NOTIFICATIONS icon -->
-                <button class="header-btn" onclick="openNotifications()">
-                    <img src="<?php echo IMG_URL; ?>btn/notif.png" alt="Notifications">
+                <button class="header-btn" onclick="window.location.href='<?php echo PHP_URL; ?>auth_handle_logout.php'">
+                    <img src="<?php echo IMG_URL; ?>btn/logout.png" alt="Logout">
                 </button>
 
             <?php endif; ?>
