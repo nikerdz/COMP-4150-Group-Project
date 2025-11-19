@@ -1,6 +1,7 @@
 <?php
 require_once('../../src/config/constants.php');
 require_once(MODELS_PATH . 'User.php');
+require_once(MODELS_PATH . 'Club.php');
 
 session_start();
 
@@ -12,6 +13,8 @@ if (!isset($_SESSION['user_id'])) {
 
 $userId    = (int) $_SESSION['user_id'];
 $userModel = new User();
+$clubModel = new Club();
+
 $user      = $userModel->findById($userId);
 
 // If user somehow vanished, force logout
@@ -28,6 +31,11 @@ $lastNameVal  = htmlspecialchars($user['last_name']       ?? '', ENT_QUOTES, 'UT
 $facultyVal   = htmlspecialchars($user['faculty']         ?? '', ENT_QUOTES, 'UTF-8');
 $levelVal     = $user['level_of_study']                  ?? 'undergraduate';
 $yearVal      = !empty($user['year_of_study']) ? (int)$user['year_of_study'] : '';
+
+// All categories for interest checkboxes
+$allCategories       = $clubModel->getAllCategories();
+// IDs of categories this user already selected
+$selectedInterestIds = $userModel->getInterestCategoryIds($userId);
 
 // Flash error (success now shows on profile.php)
 $profileError = $_SESSION['profile_error'] ?? null;
@@ -61,7 +69,7 @@ unset($_SESSION['profile_error']);
     <section class="profile-section profile-edit-section">
         <div class="profile-section-header">
             <h2>Edit Profile</h2>
-            <p>Update your name, faculty, and study details.</p>
+            <p>Update your name, faculty, study details, and interests.</p>
         </div>
 
         <?php if ($profileError): ?>
@@ -170,6 +178,32 @@ unset($_SESSION['profile_error']);
                         placeholder="e.g., 3"
                     >
                 </div>
+            </div>
+
+            <!-- Interests -->
+            <div class="profile-edit-interests">
+                <label class="profile-interests-title">Your interests</label>
+                <div class="profile-interests-grid">
+                    <?php foreach ($allCategories as $cat): ?>
+                        <?php
+                            $catId   = (int)$cat['category_id'];
+                            $catName = htmlspecialchars($cat['category_name'], ENT_QUOTES, 'UTF-8');
+                            $checked = in_array($catId, $selectedInterestIds);
+                        ?>
+                        <label class="profile-interest-chip">
+                            <input
+                                type="checkbox"
+                                name="interests[]"
+                                value="<?php echo $catId; ?>"
+                                <?php echo $checked ? 'checked' : ''; ?>
+                            >
+                            <span><?php echo $catName; ?></span>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+                <p class="profile-interests-hint">
+                    Choose the topics you care about so we can recommend matching clubs and events.
+                </p>
             </div>
 
             <div class="profile-edit-actions">

@@ -4,7 +4,7 @@ require_once(CONFIG_PATH . 'db_config.php');
 
 class User
 {
-    private $pdo;
+    private PDO $pdo;
 
     public function __construct()
     {
@@ -15,7 +15,7 @@ class User
     /* --------------------------
        Register a new user
        -------------------------- */
-    public function register($data)
+    public function register($data): bool
     {
         $sql = "INSERT INTO User 
                 (first_name, last_name, user_email, user_password, faculty, year_of_study)
@@ -34,13 +34,14 @@ class User
     }
 
     /* --------------------------
-       Find user by email
+         Find user by email
        -------------------------- */
-    public function findByEmail($email)
+    public function findByEmail($email): ?array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM User WHERE user_email = ?");
         $stmt->execute([$email]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
     }
 
     /* --------------------------
@@ -54,8 +55,8 @@ class User
         return $row ?: null;
     }
 
-        /* --------------------------
-       Update user profile fields
+    /* --------------------------
+       Update basic profile fields
        -------------------------- */
     public function updateProfile(int $userId, array $data): bool
     {
@@ -74,14 +75,77 @@ class User
         $stmt->bindValue(':faculty',    $data['faculty']);
         $stmt->bindValue(':level_of_study', $data['level_of_study']);
 
-        if ($data['year_of_study'] === null || $data['year_of_study'] === '') {
-            $stmt->bindValue(':year_of_study', null, PDO::PARAM_NULL);
-        } else {
+        if (array_key_exists('year_of_study', $data) && $data['year_of_study'] !== null) {
             $stmt->bindValue(':year_of_study', (int)$data['year_of_study'], PDO::PARAM_INT);
+        } else {
+            $stmt->bindValue(':year_of_study', null, PDO::PARAM_NULL);
         }
 
         $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
 
         return $stmt->execute();
+    }
+
+    /* --------------------------
+       Get interest category IDs for a user
+       -------------------------- */
+    public function getInterestCategoryIds(int $userId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT category_id
+            FROM User_Interests
+            WHERE user_id = ?
+        ");
+        $stmt->execute([$userId]);
+
+        // Returns array of ints like [1, 3, 4]
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
+    /* --------------------------
+       Get interest names (Category.category_name) for a user
+       -------------------------- */
+    public function getInterestNames(int $userId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT c.category_name
+            FROM User_Interests ui
+            JOIN Category c ON ui.category_id = c.category_id
+            WHERE ui.user_id = ?
+            ORDER BY c.category_name ASC
+        ");
+        $stmt->execute([$userId]);
+
+        // Returns array of strings like ["Academic", "Sports"]
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
+    /* --------------------------
+       Replace user's interests with a new set
+       -------------------------- */
+    public function updateInterests(int $userId, array $categoryIds): void
+    {
+        $this->pdo->beginTransaction();
+
+        // Remove old interests
+        $del = $this->pdo->prepare("DELETE FROM User_Interests WHERE user_id = ?");
+        $del->execute([$userId]);
+
+        // Insert new ones (if any)
+        if (!empty($categoryIds)) {
+            $ins = $this->pdo->prepare("
+                INSERT INTO User_Interests (user_id, category_id)
+                VALUES (?, ?)
+            ");
+
+            foreach ($categoryIds as $catId) {
+                $catId = (int)$catId;
+                if ($catId > 0) {
+                    $ins->execute([$userId, $catId]);
+                }
+            }
+        }
+
+        $this->pdo->commit();
     }
 }

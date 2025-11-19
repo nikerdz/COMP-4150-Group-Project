@@ -52,12 +52,15 @@ $upcomingEvents = $eventModel->getUpcomingEventsForUser($userId, 6);
 // Get clubs user is a member of
 $userClubs = $clubModel->getClubsForUser($userId);
 
-// ✅ Success message from profile_handle_update.php (stored in session)
-$profileSuccess = null;
-if (isset($_SESSION['profile_success'])) {
-    $profileSuccess = htmlspecialchars($_SESSION['profile_success'], ENT_QUOTES, 'UTF-8');
-    unset($_SESSION['profile_success']); // show it only once
+// ✅ Success message from profile_handle_update.php (session flash)
+$profileSuccess = $_SESSION['profile_success'] ?? null;
+if ($profileSuccess !== null) {
+    $profileSuccess = htmlspecialchars($profileSuccess, ENT_QUOTES, 'UTF-8');
 }
+unset($_SESSION['profile_success']);
+
+// User interests (names)
+$interestNames = $userModel->getInterestNames($userId);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,6 +121,17 @@ if (isset($_SESSION['profile_success'])) {
                                 <span>· Joined <?php echo $joinDate; ?></span>
                             <?php endif; ?>
                         </p>
+
+                        <?php if (!empty($interestNames)): ?>
+                            <p class="profile-interests-row">
+                                <span class="profile-interests-label">Interests:</span>
+                                <?php foreach ($interestNames as $name): ?>
+                                    <span class="profile-interest-pill">
+                                        <?php echo htmlspecialchars($name); ?>
+                                    </span>
+                                <?php endforeach; ?>
+                            </p>
+                        <?php endif; ?>
                     </div>
 
                     <div class="profile-actions">

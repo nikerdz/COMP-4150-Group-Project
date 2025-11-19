@@ -364,3 +364,74 @@
 .profile-edit-save {
     padding: 8px 16px; /* same as cancel for consistent size */
 }
+
+/* ==========================
+   Profile – Interests display
+========================== */
+
+.profile-interests-row {
+    margin-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+.profile-interests-label {
+    font-weight: 700;
+    color: var(--dark-blue);
+}
+
+.profile-interest-pill {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+/* ==========================
+   Profile – Interests edit
+========================== */
+
+.profile-edit-interests {
+    margin-top: 18px;
+}
+
+.profile-interests-title {
+    display: block;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-bottom: 6px;
+}
+
+.profile-interests-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.profile-interest-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(28, 52, 141, 0.25);
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--dark-blue);
+}
+
+.profile-interest-chip input[type="checkbox"] {
+    accent-color: var(--red);
+    cursor: pointer;
+}
+
+.profile-interests-hint {
+    font-size: 0.8rem;
+    color: var(--dark-blue);
+    opacity: 0.8;
+}

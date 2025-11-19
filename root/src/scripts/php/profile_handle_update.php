@@ -25,6 +25,11 @@ $faculty   = trim($_POST['faculty'] ?? '');
 $level     = $_POST['level_of_study'] ?? 'undergraduate';
 $yearRaw   = trim($_POST['year_of_study'] ?? '');
 
+// Interests come as an array of category_id values
+$interests = isset($_POST['interests']) && is_array($_POST['interests'])
+    ? $_POST['interests']
+    : [];
+
 if ($firstName === '' || $lastName === '') {
     profile_error_and_back("First and last name are required.");
 }
@@ -41,6 +46,7 @@ $userId    = (int) $_SESSION['user_id'];
 $userModel = new User();
 
 try {
+    // Update the basic profile info
     $userModel->updateProfile($userId, [
         'first_name'      => $firstName,
         'last_name'       => $lastName,
@@ -49,13 +55,16 @@ try {
         'year_of_study'   => $yearRaw === '' ? null : (int)$yearRaw
     ]);
 
+    // Update interests in the junction table
+    $userModel->updateInterests($userId, $interests);
+
     // Keep first name fresh in session for header/dashboard
     $_SESSION['first_name'] = $firstName;
 
     // Clear any old errors
     unset($_SESSION['profile_error']);
 
-    // One-time success toast for profile.php
+    // ✅ Flash success message for profile.php
     $_SESSION['profile_success'] = "Profile updated successfully.";
 
     // Redirect to profile (toast will show there)
