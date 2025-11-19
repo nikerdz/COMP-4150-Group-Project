@@ -35,7 +35,6 @@ session_start();
                     ?>
                 </p>
             <?php endif; ?>
-
             <form action="<?php echo PHP_URL; ?>auth_handle_register.php" method="POST" class="auth-form">
                 
                 <div class="auth-row">
@@ -66,7 +65,6 @@ session_start();
                         <input type="password" id="confirm_password" name="confirm_password" required>
                     </div>
                 </div>
-
                 <div class="auth-row">
                     <div class="auth-field">
                         <label for="faculty">Faculty</label>
@@ -83,7 +81,6 @@ session_start();
                             <option value="Science">Science</option>
                         </select>
                     </div>
-
                         <div class="auth-field">
                             <label for="level_of_study">Level of Study</label>
                             <select id="level_of_study" name="level_of_study" required>
@@ -92,16 +89,13 @@ session_start();
                                 <option value="graduate">Graduate</option>
                             </select>
                         </div>
-
                 </div>
-
                 <div class="auth-row">
 
                     <div class="auth-field">
                         <label for="year_of_study">Year of Study</label>
                         <input type="number" id="year_of_study" name="year_of_study" min="1" max="999999">
                     </div>
-
                     <div class="auth-field">
                         <label for="gender">Gender</label>
                         <select id="gender" name="gender" required>
@@ -111,7 +105,6 @@ session_start();
                         </select>
                     </div>
                 </div>
-
                     <button type="submit" class="auth-btn">Create Account</button>
 
                     <p class="auth-footer-text">
