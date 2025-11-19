@@ -34,67 +34,78 @@ class Event
        Search events with filters
        -------------------------- */
     public function searchEvents(
-        ?string $search,
-        ?int $categoryId,
-        ?string $condition,
-        int $limit = 20,
-        int $offset = 0
-    ): array {
-        $sql = "
-            SELECT
-                e.*,
-                c.club_name,
-                GROUP_CONCAT(DISTINCT cat.category_name) AS categories
-            FROM Event e
-            JOIN Club c ON e.club_id = c.club_id
-            LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
-            LEFT JOIN Category cat ON ct.category_id = cat.category_id
-            WHERE e.event_status <> 'cancelled'
-        ";
+    ?string $search,
+    ?int $categoryId,
+    ?string $condition,
+    int $limit = 20,
+    int $offset = 0
+): array {
+    $sql = "
+        SELECT
+            e.*,
+            c.club_name,
+            GROUP_CONCAT(DISTINCT cat.category_name) AS categories
+        FROM Event e
+        JOIN Club c ON e.club_id = c.club_id
+        LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
+        LEFT JOIN Category cat ON ct.category_id = cat.category_id
+        WHERE e.event_status <> 'cancelled'
+    ";
 
-        $params = [];
-
-        // Search by event name / description / club name
-        if (!empty($search)) {
-            $sql .= "
-                AND (
-                    e.event_name LIKE :search
-                    OR e.event_description LIKE :search
-                    OR c.club_name LIKE :search
-                )
-            ";
-            $params[':search'] = '%' . $search . '%';
-        }
-
-        // Filter by category via Club_Tags
-        if (!empty($categoryId)) {
-            $sql .= " AND ct.category_id = :catId";
-            $params[':catId'] = $categoryId;
-        }
-
-        // Filter by event_condition (ignore "any")
-        if (!empty($condition) && $condition !== 'any') {
-            $sql .= " AND e.event_condition = :cond";
-            $params[':cond'] = $condition;
-        }
-
+    // --------------------
+    // Dynamic filters
+    // --------------------
+    if (!empty($search)) {
         $sql .= "
-            GROUP BY e.event_id
-            ORDER BY e.event_date ASC
-            LIMIT :limit OFFSET :offset
+            AND (
+                e.event_name        LIKE :search_event_name
+                OR e.event_description LIKE :search_event_desc
+                OR c.club_name      LIKE :search_club_name
+            )
         ";
-
-        $stmt = $this->pdo->prepare($sql);
-
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
-
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    if (!empty($categoryId)) {
+        $sql .= " AND ct.category_id = :catId";
+    }
+
+    if (!empty($condition) && $condition !== 'any') {
+        $sql .= " AND e.event_condition = :cond";
+    }
+
+    $sql .= "
+        GROUP BY e.event_id
+        ORDER BY e.event_date ASC
+        LIMIT :limit OFFSET :offset
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    // --------------------
+    // Bind parameters
+    // --------------------
+    if (!empty($search)) {
+        $like = '%' . $search . '%';
+        $stmt->bindValue(':search_event_name', $like, PDO::PARAM_STR);
+        $stmt->bindValue(':search_event_desc', $like, PDO::PARAM_STR);
+        $stmt->bindValue(':search_club_name',  $like, PDO::PARAM_STR);
+    }
+
+    if (!empty($categoryId)) {
+        $stmt->bindValue(':catId', (int)$categoryId, PDO::PARAM_INT);
+    }
+
+    if (!empty($condition) && $condition !== 'any') {
+        $stmt->bindValue(':cond', $condition, PDO::PARAM_STR);
+    }
+
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 }

@@ -68,61 +68,68 @@ class Club
        Search clubs with filters
        -------------------------- */
     public function searchClubs(
-        ?string $search,
-        ?int $categoryId,
-        ?string $condition,
-        int $limit = 20,
-        int $offset = 0
-    ): array {
-        $sql = "
-            SELECT 
-                c.*,
-                GROUP_CONCAT(DISTINCT cat.category_name) AS categories
-            FROM Club c
-            LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
-            LEFT JOIN Category cat ON ct.category_id = cat.category_id
-            WHERE c.club_status = 'active'
-        ";
+    ?string $search,
+    ?int $categoryId,
+    ?string $condition,
+    int $limit = 20,
+    int $offset = 0
+): array {
+    $sql = "
+        SELECT 
+            c.*,
+            GROUP_CONCAT(DISTINCT cat.category_name) AS categories
+        FROM Club c
+        LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
+        LEFT JOIN Category cat ON ct.category_id = cat.category_id
+        WHERE c.club_status = 'active'
+    ";
 
-        $params = [];
-
-        // Search by name/description
-        if (!empty($search)) {
-            $sql .= " AND (c.club_name LIKE :search OR c.club_description LIKE :search)";
-            $params[':search'] = '%' . $search . '%';
-        }
-
-        // Filter by category
-        if (!empty($categoryId)) {
-            $sql .= " AND ct.category_id = :catId";
-            $params[':catId'] = $categoryId;
-        }
-
-        // Filter by club_condition (ignore "any")
-        if (!empty($condition) && $condition !== 'any') {
-            $sql .= " AND c.club_condition = :cond";
-            $params[':cond'] = $condition;
-        }
-
-        $sql .= "
-            GROUP BY c.club_id
-            ORDER BY c.club_name ASC
-            LIMIT :limit OFFSET :offset
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
-
-        // Bind dynamic params
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
-
-        // Bind limit/offset as ints (named placeholders)
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // --------------------
+    // Dynamic filters
+    // --------------------
+    if (!empty($search)) {
+        $sql .= " AND (c.club_name LIKE :search_name OR c.club_description LIKE :search_desc)";
     }
+
+    if (!empty($categoryId)) {
+        $sql .= " AND ct.category_id = :catId";
+    }
+
+    if (!empty($condition) && $condition !== 'any') {
+        $sql .= " AND c.club_condition = :cond";
+    }
+
+    $sql .= "
+        GROUP BY c.club_id
+        ORDER BY c.club_name ASC
+        LIMIT :limit OFFSET :offset
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    // --------------------
+    // Bind parameters
+    // --------------------
+    if (!empty($search)) {
+        $like = '%' . $search . '%';
+        $stmt->bindValue(':search_name', $like, PDO::PARAM_STR);
+        $stmt->bindValue(':search_desc', $like, PDO::PARAM_STR);
+    }
+
+    if (!empty($categoryId)) {
+        $stmt->bindValue(':catId', (int)$categoryId, PDO::PARAM_INT);
+    }
+
+    if (!empty($condition) && $condition !== 'any') {
+        $stmt->bindValue(':cond', $condition, PDO::PARAM_STR);
+    }
+
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
