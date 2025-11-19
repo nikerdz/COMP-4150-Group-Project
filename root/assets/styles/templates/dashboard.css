@@ -84,7 +84,7 @@
 
 /* The clickable area is ONLY the image */
 .quicklink-icon {
-    display: inline-block;       /* shrink-wrap to the image */
+    display: inline-block;
     cursor: pointer;
 }
 

@@ -37,7 +37,7 @@
 }
 
 .profile-avatar.profile-avatar-male {
-    background: var(--dark-blue); /* default */
+    background: var(--dark-blue);
 }
 
 .profile-avatar.profile-avatar-female {
@@ -307,7 +307,7 @@
 
 .profile-interests-row {
     display: flex;
-    align-items: center;      /* keeps "Interests:" lined up with chips */
+    align-items: center;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 6px;
@@ -407,8 +407,8 @@
 
 .profile-edit-actions .profile-edit-cancel,
 .profile-edit-actions .profile-edit-save {
-    display: inline-flex;          /* same display for both <a> and <button> */
-    align-items: center;           /* vertical centering of text */
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
     padding: 8px 18px;
     border-radius: 999px;
@@ -627,7 +627,7 @@
         flex-direction: row;
         align-items: flex-start;
         justify-content: flex-start;
-        align-self: flex-start; /* don’t center vertically on small screens */
+        align-self: flex-start;
     }
 
     .settings-section {

@@ -52,7 +52,7 @@
 .explore-card h3 a:visited,
 .dash-card h3 a:visited,
 .profile-card h3 a:visited {
-    color: var(--dark-blue); /* same as normal, no purple */
+    color: var(--dark-blue);
 }
 
 /* Hover / active (including visited+hover) */
@@ -88,7 +88,7 @@
 .explore-meta a:visited,
 .dash-meta a:visited,
 .profile-card-meta a:visited {
-    color: var(--dark-blue); /* no purple after click */
+    color: var(--dark-blue);
 }
 
 .explore-meta a:hover,
@@ -106,7 +106,6 @@
     color: var(--red);
 }
 
-/* Card meta and text */
 .explore-card-meta,
 .dash-meta,
 .profile-card-meta {
@@ -122,7 +121,6 @@
     color: var(--dark-blue);
 }
 
-/* Tags and pills */
 .explore-tag,
 .profile-card-tag,
 .dash-tag,
@@ -182,9 +180,9 @@
 .profile-grid .explore-card,
 .profile-grid .dash-card,
 .profile-grid .profile-card {
-    max-width: 360px;      /* cap width so a single card isn't huge */
+    max-width: 360px;
     width: 100%;
-    justify-self: left;  /* center inside the grid column */
+    justify-self: left;
 }
 
 /* On very small screens, let them use full width again */

@@ -51,12 +51,12 @@ $myClubs = $membershipModel->getClubsForUser($userId);
 $upcomingEvents = $registrationModel->getUpcomingEventsForUser($userId, 6);
 
 // Fetch recommended clubs (example: all active clubs the user isn't in)
-$allClubs = $clubModel->searchClubs(null, null, 'any', 10); // get 10 clubs
+$allClubs = $clubModel->searchClubs(null, null, 'any', 10);
 
 $recommendedClubs = array_filter($allClubs, function ($club) use ($myClubs) {
     foreach ($myClubs as $myClub) {
         if ($club['club_id'] == $myClub['club_id']) {
-            return false; // exclude already joined
+            return false;
         }
     }
     return true;

@@ -6,7 +6,6 @@ require_once(MODELS_PATH . 'Event.php');
 
 session_start();
 
-// Get club ID from URL
 $clubId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $clubModel = new Club();
@@ -18,13 +17,12 @@ if (!$club) {
     exit;
 }
 
-// Get logged-in user's membership role
 $userRole = null;
 if (isset($_SESSION['user_id'])) {
     $membershipModel = new Membership();
     $membership = $membershipModel->getMembership($clubId, $_SESSION['user_id']);
     if ($membership) {
-        $userRole = $membership['role']; // 'member' or 'exec'
+        $userRole = $membership['role'];
     }
 }
 
@@ -34,11 +32,11 @@ $members = $membershipModel->getClubMembers($clubId);
 // Fetch upcoming events
 $eventModel = new Event();
 $upcomingEvents = $eventModel->searchEvents(
-    null,       // search
-    null,       // category
-    null,       // condition
-    20,         // limit
-    0           // offset
+    null,
+    null,
+    null,
+    20,
+    0
 );
 
 // Filter events by this club

@@ -66,11 +66,11 @@
 
 /* Avatar colour by gender */
 .club-avatar.club-avatar-male {
-    background: var(--dark-blue); /* default */
+    background: var(--dark-blue);
 }
 
 .club-avatar.club-avatar-female {
-    background: #e95c9d; /* pink-ish */
+    background: #e95c9d;
 }
 
 .club-avatar span {
@@ -334,25 +334,25 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    align-items: center;   /* vertically center both */
+    align-items: center;
     flex-wrap: nowrap;
 }
 
 /* Normalize both buttons so they line up perfectly */
 .club-edit-actions .club-edit-cancel,
 .club-edit-actions .club-edit-save {
-    display: inline-flex;          /* same display for both <a> and <button> */
-    align-items: center;           /* vertical centering of text */
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    padding: 8px 18px;             /* same padding */
+    padding: 8px 18px;
     border-radius: 999px;
     font-size: 0.9rem;
     font-weight: 600;
     text-align: center;
     box-sizing: border-box;
-    margin: 0;                     /* kill any top margin from .auth-btn */
-    line-height: 1.2;              /* consistent line height */
-    white-space: nowrap;           /* keep text on one line */
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 /* Cancel button styling */
@@ -374,7 +374,7 @@
 
 /* Save button – uses auth-btn styling too */
 .club-edit-save {
-    padding: 8px 16px; /* same as cancel for consistent size */
+    padding: 8px 16px;
 }
 
 
@@ -457,7 +457,7 @@
 
 .club-interests-row {
     display: flex;
-    align-items: center;      /* <-- keeps "Interests:" lined up with chips */
+    align-items: center;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 6px;
@@ -471,7 +471,7 @@
 }
 
 .club-interest-chip {
-    display: inline-flex;     /* center text inside pill */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 3px 10px;

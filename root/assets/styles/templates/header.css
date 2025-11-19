@@ -72,11 +72,11 @@
 
 .duck-easter-egg {
     position: fixed;
-    width: 60px;          /* smaller than main logo */
+    width: 60px;
     height: auto;
-    pointer-events: none; /* don't block clicks */
+    pointer-events: none;
     z-index: 3000;
-    opacity: 0;           /* JS will animate this */
+    opacity: 0;
 }
 
 @keyframes duckZigzag {

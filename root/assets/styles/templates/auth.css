@@ -85,7 +85,7 @@
     background: #ffffff;
     box-sizing: border-box;
     cursor: pointer;
-    appearance: none; /* removes native arrow styling */
+    appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l6 7 6-7' stroke='%231c348d' stroke-width='2' fill='none'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
@@ -184,10 +184,9 @@
 }
 
 .auth-toast-success {
-    border-left: 4px solid #28a745;   /* green accent */
+    border-left: 4px solid #28a745;
 }
 
-/* Fade in, stay, then fade out */
 @keyframes authToastFade {
     0% {
         opacity: 0;
