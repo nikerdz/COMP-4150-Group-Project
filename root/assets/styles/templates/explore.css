@@ -248,7 +248,7 @@
 }
 
 /* ==========================
-   Responsive
+   Responsive (old block)
 ========================== */
 
 @media (max-width: 900px) {
@@ -270,6 +270,9 @@
         font-size: 2rem;
     }
 }
+
+/* Newer hero + filters (overrides some above) */
+
 .explore-hero {
     max-width: 1075px;
     margin: 10px auto 20px auto;
@@ -295,7 +298,8 @@
     margin: 0 auto;
 }
 
-/* Filters */
+/* Filters container */
+
 .explore-filters-section {
     max-width: 1075px;
     margin: 0 auto 20px auto;
@@ -355,7 +359,29 @@
     border: 2px solid var(--dark-blue);
 }
 
+/* >>> NEW: View filter styling (All / Clubs / Events) */
+
+.explore-view-options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.explore-view-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--dark-blue);
+}
+
+.explore-view-option input[type="radio"] {
+    accent-color: var(--red);
+    cursor: pointer;
+}
+
 /* Grid */
+
 .explore-results-section {
     max-width: 1075px;
     margin: 0 auto 40px auto;
@@ -399,7 +425,8 @@
     cursor: pointer;
 }
 
-/* Responsive */
+/* Responsive (newer block) */
+
 @media (max-width: 900px) {
     .explore-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));

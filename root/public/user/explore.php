@@ -29,7 +29,7 @@ $eventModel = new Event();
 
 // View mode: all / clubs / events
 $view = isset($_GET['view']) ? strtolower(trim($_GET['view'])) : 'all';
-if (!in_array($view, ['clubs', 'events'], true)) {
+if (!in_array($view, ['clubs', 'events', 'all'], true)) {
     $view = 'all';
 }
 
@@ -127,14 +127,9 @@ $totalItems    = count($items);
     <!-- Explore hero / heading -->
     <section class="explore-hero">
         <div class="explore-hero-inner">
-            <h1>Explore Clubs & Events</h1>
+            <h1>Explore Clubs &amp; Events</h1>
             <p>
                 Discover new clubs, find upcoming events, and narrow things down using search and filters.
-                <?php if ($view === 'events'): ?>
-                    <br>Currently showing <strong>events only</strong>.
-                <?php elseif ($view === 'clubs'): ?>
-                    <br>Currently showing <strong>clubs only</strong>.
-                <?php endif; ?>
             </p>
         </div>
     </section>
@@ -150,8 +145,6 @@ $totalItems    = count($items);
                     placeholder="<?php echo htmlspecialchars($searchPlaceholder); ?>"
                     value="<?php echo htmlspecialchars($search); ?>"
                 >
-                <!-- keep current view when searching/applying filters -->
-                <input type="hidden" name="view" value="<?php echo htmlspecialchars($view); ?>">
 
                 <button type="submit" class="explore-search-btn">Search</button>
 
@@ -165,6 +158,42 @@ $totalItems    = count($items);
             </div>
 
             <div class="explore-filter-panel" id="exploreFilterPanel">
+                <!-- View filter: All / Clubs only / Events only -->
+                <div class="explore-filter-group">
+                    <span class="explore-filter-label">Showing</span>
+                    <div class="explore-view-options">
+                        <label class="explore-view-option">
+                            <input
+                                type="radio"
+                                name="view"
+                                value="all"
+                                <?php if ($view === 'all') echo 'checked'; ?>
+                            >
+                            <span>All (clubs &amp; events)</span>
+                        </label>
+
+                        <label class="explore-view-option">
+                            <input
+                                type="radio"
+                                name="view"
+                                value="clubs"
+                                <?php if ($view === 'clubs') echo 'checked'; ?>
+                            >
+                            <span>Clubs only</span>
+                        </label>
+
+                        <label class="explore-view-option">
+                            <input
+                                type="radio"
+                                name="view"
+                                value="events"
+                                <?php if ($view === 'events') echo 'checked'; ?>
+                            >
+                            <span>Events only</span>
+                        </label>
+                    </div>
+                </div>
+
                 <!-- Category filter -->
                 <div class="explore-filter-group">
                     <label for="category">Category</label>
@@ -196,7 +225,7 @@ $totalItems    = count($items);
                 <div class="explore-filter-actions">
                     <button type="submit" class="explore-apply-btn">Apply</button>
                     <a
-                        href="<?php echo USER_URL; ?>explore.php?view=<?php echo urlencode($view); ?>"
+                        href="<?php echo USER_URL; ?>explore.php"
                         class="explore-reset-link"
                     >
                         Reset
@@ -210,22 +239,15 @@ $totalItems    = count($items);
     <section class="explore-results-section">
         <?php if ($totalItems === 0): ?>
             <p class="explore-empty">
-                No items match your search yet.
-                <?php if ($view === 'events'): ?>
-                    Try adjusting your search or filters, or switch back to clubs &amp; events.
-                <?php elseif ($view === 'clubs'): ?>
-                    Try adjusting your search or filters, or switch back to clubs &amp; events.
-                <?php else: ?>
-                    Try changing your filters or search term.
-                <?php endif; ?>
+                No items match your search yet. Try adjusting your search or filters.
             </p>
         <?php else: ?>
             <div class="explore-grid" id="exploreGrid">
                 <?php foreach ($items as $index => $item): ?>
                     <?php
-                        $isHidden = $index >= $VISIBLE_COUNT;
-                        $type     = $item['type'];
-                        $data     = $item['data'];
+                        $isHidden    = $index >= $VISIBLE_COUNT;
+                        $type        = $item['type'];
+                        $data        = $item['data'];
                         $hiddenClass = $isHidden ? 'is-hidden' : '';
                     ?>
 
