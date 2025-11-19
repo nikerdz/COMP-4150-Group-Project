@@ -89,6 +89,7 @@ session_start();
                                 <option value="graduate">Graduate</option>
                             </select>
                         </div>
+
                 </div>
                 <div class="auth-row">
 

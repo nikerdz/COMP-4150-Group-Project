@@ -13,18 +13,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Helpers
-function prettyCondition(?string $cond): string
-{
-    return match ($cond) {
-        'women_only'      => 'Women only',
-        'undergrad_only'  => 'Undergraduates only',
-        'first_year_only' => 'First years only',
-        'none', null, ''  => 'Open to all',
-        default           => ucfirst(str_replace('_', ' ', $cond)),
-    };
-}
-
 $userId = (int)$_SESSION['user_id'];
 
 $userModel  = new User();
@@ -55,8 +43,20 @@ $level     = htmlspecialchars($user['level_of_study'] ?? 'undergraduate');
 $year      = !empty($user['year_of_study']) ? (int)$user['year_of_study'] : null;
 $joinDate  = !empty($user['join_date']) ? date('M j, Y', strtotime($user['join_date'])) : null;
 
+// Gender for avatar colour
+$genderRaw   = $user['gender'] ?? null;
+$genderUpper = $genderRaw !== null ? strtoupper($genderRaw) : null;
+
 // First initial for avatar
 $initial = strtoupper(substr($firstName !== '' ? $firstName : ($lastName ?? 'U'), 0, 1));
+
+// Avatar CSS class (pink for F, blue / default for M/others)
+$avatarClass = 'profile-avatar';
+if ($genderUpper === 'F') {
+    $avatarClass .= ' profile-avatar-female';
+} elseif ($genderUpper === 'M') {
+    $avatarClass .= ' profile-avatar-male';
+}
 
 // Get upcoming events user registered for
 $upcomingEvents = $eventModel->getUpcomingEventsForUser($userId, 6);
@@ -64,7 +64,7 @@ $upcomingEvents = $eventModel->getUpcomingEventsForUser($userId, 6);
 // Get clubs user is a member of
 $userClubs = $clubModel->getClubsForUser($userId);
 
-// Success message from profile_handle_update.php (session flash)
+// ✅ Success message from profile_handle_update.php (session flash)
 $profileSuccess = $_SESSION['profile_success'] ?? null;
 if ($profileSuccess !== null) {
     $profileSuccess = htmlspecialchars($profileSuccess, ENT_QUOTES, 'UTF-8');
@@ -108,7 +108,7 @@ $interestNames = $userModel->getInterestNames($userId);
     <!-- Profile Hero -->
     <section class="profile-hero">
         <div class="profile-hero-inner">
-            <div class="profile-avatar">
+            <div class="<?php echo $avatarClass; ?>">
                 <span><?php echo htmlspecialchars($initial); ?></span>
             </div>
 
@@ -169,7 +169,28 @@ $interestNames = $userModel->getInterestNames($userId);
         <?php if (!empty($upcomingEvents)): ?>
             <div class="profile-grid">
                 <?php foreach ($upcomingEvents as $event): ?>
-                    <?php include(LAYOUT_PATH . 'event-card.php'); ?>
+                    <?php
+                        $eventName  = htmlspecialchars($event['event_name']);
+                        $clubName   = htmlspecialchars($event['club_name'] ?? '');
+                        $location   = htmlspecialchars($event['event_location'] ?? 'TBA');
+                        $eventDate  = !empty($event['event_date'])
+                            ? date('M j, Y · g:i A', strtotime($event['event_date']))
+                            : 'Date TBA';
+                        $fee        = isset($event['event_fee']) ? (float)$event['event_fee'] : 0.0;
+                    ?>
+                    <article class="profile-card">
+                        <h3><?php echo $eventName; ?></h3>
+                        <?php if ($clubName): ?>
+                            <p class="profile-card-meta"><?php echo $clubName; ?></p>
+                        <?php endif; ?>
+                        <p class="profile-card-meta"><?php echo $eventDate; ?> · <?php echo $location; ?></p>
+
+                        <?php if ($fee > 0): ?>
+                            <p class="profile-card-tag">Paid event · $<?php echo number_format($fee, 2); ?></p>
+                        <?php else: ?>
+                            <p class="profile-card-tag profile-card-tag-free">Free event</p>
+                        <?php endif; ?>
+                    </article>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
@@ -178,7 +199,6 @@ $interestNames = $userModel->getInterestNames($userId);
                 <a href="<?php echo USER_URL; ?>explore.php">Explore events</a>
             </p>
         <?php endif; ?>
-
     </section>
 
     <!-- Clubs section -->
@@ -191,7 +211,33 @@ $interestNames = $userModel->getInterestNames($userId);
         <?php if (!empty($userClubs)): ?>
             <div class="profile-grid">
                 <?php foreach ($userClubs as $club): ?>
-                    <?php include(LAYOUT_PATH . 'club-card.php'); ?>
+                    <?php
+                        $clubName       = htmlspecialchars($club['club_name']);
+                        $clubDesc       = htmlspecialchars($club['club_description'] ?? 'No description yet.');
+                        $membershipDate = !empty($club['membership_date'])
+                            ? date('M j, Y', strtotime($club['membership_date']))
+                            : null;
+                        $categories     = !empty($club['categories'])
+                            ? explode(',', $club['categories'])
+                            : [];
+                    ?>
+                    <article class="profile-card">
+                        <h3><?php echo $clubName; ?></h3>
+
+                        <?php if (!empty($categories)): ?>
+                            <p class="profile-card-tag">
+                                <?php echo htmlspecialchars(implode(' · ', $categories)); ?>
+                            </p>
+                        <?php endif; ?>
+
+                        <?php if ($membershipDate): ?>
+                            <p class="profile-card-meta">Member since <?php echo $membershipDate; ?></p>
+                        <?php endif; ?>
+
+                        <p class="profile-card-text">
+                            <?php echo $clubDesc; ?>
+                        </p>
+                    </article>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>

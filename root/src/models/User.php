@@ -13,10 +13,11 @@ class User
     }
 
     /* --------------------------
-    Register a new user
-    -------------------------- */
+       Register a new user
+       -------------------------- */
     public function register(array $data): bool
     {
+        // 8 columns, 8 placeholders
         $sql = "INSERT INTO User 
                 (first_name, last_name, user_email, user_password, gender, faculty, level_of_study, year_of_study)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -31,15 +32,14 @@ class User
             $data['gender'],
             $data['faculty'],
             $data['level_of_study'],
-            $data['year_of_study'] ?? null
+            $data['year_of_study']
         ]);
     }
-
 
     /* --------------------------
          Find user by email
        -------------------------- */
-    public function findByEmail($email): ?array
+    public function findByEmail(string $email): ?array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM User WHERE user_email = ?");
         $stmt->execute([$email]);
@@ -90,7 +90,33 @@ class User
     }
 
     /* --------------------------
-       Get interest category IDs for a user
+       Update password
+       -------------------------- */
+    public function updatePassword(int $userId, string $hashedPassword): bool
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE User 
+            SET user_password = :pw
+            WHERE user_id = :id
+        ");
+        $stmt->bindValue(':pw', $hashedPassword);
+        $stmt->bindValue(':id', $userId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    /* --------------------------
+       Delete user (ON DELETE CASCADE
+       will clean related rows)
+       -------------------------- */
+    public function deleteUser(int $userId): bool
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM User WHERE user_id = ?");
+        return $stmt->execute([$userId]);
+    }
+
+    /* --------------------------
+       Get interest category IDs
+       for a user
        -------------------------- */
     public function getInterestCategoryIds(int $userId): array
     {
@@ -101,12 +127,11 @@ class User
         ");
         $stmt->execute([$userId]);
 
-        // Returns array of ints like [1, 3, 4]
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
     /* --------------------------
-       Get interest names (Category.category_name) for a user
+       Get interest names for user
        -------------------------- */
     public function getInterestNames(int $userId): array
     {
@@ -119,22 +144,20 @@ class User
         ");
         $stmt->execute([$userId]);
 
-        // Returns array of strings like ["Academic", "Sports"]
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
     /* --------------------------
-       Replace user's interests with a new set
+       Replace user's interests with
+       a new set
        -------------------------- */
     public function updateInterests(int $userId, array $categoryIds): void
     {
         $this->pdo->beginTransaction();
 
-        // Remove old interests
         $del = $this->pdo->prepare("DELETE FROM User_Interests WHERE user_id = ?");
         $del->execute([$userId]);
 
-        // Insert new ones (if any)
         if (!empty($categoryIds)) {
             $ins = $this->pdo->prepare("
                 INSERT INTO User_Interests (user_id, category_id)

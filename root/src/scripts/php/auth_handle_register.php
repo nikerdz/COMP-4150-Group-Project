@@ -18,16 +18,15 @@ function register_error_and_back(string $message): void {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    register_error_and_back("Invalid request.");
+}
+
 // Basic required field validation
 if (
-    empty($_POST['first_name']) ||
-    empty($_POST['last_name'])  ||
-    empty($_POST['email'])      ||
-    empty($_POST['password'])   ||
-    empty($_POST['confirm_password']) ||
-    empty($_POST['gender'])     ||
-    empty($_POST['faculty'])    ||
-    empty($_POST['level_of_study'])
+    empty($_POST['first_name']) || empty($_POST['last_name']) ||
+    empty($_POST['email']) || empty($_POST['password']) ||
+    empty($_POST['confirm_password']) || empty($_POST['gender'])
 ) {
     register_error_and_back("Please fill in all required fields.");
 }
@@ -38,10 +37,19 @@ $last     = trim($_POST['last_name']);
 $email    = trim($_POST['email']);
 $pass     = $_POST['password'];
 $confirm  = $_POST['confirm_password'];
-$gender   = $_POST['gender'];              // 'M' or 'F'
-$faculty  = $_POST['faculty'];             // required
-$level    = $_POST['level_of_study'];      // 'undergraduate' or 'graduate'
-$year     = $_POST['year_of_study'] ?? null;
+$gender   = $_POST['gender'];                 // 'M' or 'F'
+$faculty  = $_POST['faculty']        ?? null;
+$level    = $_POST['level_of_study'] ?? 'undergraduate';
+$yearRaw  = $_POST['year_of_study']  ?? null;
+
+// Simple year validation (optional, can be empty)
+$year = null;
+if ($yearRaw !== null && $yearRaw !== '') {
+    if (!ctype_digit((string)$yearRaw)) {
+        register_error_and_back("Year of study must be a number.");
+    }
+    $year = (int)$yearRaw;
+}
 
 // Password match check
 if ($pass !== $confirm) {
@@ -51,21 +59,6 @@ if ($pass !== $confirm) {
 // UWindsor email check
 if (!preg_match("/@uwindsor\.ca$/", $email)) {
     register_error_and_back("Email must be a UWindsor (@uwindsor.ca) email.");
-}
-
-// Optional: validate level & gender values
-if (!in_array($level, ['undergraduate', 'graduate'], true)) {
-    register_error_and_back("Please select a valid level of study.");
-}
-if (!in_array($gender, ['M', 'F'], true)) {
-    register_error_and_back("Please select a valid gender.");
-}
-
-// Year validation (optional field)
-if ($year !== null && $year !== '') {
-    if (!ctype_digit((string)$year) || (int)$year < 1 || (int)$year > 20) {
-        register_error_and_back("Year of study must be a number between 1 and 20.");
-    }
 }
 
 // Hash the password
@@ -82,11 +75,11 @@ try {
         'gender'         => $gender,
         'faculty'        => $faculty,
         'level_of_study' => $level,
-        'year_of_study'  => ($year === '' ? null : $year)
+        'year_of_study'  => $year
     ]);
 
     // On success: redirect to login with a success message
-    header("Location: " . PUBLIC_URL . "login.php?success=Account created! Please log in.");
+    header("Location: " . PUBLIC_URL . "login.php?success=" . urlencode("Account created! Please log in."));
     exit();
 
 } catch (PDOException $e) {

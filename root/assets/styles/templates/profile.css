@@ -34,6 +34,15 @@
     flex-shrink: 0;
 }
 
+/* Avatar colour by gender */
+.profile-avatar.profile-avatar-male {
+    background: var(--dark-blue); /* default */
+}
+
+.profile-avatar.profile-avatar-female {
+    background: #e95c9d; /* pink-ish */
+}
+
 .profile-avatar span {
     font-family: "Cubao", sans-serif;
     font-size: 2.4rem;
@@ -369,12 +378,14 @@
    Profile – Interests display
 ========================== */
 
+/* Interests row under email */
 .profile-interests-row {
-    margin-top: 4px;
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     gap: 6px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    margin-top: 4px;
 }
 
 .profile-interests-label {
@@ -383,12 +394,13 @@
 }
 
 .profile-interest-pill {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 999px;
     padding: 3px 10px;
     color: var(--dark-blue);
     font-weight: 600;
 }
+
 
 /* ==========================
    Profile – Interests edit
@@ -466,4 +478,110 @@
     font-weight: 600;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     white-space: nowrap;
+}
+
+
+
+/* ==========================
+   Settings page
+========================== */
+
+.settings-section {
+    max-width: 800px;
+}
+
+/* groups inside the card */
+.settings-group {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.settings-group:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.settings-group-title {
+    font-family: "Cubao", sans-serif;
+    font-size: 1.4rem;
+    color: var(--red);
+    margin-bottom: 4px;
+}
+
+.settings-group-text {
+    font-size: 0.95rem;
+    color: var(--dark-blue);
+    margin-bottom: 14px;
+}
+
+/* Change password row with hold-to-view button */
+.settings-password-row {
+    align-items: flex-end;
+}
+
+.settings-view-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.settings-view-toggle {
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 2px solid var(--dark-blue);
+    background: #ffffff;
+    color: var(--dark-blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settings-view-toggle:hover {
+    background: var(--dark-blue);
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* Actions row (right-aligned buttons) */
+.settings-actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Danger box for delete account */
+.settings-danger {
+    margin-top: 24px;
+    padding: 16px 14px;
+    border-radius: 10px;
+    background: rgba(217, 83, 79, 0.06);
+    border: 1px solid rgba(217, 83, 79, 0.35);
+}
+
+.settings-delete-btn {
+    padding: 8px 20px;
+    border-radius: 999px;
+    border: none;
+    background: #d9534f;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.settings-delete-btn:hover {
+    background: #c9302c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+}
+
+@media (max-width: 720px) {
+    .settings-section {
+        max-width: 100%;
+    }
 }
