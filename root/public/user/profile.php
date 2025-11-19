@@ -66,11 +66,25 @@ $avatarClass = 'profile-avatar';
 if ($genderUpper === 'F') $avatarClass .= ' profile-avatar-female';
 elseif ($genderUpper === 'M') $avatarClass .= ' profile-avatar-male';
 
-// Data: events + clubs
+// Get upcoming events user registered for (max 6 from DB)
 $upcomingEvents = $registrationModel->getUpcomingEventsForUser($userId, 6);
-$userClubs      = $membershipModel->getClubsForUser($userId);
+$eventCount     = count($upcomingEvents);
 
-// Success toast
+// Get clubs user is a member of (no limit from DB)
+$userClubs  = $membershipModel->getClubsForUser($userId);
+$clubCount  = count($userClubs);
+
+// Limit how many we SHOW on profile
+$MAX_PROFILE_ITEMS = 3;
+
+$displayEvents = array_slice($upcomingEvents, 0, $MAX_PROFILE_ITEMS);
+$displayClubs  = array_slice($userClubs,      0, $MAX_PROFILE_ITEMS);
+
+// Show-more only if there are MORE than 3
+$hasMoreEvents = $eventCount > $MAX_PROFILE_ITEMS;
+$hasMoreClubs  = $clubCount  > $MAX_PROFILE_ITEMS;
+
+// ✅ Success message from profile_handle_update.php (session flash)
 $profileSuccess = $_SESSION['profile_success'] ?? null;
 if ($profileSuccess !== null) {
     $profileSuccess = htmlspecialchars($profileSuccess, ENT_QUOTES, 'UTF-8');

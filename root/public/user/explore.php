@@ -27,10 +27,23 @@ function prettyCondition(?string $cond): string
 $clubModel  = new Club();
 $eventModel = new Event();
 
+// View mode: all / clubs / events
+$view = isset($_GET['view']) ? strtolower(trim($_GET['view'])) : 'all';
+if (!in_array($view, ['clubs', 'events'], true)) {
+    $view = 'all';
+}
+
 // Filters from query string
 $search     = isset($_GET['q']) ? trim($_GET['q']) : '';
 $categoryId = isset($_GET['category']) && $_GET['category'] !== '' ? (int)$_GET['category'] : null;
 $condition  = isset($_GET['condition']) && $_GET['condition'] !== '' ? $_GET['condition'] : null;
+
+// Placeholder text depends on view
+$searchPlaceholder = match ($view) {
+    'events' => "Search events (e.g. 'Hackathon')",
+    'clubs'  => "Search clubs (e.g. 'Chess Club')",
+    default  => "Search clubs or events (e.g. 'Chess')",
+};
 
 // For “Load more” we’ll fetch up to this many total items
 $MAX_ITEMS = 50;
@@ -38,9 +51,17 @@ $MAX_ITEMS = 50;
 // Get categories for filter dropdown
 $categories = $clubModel->getAllCategories();
 
-// Fetch clubs + events
-$clubs  = $clubModel->searchClubs($search, $categoryId, $condition, $MAX_ITEMS, 0);
-$events = $eventModel->searchEvents($search, $categoryId, $condition, $MAX_ITEMS, 0);
+// Fetch clubs + events respecting view
+$clubs  = [];
+$events = [];
+
+if ($view === 'all' || $view === 'clubs') {
+    $clubs = $clubModel->searchClubs($search, $categoryId, $condition, $MAX_ITEMS, 0);
+}
+
+if ($view === 'all' || $view === 'events') {
+    $events = $eventModel->searchEvents($search, $categoryId, $condition, $MAX_ITEMS, 0);
+}
 
 // Merge into a single list of items
 $items = [];
@@ -89,7 +110,7 @@ $totalItems    = count($items);
     <meta property="og:description" content="Join ClubHub and explore clubs, events, and connect with fellow students on campus.">
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
     <meta property="og:url" content="https://khan661.myweb.cs.uwindsor.ca/COMP-4150-Group-Project/root/public/">
-    <meta property="og:type" content="website"> <!-- Enhance link previews when shared on Facebook, LinkedIn, and other platforms -->
+    <meta property="og:type" content="website">
 
     <title>ClubHub | Explore</title>
 
@@ -109,6 +130,11 @@ $totalItems    = count($items);
             <h1>Explore Clubs & Events</h1>
             <p>
                 Discover new clubs, find upcoming events, and narrow things down using search and filters.
+                <?php if ($view === 'events'): ?>
+                    <br>Currently showing <strong>events only</strong>.
+                <?php elseif ($view === 'clubs'): ?>
+                    <br>Currently showing <strong>clubs only</strong>.
+                <?php endif; ?>
             </p>
         </div>
     </section>
@@ -121,9 +147,12 @@ $totalItems    = count($items);
                     type="text"
                     name="q"
                     class="explore-search-input"
-                    placeholder="Search clubs or events (e.g. 'Chess')"
+                    placeholder="<?php echo htmlspecialchars($searchPlaceholder); ?>"
                     value="<?php echo htmlspecialchars($search); ?>"
                 >
+                <!-- keep current view when searching/applying filters -->
+                <input type="hidden" name="view" value="<?php echo htmlspecialchars($view); ?>">
+
                 <button type="submit" class="explore-search-btn">Search</button>
 
                 <button
@@ -166,7 +195,12 @@ $totalItems    = count($items);
 
                 <div class="explore-filter-actions">
                     <button type="submit" class="explore-apply-btn">Apply</button>
-                    <a href="<?php echo USER_URL; ?>explore.php" class="explore-reset-link">Reset</a>
+                    <a
+                        href="<?php echo USER_URL; ?>explore.php?view=<?php echo urlencode($view); ?>"
+                        class="explore-reset-link"
+                    >
+                        Reset
+                    </a>
                 </div>
             </div>
         </form>
@@ -176,21 +210,29 @@ $totalItems    = count($items);
     <section class="explore-results-section">
         <?php if ($totalItems === 0): ?>
             <p class="explore-empty">
-                No clubs or events match your search yet. Try changing your filters or search term.
+                No items match your search yet.
+                <?php if ($view === 'events'): ?>
+                    Try adjusting your search or filters, or switch back to clubs &amp; events.
+                <?php elseif ($view === 'clubs'): ?>
+                    Try adjusting your search or filters, or switch back to clubs &amp; events.
+                <?php else: ?>
+                    Try changing your filters or search term.
+                <?php endif; ?>
             </p>
         <?php else: ?>
             <div class="explore-grid" id="exploreGrid">
                 <?php foreach ($items as $index => $item): ?>
                     <?php
                         $isHidden = $index >= $VISIBLE_COUNT;
-                        $type = $item['type'];
-                        $data = $item['data'];
+                        $type     = $item['type'];
+                        $data     = $item['data'];
+                        $hiddenClass = $isHidden ? 'is-hidden' : '';
                     ?>
 
                     <?php if ($type === 'club'): ?>
-                        <?php $club = $data; $hiddenClass = $isHidden ? 'is-hidden' : ''; include LAYOUT_PATH . 'club-card.php'; ?>
+                        <?php $club = $data; include LAYOUT_PATH . 'club-card.php'; ?>
                     <?php else: ?>
-                        <?php $event = $data; $hiddenClass = $isHidden ? 'is-hidden' : ''; include LAYOUT_PATH . 'event-card.php'; ?>
+                        <?php $event = $data; include LAYOUT_PATH . 'event-card.php'; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>

@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Helper function
+// Helper to pretty-print conditions (used in cards/layouts)
 function prettyCondition(?string $cond): string
 {
     return match ($cond) {
@@ -26,12 +26,20 @@ function prettyCondition(?string $cond): string
     };
 }
 
-// Get current user info
-$userId = $_SESSION['user_id'];
-$firstName = htmlspecialchars($_SESSION['user_name'] ?? 'there');
+// Get logged-in user's info
+$userId = (int)$_SESSION['user_id'];
+
+// First name for greeting – supports both session keys
+if (!empty($_SESSION['first_name'])) {
+    $firstName = htmlspecialchars($_SESSION['first_name'], ENT_QUOTES, 'UTF-8');
+} elseif (!empty($_SESSION['user_name'])) {
+    $firstName = htmlspecialchars($_SESSION['user_name'], ENT_QUOTES, 'UTF-8');
+} else {
+    $firstName = 'there';
+}
 
 // Instantiate models
-$clubModel = new Club();
+$clubModel  = new Club();
 $eventModel = new Event();
 $membershipModel = new Membership();
 $registrationModel = new Registration();
@@ -42,14 +50,19 @@ $myClubs = $membershipModel->getClubsForUser($userId);
 // Fetch upcoming events user is registered for
 $upcomingEvents = $registrationModel->getUpcomingEventsForUser($userId, 6);
 
-// Recommended Clubs → All clubs except the ones already joined
-$allClubs = $clubModel->searchClubs(null, null, 'any', 50);
-$joinedClubIds = array_column($myClubs, 'club_id');
+// Fetch recommended clubs (example: all active clubs the user isn't in)
+$allClubs = $clubModel->searchClubs(null, null, 'any', 10); // get 10 clubs
 
-$recommendedClubs = array_filter($allClubs, function ($club) use ($joinedClubIds) {
-    return !in_array($club['club_id'], $joinedClubIds);
+$recommendedClubs = array_filter($allClubs, function ($club) use ($myClubs) {
+    foreach ($myClubs as $myClub) {
+        if ($club['club_id'] == $myClub['club_id']) {
+            return false; // exclude already joined
+        }
+    }
+    return true;
 });
 
+// Limit to 6 recommended clubs
 $recommendedClubs = array_slice($recommendedClubs, 0, 6);
 ?>
 
@@ -93,13 +106,12 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
 
             <?php 
             $quickLinks = [
-                ['url' => CLUB_URL.'user-clubs.php', 'img' => 'btn/club.png', 'label' => 'My Clubs'],
-                ['url' => EVENT_URL.'user-events.php', 'img' => 'btn/event.png', 'label' => 'My Events'],
-                ['url' => USER_URL.'explore.php', 'img' => 'btn/explorebtn.png', 'label' => 'Explore'],
-                ['url' => USER_URL.'profile.php', 'img' => 'btn/profile.png', 'label' => 'My Profile'],
-                ['url' => USER_URL.'settings.php', 'img' => 'btn/settings.png', 'label' => 'Settings'],
+                ['url' => CLUB_URL . 'user-clubs.php',   'img' => 'btn/club.png',       'label' => 'My Clubs'],
+                ['url' => EVENT_URL . 'user-events.php', 'img' => 'btn/event.png',      'label' => 'My Events'],
+                ['url' => USER_URL . 'explore.php',      'img' => 'btn/explorebtn.png', 'label' => 'Explore'],
+                ['url' => USER_URL . 'profile.php',      'img' => 'btn/profile.png',    'label' => 'My Profile'],
+                ['url' => USER_URL . 'settings.php',     'img' => 'btn/settings.png',   'label' => 'Settings'],
             ];
-
             foreach ($quickLinks as $link): ?>
                 <div class="dashboard-quicklink">
                     <a href="<?php echo $link['url']; ?>" class="quicklink-icon">
@@ -120,13 +132,22 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
         </div>
 
         <div class="dashboard-carousel" data-carousel>
-            <button class="carousel-btn prev">‹</button>
+            <button
+                class="carousel-btn prev"
+                type="button"
+                aria-label="Previous"
+            >‹</button>
+
             <div class="dash-track-wrapper">
                 <div class="dashboard-carousel-track">
-
                     <?php if (!empty($upcomingEvents)): ?>
                         <?php foreach ($upcomingEvents as $event): ?>
-                            <?php include(LAYOUT_PATH.'event-card.php'); ?>
+                            <?php
+                                // Use dash-card style inside the dashboard carousel
+                                $cardContext = 'dashboard';
+                                $hiddenClass = '';
+                                include(LAYOUT_PATH . 'event-card.php');
+                            ?>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <p class="explore-empty-text">No upcoming events.</p>
@@ -134,7 +155,12 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
 
                 </div>
             </div>
-            <button class="carousel-btn next">›</button>
+
+            <button
+                class="carousel-btn next"
+                type="button"
+                aria-label="Next"
+            >›</button>
         </div>
     </section>
 
@@ -146,13 +172,22 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
         </div>
 
         <div class="dashboard-carousel" data-carousel>
-            <button class="carousel-btn prev">‹</button>
+            <button
+                class="carousel-btn prev"
+                type="button"
+                aria-label="Previous"
+            >‹</button>
+
             <div class="dash-track-wrapper">
                 <div class="dashboard-carousel-track">
-
                     <?php if (!empty($recommendedClubs)): ?>
                         <?php foreach ($recommendedClubs as $club): ?>
-                            <?php include(LAYOUT_PATH.'club-card.php'); ?>
+                            <?php
+                                // Use dash-card style inside the dashboard carousel
+                                $cardContext = 'dashboard';
+                                $hiddenClass = '';
+                                include(LAYOUT_PATH . 'club-card.php');
+                            ?>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <p class="explore-empty-text">No recommendations at this time.</p>
@@ -160,7 +195,12 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
 
                 </div>
             </div>
-            <button class="carousel-btn next">›</button>
+
+            <button
+                class="carousel-btn next"
+                type="button"
+                aria-label="Next"
+            >›</button>
         </div>
     </section>
 
@@ -168,6 +208,7 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
 
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
+
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
 
 </body>
