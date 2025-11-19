@@ -1,27 +1,49 @@
-<!-- where logged in users can view the clubs profile and where club execs can edit the profile and view members 
- itll list the club exec(s), description, upcoming events, past events, and members  - with buttons to join/leave club
--->
 <?php
-require_once(__DIR__ . '/../../src/config/constants.php');
-require_once(CONFIG_PATH . 'db_config.php');
+require_once('../../src/config/constants.php');
 require_once(MODELS_PATH . 'Club.php');
+require_once(MODELS_PATH . 'Membership.php');
+require_once(MODELS_PATH . 'Event.php');
+
 session_start();
 
-// Validate club_id
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    die("Invalid club ID.");
-}
-
-$clubId = (int) $_GET['id'];
+// Get club ID from URL
+$clubId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $clubModel = new Club();
+$membershipModel = new Membership();
 $club = $clubModel->findById($clubId);
 
 if (!$club) {
-    $pageTitle = "Club Not Found";
-} else {
-    $pageTitle = $club['club_name'];
+    echo "Club not found.";
+    exit;
 }
+
+// Get logged-in user's membership role
+$userRole = null;
+if (isset($_SESSION['user_id'])) {
+    $membershipModel = new Membership();
+    $membership = $membershipModel->getMembership($clubId, $_SESSION['user_id']);
+    if ($membership) {
+        $userRole = $membership['role']; // 'member' or 'exec'
+    }
+}
+
+// Fetch all club members
+$members = $membershipModel->getClubMembers($clubId);
+
+// Fetch upcoming events
+$eventModel = new Event();
+$upcomingEvents = $eventModel->searchEvents(
+    null,       // search
+    null,       // category
+    null,       // condition
+    20,         // limit
+    0           // offset
+);
+
+// Filter events by this club
+$upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $clubId);
+
 ?>
 
 <!DOCTYPE html>
@@ -38,32 +60,112 @@ if (!$club) {
 
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
-<main class="content-section container" style="padding: 40px 20px;">
-    <?php if (!$club): ?>
-        <h1 class="not-found">Club Not Found</h1>
-        <p style="text-align:center;">The club you are looking for does not exist.</p>
-    <?php else: ?>
-        <div class="club-view-card">
-            <h1><?= htmlspecialchars($club['club_name']); ?></h1>
+<main>
 
-            <p class="club-categories">
-                <strong>Categories:</strong>
-                <?= $club['categories'] ? htmlspecialchars($club['categories']) : "None" ?>
-            </p>
+    <!-- Club Hero Section -->
+    <section class="club-hero">
+        <div class="club-hero-inner">
+            <div class="club-avatar">
+                <span><?= strtoupper(substr($club['club_name'], 0, 1)) ?></span>
+            </div>
 
-            <?php if ($club['club_email']): ?>
-                <p><strong>Email:</strong> <?= htmlspecialchars($club['club_email']); ?></p>
-            <?php endif; ?>
+            <div class="club-main-info">
+                <div class="club-main-header-row">
+                    <div class="club-main-text">
+                        <h1><?= htmlspecialchars($club['club_name']); ?></h1>
 
-            <p class="club-description">
-                <?= nl2br(htmlspecialchars($club['club_description'])); ?>
-            </p>
+                        <p class="club-meta-secondary">
+                            <b>Tags:</b>
+                            <?php if ($club['categories']): ?>
+                                <?php foreach (explode(',', $club['categories']) as $cat): ?>
+                                    <span class="club-interest-pill"><?= htmlspecialchars($cat) ?></span>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                None
+                            <?php endif; ?>
+                        </p>
 
-            <p><strong>Founded:</strong> <?= htmlspecialchars($club['creation_date']); ?></p>
-            <p><strong>Restrictions:</strong> <?= htmlspecialchars($club['club_condition']); ?></p>
+                        <p class="club-meta-secondary">
+                            <?= nl2br(htmlspecialchars($club['club_description'])); ?>
+                        </p>
+
+                        <p class="club-meta-secondary">
+                            <strong>Founded:</strong> <?= htmlspecialchars($club['creation_date']); ?> ·
+                            <strong>Restrictions:</strong> <?= htmlspecialchars($club['club_condition']); ?>
+                        </p>
+
+                        <?php if ($userRole): ?>
+                            <p class="club-meta-line">
+                                <span><strong>Your Role:</strong> <?= ucfirst($userRole) ?></span>
+                            </p>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="club-actions">
+                        <?php if ($userRole === 'exec'): ?>
+                            <a class="club-edit-btn" href="<?= CLUB_URL ?>edit-club.php?id=<?= $clubId ?>">Edit Club</a>
+                        <?php elseif ($userRole === 'member'): ?>
+                            <form method="post" action="<?= CLUB_URL ?>leave.php" style="display:inline;">
+                                <input type="hidden" name="club_id" value="<?= $clubId ?>">
+                                <button class="club-edit-save" type="submit">Leave Club</button>
+                            </form>
+                        <?php else: ?>
+                            <form method="post" action="<?= CLUB_URL ?>join.php" style="display:inline;">
+                                <input type="hidden" name="club_id" value="<?= $clubId ?>">
+                                <button class="club-edit-save" type="submit">Join Club</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
-    <?php endif; ?>
+    </section>
+
+    <!-- Club Upcoming Events Section -->
+    <section class="club-section">
+        <div class="club-section-header">
+            <h2>Upcoming Events</h2>
+        </div>
+
+        <?php if (!empty($upcomingEvents)): ?>
+            <div class="club-cards-grid">
+                <?php foreach ($upcomingEvents as $event): ?>
+                    <div class="club-interest-chip">
+                        <strong><?= htmlspecialchars($event['event_name']); ?></strong><br>
+                        <?= date('M d, Y', strtotime($event['event_date'])); ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="club-empty">No upcoming events.</p>
+        <?php endif; ?>
+    </section>
+
+        <!-- Club Members Section -->
+    <section class="club-section">
+        <div class="club-section-header">
+            <h2>Club Members</h2>
+            <p>All members of <?= htmlspecialchars($club['club_name']); ?>.</p>
+        </div>
+
+        <?php if (!empty($members)): ?>
+            <div class="club-grid">
+                <?php foreach ($members as $member): ?>
+                    <div class="club-interest-chip">
+                        <?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?>
+                        <?php if ($member['role'] === 'exec'): ?>
+                            <span style="font-size:0.7rem; color: var(--red);">Exec</span>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="club-empty">No members yet.</p>
+        <?php endif; ?>
+    </section>
+
 </main>
+
 
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>

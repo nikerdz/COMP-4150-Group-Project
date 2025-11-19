@@ -6,13 +6,13 @@
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.12);
-    max-width: 850px;
     margin: auto;
 }
 
 .event-view-card h1 {
     color: var(--dark-blue);
-    font-family: "Cubao";
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
     font-size: 2.4rem;
 }
 

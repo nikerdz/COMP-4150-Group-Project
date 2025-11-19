@@ -6,13 +6,13 @@
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.12);
-    max-width: 850px;
     margin: auto;
 }
 
 .club-view-card h1 {
     color: var(--red);
-    font-family: "Cubao";
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
     font-size: 2.4rem;
     margin-bottom: 10px;
 }
@@ -27,3 +27,499 @@
     color: var(--dark-blue);
     font-size: 1.1rem;
 }
+
+/* ==========================
+   Club – Hero
+========================== */
+
+.club-hero {
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    color: var(--red);
+    padding: 40px 22px;
+    border-radius: 15px;
+    max-width: 1075px;
+    margin: 10px auto 25px auto;
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 10px var(--cream), 0 0 20px var(--cream);
+}
+
+.club-hero-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 22px;
+    align-items: center;
+}
+
+.club-avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--cream);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+}
+
+/* Avatar colour by gender */
+.club-avatar.club-avatar-male {
+    background: var(--dark-blue); /* default */
+}
+
+.club-avatar.club-avatar-female {
+    background: #e95c9d; /* pink-ish */
+}
+
+.club-avatar span {
+    font-family: "Cubao", sans-serif;
+    font-size: 2.4rem;
+    color: var(--cream);
+}
+
+/* Main info wrapper */
+.club-main-info {
+    flex: 1;
+}
+
+/* Row that holds text on left and buttons on right */
+.club-main-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+/* Text block (name, chips, email, join date) */
+.club-main-text {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Name */
+.club-hero-text h1,
+.club-main-info h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.3rem;
+    margin-bottom: 4px;
+}
+
+/* Primary meta line (level, faculty, year) */
+.club-hero-meta,
+.club-meta-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.club-hero-meta span,
+.club-meta-line span {
+    background: rgba(255,255,255,0.7);
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+/* Secondary meta line (email, join date) */
+.club-hero-email,
+.club-meta-secondary {
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+/* Buttons area (Edit + Settings) */
+.club-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    margin-top: 0;
+}
+
+/* Base button style */
+.club-edit-btn,
+.club-settings-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+/* Primary button: Edit club */
+.club-edit-btn {
+    background: var(--red);
+    color: var(--cream);
+    border: 2px solid var(--red);
+}
+
+.club-edit-btn:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* Secondary button: Settings */
+.club-settings-btn {
+    background: var(--red);
+    color: var(--cream);
+    border: 2px solid var(--red);
+}
+
+.club-settings-btn:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* ==========================
+   Club – Sections
+========================== */
+
+.club-section {
+    max-width: 1075px;
+    margin: 0 auto 28px auto;
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    padding: 20px 18px;
+}
+
+.club-section-header h2 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 1.9rem;
+    color: var(--red);
+    margin-bottom: 4px;
+}
+
+.club-section-header p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+    margin-bottom: 14px;
+}
+
+/* Empty states */
+.club-empty-state,
+.club-empty {
+    font-size: 0.95rem;
+    color: var(--dark-blue);
+    text-align: left;
+}
+
+.club-empty-state a,
+.club-empty a {
+    color: var(--red);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.club-empty-state a:hover,
+.club-empty a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   Club – Cards Grid
+========================== */
+
+.club-cards-grid,
+.club-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+
+/* ==========================
+   Responsive
+========================== */
+
+@media (max-width: 720px) {
+    .club-hero-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .club-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .club-hero-text h1,
+    .club-main-info h1 {
+        font-size: 2rem;
+    }
+
+    .club-main-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .club-actions {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+}
+
+/* ==========================
+   Club – Edit form
+========================== */
+
+.club-edit-section {
+    max-width: 800px;
+    margin-top: 15px;
+}
+
+/* Messages on edit page */
+.club-message {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.club-message-error {
+    background: rgba(217, 83, 79, 0.12);
+    color: #d9534f;
+    border: 1px solid rgba(217, 83, 79, 0.35);
+}
+
+.club-message-success {
+    background: rgba(40, 167, 69, 0.12);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.35);
+}
+
+/* Make the edit form feel similar to auth forms */
+.club-edit-form {
+    margin-top: 4px;
+}
+
+/* Ensure <select> matches your auth input style */
+.auth-field select {
+    padding: 10px 12px;
+    border: 2px solid #1c348d;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #1c348d;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+/* Actions row (cancel + save) */
+.club-edit-actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;   /* vertically center both */
+    flex-wrap: nowrap;
+}
+
+/* Normalize both buttons so they line up perfectly */
+.club-edit-actions .club-edit-cancel,
+.club-edit-actions .club-edit-save {
+    display: inline-flex;          /* same display for both <a> and <button> */
+    align-items: center;           /* vertical centering of text */
+    justify-content: center;
+    padding: 8px 18px;             /* same padding */
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 0;                     /* kill any top margin from .auth-btn */
+    line-height: 1.2;              /* consistent line height */
+    white-space: nowrap;           /* keep text on one line */
+}
+
+/* Cancel button styling */
+.club-edit-cancel {
+    text-decoration: none;
+    color: var(--dark-blue);
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    transition: background 0.15s ease, transform 0.15s ease,
+                box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.club-edit-cancel:hover {
+    background: #ffffff;
+    border-color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* Save button – uses auth-btn styling too */
+.club-edit-save {
+    padding: 8px 16px; /* same as cancel for consistent size */
+}
+
+
+/* ==========================
+   Club – Interests display
+========================== */
+
+/* Interests row under email */
+.club-interests-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.club-interests-label {
+    font-weight: 700;
+    color: var(--dark-blue);
+}
+
+.club-interest-pill {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+
+/* ==========================
+   Club – Interests edit
+========================== */
+
+.club-edit-interests {
+    margin-top: 18px;
+}
+
+.club-interests-title {
+    display: block;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-bottom: 6px;
+}
+
+.club-interests-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.club-interest-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(28, 52, 141, 0.25);
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--dark-blue);
+}
+
+.club-interest-chip input[type="checkbox"] {
+    accent-color: var(--red);
+    cursor: pointer;
+}
+
+.club-interests-hint {
+    font-size: 0.8rem;
+    color: var(--dark-blue);
+    opacity: 0.8;
+}
+/* ==========================
+   Club – Interests row
+========================== */
+
+.club-interests-row {
+    display: flex;
+    align-items: center;      /* <-- keeps "Interests:" lined up with chips */
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.club-interests-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-right: 4px;
+}
+
+.club-interest-chip {
+    display: inline-flex;     /* center text inside pill */
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--dark-blue);
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    white-space: nowrap;
+}
+
+/* ==========================
+   Club – Actions Buttons
+========================== */
+
+.club-actions a,
+.club-actions button {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--cream);
+    background: var(--red);
+    border: 2px solid var(--red);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+    cursor: pointer;
+}
+
+/* Hover effect for club action buttons */
+.club-actions a:hover,
+.club-actions button:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* Ensure form buttons (like leave/join) match link buttons */
+.club-actions form button {
+    font-family: inherit;
+}
+

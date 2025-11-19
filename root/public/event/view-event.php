@@ -1,6 +1,6 @@
 <!-- for viewing approved published events and where user can register for them, or where club exec can view registrations and choose to edit the event -->
  <?php
-require_once(__DIR__ . '/../../src/config/constants.php');
+require_once('../../src/config/constants.php');
 require_once(CONFIG_PATH . 'db_config.php');
 require_once(MODELS_PATH . 'Event.php');
 session_start();
