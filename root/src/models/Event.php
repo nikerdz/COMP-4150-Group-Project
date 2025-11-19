@@ -97,4 +97,32 @@ class Event
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /* --------------------------
+       Upcoming events user is registered for
+       -------------------------- */
+    public function getUpcomingEventsForUser(int $userId, int $limit = 6): array
+    {
+        $sql = "
+            SELECT
+                e.*,
+                c.club_name,
+                r.registration_date
+            FROM Registration r
+            JOIN Event e ON r.event_id = e.event_id
+            JOIN Club c  ON e.club_id = c.club_id
+            WHERE r.user_id = :uid
+              AND (e.event_status <> 'cancelled')
+              AND (e.event_date IS NULL OR e.event_date >= NOW())
+            ORDER BY e.event_date ASC
+            LIMIT :limit
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':uid', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

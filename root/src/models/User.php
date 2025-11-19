@@ -34,12 +34,23 @@ class User
     }
 
     /* --------------------------
-         Find user by email
+       Find user by email
        -------------------------- */
     public function findByEmail($email)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM User WHERE user_email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /* --------------------------
+       Find user by ID
+       -------------------------- */
+    public function findById(int $userId): ?array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM User WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
     }
 }
