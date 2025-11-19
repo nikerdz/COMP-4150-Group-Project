@@ -12,10 +12,17 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Make dash cards fixed-width so they overflow in the carousel */
+.dash-card {
+    flex: 0 0 auto;          /* do NOT shrink, width comes from min/max below */
+    min-width: 260px;
+    max-width: 280px;
+}
+
 .explore-card:hover,
 .dash-card:hover,
 .profile-card:hover {
-    transform: translateY(-5px); /* or -4px for profile, can standardize */
+    transform: translateY(-5px);
     box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
 
@@ -25,18 +32,23 @@
 .profile-card h3 {
     font-family: "JosefinSans", sans-serif;
     font-weight: 700;
-    font-size: 1.15rem; /* adjust per context if needed */
+    font-size: 1.15rem;
     color: var(--red);
     margin-bottom: 2px;
 }
 
-.explore-card h3 a {
+/* Make links in headings look consistent on ALL card types */
+.explore-card h3 a,
+.dash-card h3 a,
+.profile-card h3 a {
     text-decoration: none;
     color: var(--dark-blue);
     transition: color 0.2s;
 }
 
-.explore-card h3 a:hover {
+.explore-card h3 a:hover,
+.dash-card h3 a:hover,
+.profile-card h3 a:hover {
     color: var(--red);
 }
 
@@ -102,16 +114,23 @@
     color: var(--cream);
 }
 
-
 /* Optional special case for profile free tag */
 .profile-card-tag-free {
     background: var(--dark-blue);
 }
 
-@media (max-width: 600px) {
+/* Responsive tweaks for dash cards on small screens */
+@media (max-width: 900px) {
     .dash-card {
         min-width: 220px;
-        max-width: 260px;
+        max-width: 240px;
         padding: 18px 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dash-card {
+        min-width: 200px;
+        max-width: 220px;
     }
 }

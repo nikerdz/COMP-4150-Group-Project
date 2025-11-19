@@ -130,24 +130,15 @@ function spawnDuck(duckSrc, event) {
     requestAnimationFrame(animate);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const sidebarLogo = document.getElementById('sidebar-logo');
-    if (sidebarLogo) {
-        sidebarLogo.addEventListener('click', handleLogoEasterEggClick);
-    }
-
-    // Initialize dashboard carousels (if present on this page)
-    setupDashboardCarousels();
-});
 // ==========================
 // Dashboard carousels (left/right, looping)
 // ==========================
 
-document.addEventListener('DOMContentLoaded', () => {
+function setupDashboardCarousels() {
     const carousels = document.querySelectorAll('.dashboard-carousel');
 
     carousels.forEach(carousel => {
-        const track = carousel.querySelector('.dashboard-carousel-track');
+        const track  = carousel.querySelector('.dashboard-carousel-track');
         const prevBtn = carousel.querySelector('.carousel-btn.prev');
         const nextBtn = carousel.querySelector('.carousel-btn.next');
 
@@ -156,7 +147,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // One card width to scroll each click
         const getStep = () => {
             const firstCard = track.querySelector('.dash-card');
-            if (!firstCard) return track.clientWidth * 0.8;
+            if (!firstCard) {
+                // Fallback: scroll most of the visible width
+                return track.clientWidth * 0.8;
+            }
             const style = window.getComputedStyle(firstCard);
             const gap = parseFloat(style.marginRight || 0);
             return firstCard.offsetWidth + gap;
@@ -189,4 +183,14 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.addEventListener('click', scrollNext);
         prevBtn.addEventListener('click', scrollPrev);
     });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebarLogo = document.getElementById('sidebar-logo');
+    if (sidebarLogo) {
+        sidebarLogo.addEventListener('click', handleLogoEasterEggClick);
+    }
+
+    // Initialize dashboard carousels (if present on this page)
+    setupDashboardCarousels();
 });
