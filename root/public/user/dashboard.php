@@ -39,33 +39,76 @@ if (!empty($_SESSION['first_name'])) {
 }
 
 // Instantiate models
-$clubModel  = new Club();
-$eventModel = new Event();
-$membershipModel = new Membership();
+$userModel        = new User();
+$clubModel        = new Club();
+$eventModel       = new Event();
+$membershipModel  = new Membership();
 $registrationModel = new Registration();
 
 // Fetch clubs the user is a member of
 $myClubs = $membershipModel->getClubsForUser($userId);
 
+// Build a quick lookup of club IDs the user already belongs to
+$myClubIds = [];
+foreach ($myClubs as $myClub) {
+    if (isset($myClub['club_id'])) {
+        $myClubIds[(int)$myClub['club_id']] = true;
+    }
+}
+
 // Fetch upcoming events user is registered for
 $upcomingEvents = $registrationModel->getUpcomingEventsForUser($userId, 6);
 
-// Fetch recommended clubs (example: all active clubs the user isn't in)
-$allClubs = $clubModel->searchClubs(null, null, 'any', 10);
+// ------------------------------
+// Recommended clubs by interests
+// ------------------------------
 
-$recommendedClubs = array_filter($allClubs, function ($club) use ($myClubs) {
-    foreach ($myClubs as $myClub) {
-        if ($club['club_id'] == $myClub['club_id']) {
-            return false;
+// Get the user's interest category IDs from User_Interests
+$interestCategoryIds = $userModel->getInterestCategoryIds($userId); // returns array of category_id
+
+$recommendedClubs = [];
+
+if (!empty($interestCategoryIds)) {
+    $seenClubIds = [];
+
+    foreach ($interestCategoryIds as $catId) {
+        $catId = (int)$catId;
+        if ($catId <= 0) {
+            continue;
+        }
+
+        // Get clubs tagged with this interest category
+        // searchClubs(search, categoryId, condition, limit, offset)
+        $clubsForCategory = $clubModel->searchClubs(
+            null,        // no text search
+            $catId,      // this category
+            'any',       // ignore condition filter
+            50,          // up to 50 per category (you can tweak this)
+            0
+        );
+
+        foreach ($clubsForCategory as $club) {
+            $cid = (int)$club['club_id'];
+
+            // Skip if user is already a member
+            if (isset($myClubIds[$cid])) {
+                continue;
+            }
+
+            // Skip if we've already added this club from another category
+            if (isset($seenClubIds[$cid])) {
+                continue;
+            }
+
+            $seenClubIds[$cid] = true;
+            $recommendedClubs[] = $club;
         }
     }
-    return true;
-});
+}
 
-// Limit to 6 recommended clubs
+// Limit to 6 recommended clubs overall
 $recommendedClubs = array_slice($recommendedClubs, 0, 6);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,7 +171,7 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
     <section class="dashboard-section">
         <div class="dashboard-section-header">
             <h2>Recommended for You</h2>
-            <p>Based on your interests and faculty, these clubs might be a good fit.</p>
+            <p>Based on your interests, these clubs might be a good fit.</p>
         </div>
 
         <div class="dashboard-carousel" data-carousel>
@@ -150,9 +193,14 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
                             ?>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p class="explore-empty-text">No recommendations at this time.</p>
+                        <p class="explore-empty-text">
+                            <?php if (empty($interestCategoryIds)): ?>
+                                No recommendations yet. Try adding some interests on your profile first.
+                            <?php else: ?>
+                                No clubs match your current interests yet. Check back soon or explore all clubs.
+                            <?php endif; ?>
+                        </p>
                     <?php endif; ?>
-
                 </div>
             </div>
 
