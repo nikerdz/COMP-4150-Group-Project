@@ -3,15 +3,18 @@ require_once('../../src/config/constants.php');
 require_once(MODELS_PATH . 'User.php');
 require_once(MODELS_PATH . 'Club.php');
 require_once(MODELS_PATH . 'Event.php');
+require_once(MODELS_PATH . 'Membership.php');
+require_once(MODELS_PATH . 'Registration.php');
+
 session_start();
 
-// Redirect if not logged in
+// Redirect if user not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: " . PUBLIC_URL . "login.php");
     exit();
 }
 
-// Helpers
+// Helper function
 function prettyCondition(?string $cond): string
 {
     return match ($cond) {
@@ -23,42 +26,43 @@ function prettyCondition(?string $cond): string
     };
 }
 
-// Get logged-in user's info
+// Get current user info
 $userId = $_SESSION['user_id'];
-$firstName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'there';
+$firstName = htmlspecialchars($_SESSION['user_name'] ?? 'there');
 
 // Instantiate models
 $clubModel = new Club();
 $eventModel = new Event();
+$membershipModel = new Membership();
+$registrationModel = new Registration();
 
 // Fetch clubs the user is a member of
-$myClubs = $clubModel->getClubsForUser($userId);
+$myClubs = $membershipModel->getClubsForUser($userId);
 
-// Fetch upcoming events the user is registered for
-$upcomingEvents = $eventModel->getUpcomingEventsForUser($userId);
+// Fetch upcoming events user is registered for
+$upcomingEvents = $registrationModel->getUpcomingEventsForUser($userId, 6);
 
-// Fetch recommended clubs (example: all active clubs the user isn't in)
-$allClubs = $clubModel->searchClubs(null, null, 'any', 10); // get 10 clubs
-$recommendedClubs = array_filter($allClubs, function($club) use ($myClubs) {
-    foreach($myClubs as $myClub) {
-        if ($club['club_id'] == $myClub['club_id']) return false; // exclude already joined
-    }
-    return true;
+// Recommended Clubs → All clubs except the ones already joined
+$allClubs = $clubModel->searchClubs(null, null, 'any', 50);
+$joinedClubIds = array_column($myClubs, 'club_id');
+
+$recommendedClubs = array_filter($allClubs, function ($club) use ($joinedClubIds) {
+    return !in_array($club['club_id'], $joinedClubIds);
 });
-$recommendedClubs = array_slice($recommendedClubs, 0, 6); // limit to 6
+
+$recommendedClubs = array_slice($recommendedClubs, 0, 6);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <meta property="og:title" content="ClubHub - Discover Your Campus Community">
     <meta property="og:description" content="Join ClubHub and explore clubs, events, and connect with fellow students on campus.">
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
-    <meta property="og:url" content="https://khan661.myweb.cs.uwindsor.ca/COMP-4150-Group-Project/root/public/">
+    <meta property="og:url" content="<?php echo PUBLIC_URL; ?>">
     <meta property="og:type" content="website">
 
     <title>ClubHub | Dashboard</title>
@@ -67,24 +71,26 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6); // limit to 6
 </head>
 
 <body>
+
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
 <main>
 
-    <!-- Hero / Welcome Section -->
+    <!-- Hero -->
     <section class="dashboard-hero">
         <div class="dashboard-hero-inner">
             <h1>Welcome back, <?php echo $firstName; ?></h1>
             <p>
-                Here&rsquo;s a quick overview of your clubs, upcoming events, and recent activity.<br>
-                Jump back into what matters most on campus.
+                Here’s a quick overview of your clubs and events.
+                Pick up right where you left off.
             </p>
         </div>
     </section>
 
-    <!-- Quick Links Section -->
+    <!-- Quick Links -->
     <section class="dashboard-quicklinks">
         <div class="dashboard-quicklinks-inner">
+
             <?php 
             $quickLinks = [
                 ['url' => CLUB_URL.'user-clubs.php', 'img' => 'btn/club.png', 'label' => 'My Clubs'],
@@ -93,42 +99,46 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6); // limit to 6
                 ['url' => USER_URL.'profile.php', 'img' => 'btn/profile.png', 'label' => 'My Profile'],
                 ['url' => USER_URL.'settings.php', 'img' => 'btn/settings.png', 'label' => 'Settings'],
             ];
-            foreach($quickLinks as $link): ?>
+
+            foreach ($quickLinks as $link): ?>
                 <div class="dashboard-quicklink">
                     <a href="<?php echo $link['url']; ?>" class="quicklink-icon">
-                        <img src="<?php echo IMG_URL . $link['img']; ?>" alt="<?php echo htmlspecialchars($link['label']); ?>">
+                        <img src="<?php echo IMG_URL . $link['img']; ?>" alt="<?php echo $link['label']; ?>">
                     </a>
-                    <span class="quicklink-label"><?php echo htmlspecialchars($link['label']); ?></span>
+                    <span class="quicklink-label"><?php echo $link['label']; ?></span>
                 </div>
             <?php endforeach; ?>
+
         </div>
     </section>
 
-    <!-- Row 1: Your Clubs & Upcoming Events -->
+    <!-- Upcoming Events -->
     <section class="dashboard-section">
         <div class="dashboard-section-header">
-            <h2>Your Clubs & Upcoming Events</h2>
+            <h2>Upcoming Events</h2>
             <p>Events from clubs you&rsquo;re a member of. Starred items are ones you&rsquo;re registered for.</p>
         </div>
 
         <div class="dashboard-carousel" data-carousel>
-            <button class="carousel-btn prev" type="button" aria-label="Previous">‹</button>
+            <button class="carousel-btn prev">‹</button>
             <div class="dash-track-wrapper">
                 <div class="dashboard-carousel-track">
-                    <?php if(!empty($upcomingEvents)): ?>
-                        <?php foreach($upcomingEvents as $event): ?>
+
+                    <?php if (!empty($upcomingEvents)): ?>
+                        <?php foreach ($upcomingEvents as $event): ?>
                             <?php include(LAYOUT_PATH.'event-card.php'); ?>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p class="explore-empty-text">No upcoming events from your clubs.</p>
+                        <p class="explore-empty-text">No upcoming events.</p>
                     <?php endif; ?>
+
                 </div>
             </div>
-            <button class="carousel-btn next" type="button" aria-label="Next">›</button>
+            <button class="carousel-btn next">›</button>
         </div>
     </section>
 
-    <!-- Row 2: Recommended for You -->
+    <!-- Recommended Clubs -->
     <section class="dashboard-section">
         <div class="dashboard-section-header">
             <h2>Recommended for You</h2>
@@ -136,19 +146,21 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6); // limit to 6
         </div>
 
         <div class="dashboard-carousel" data-carousel>
-            <button class="carousel-btn prev" type="button" aria-label="Previous">‹</button>
+            <button class="carousel-btn prev">‹</button>
             <div class="dash-track-wrapper">
                 <div class="dashboard-carousel-track">
-                    <?php if(!empty($recommendedClubs)): ?>
-                        <?php foreach($recommendedClubs as $club): ?>
+
+                    <?php if (!empty($recommendedClubs)): ?>
+                        <?php foreach ($recommendedClubs as $club): ?>
                             <?php include(LAYOUT_PATH.'club-card.php'); ?>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <p class="explore-empty-text">No recommendations at this time.</p>
                     <?php endif; ?>
+
                 </div>
             </div>
-            <button class="carousel-btn next" type="button" aria-label="Next">›</button>
+            <button class="carousel-btn next">›</button>
         </div>
     </section>
 
@@ -157,5 +169,6 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6); // limit to 6
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
+
 </body>
 </html>
