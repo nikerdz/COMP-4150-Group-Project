@@ -51,6 +51,13 @@ $upcomingEvents = $eventModel->getUpcomingEventsForUser($userId, 6);
 
 // Get clubs user is a member of
 $userClubs = $clubModel->getClubsForUser($userId);
+
+// ✅ Success message from profile_handle_update.php (stored in session)
+$profileSuccess = null;
+if (isset($_SESSION['profile_success'])) {
+    $profileSuccess = htmlspecialchars($_SESSION['profile_success'], ENT_QUOTES, 'UTF-8');
+    unset($_SESSION['profile_success']); // show it only once
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,6 +83,12 @@ $userClubs = $clubModel->getClubsForUser($userId);
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
 <main>
+
+    <?php if ($profileSuccess): ?>
+        <div class="auth-toast auth-toast-success">
+            <?php echo $profileSuccess; ?>
+        </div>
+    <?php endif; ?>
 
     <!-- Profile Hero -->
     <section class="profile-hero">

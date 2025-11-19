@@ -243,3 +243,124 @@
         justify-content: flex-start;
     }
 }
+
+/* ==========================
+   Profile – Edit form
+========================== */
+
+.profile-edit-section {
+    max-width: 800px;
+    margin-top: 15px;
+}
+
+/* Messages on edit page */
+.profile-message {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.profile-message-error {
+    background: rgba(217, 83, 79, 0.12);
+    color: #d9534f;
+    border: 1px solid rgba(217, 83, 79, 0.35);
+}
+
+.profile-message-success {
+    background: rgba(40, 167, 69, 0.12);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.35);
+}
+
+/* Make the edit form feel similar to auth forms */
+.profile-edit-form {
+    margin-top: 4px;
+}
+
+/* Ensure <select> matches your auth input style */
+.auth-field select {
+    padding: 10px 12px;
+    border: 2px solid #1c348d;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #1c348d;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+/* Actions row (cancel + save) */
+.profile-edit-actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;   /* vertically center both */
+    flex-wrap: nowrap;
+}
+
+/* Normalize both buttons so they line up perfectly */
+.profile-edit-actions .profile-edit-cancel,
+.profile-edit-actions .profile-edit-save {
+    display: inline-flex;          /* same display for both <a> and <button> */
+    align-items: center;           /* vertical centering of text */
+    justify-content: center;
+    padding: 8px 18px;             /* same padding */
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 0;                     /* kill any top margin from .auth-btn */
+    line-height: 1.2;              /* consistent line height */
+    white-space: nowrap;           /* keep text on one line */
+}
+
+/* Cancel button styling */
+.profile-edit-cancel {
+    text-decoration: none;
+    color: var(--dark-blue);
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    transition: background 0.15s ease, transform 0.15s ease,
+                box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.profile-edit-cancel:hover {
+    background: #ffffff;
+    border-color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* Save button – keep auth-btn colors but align size + position */
+.profile-edit-save {
+    padding: 8px 18px !important;  /* override any auth-btn padding */
+    margin: 0 !important;          /* override any auth-btn margin */
+}
+
+
+/* Cancel button styling */
+.profile-edit-cancel {
+    text-decoration: none;
+    color: var(--dark-blue);
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.profile-edit-cancel:hover {
+    background: #ffffff;
+    border-color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* Save button – uses auth-btn styling too */
+.profile-edit-save {
+    padding: 8px 16px; /* same as cancel for consistent size */
+}
