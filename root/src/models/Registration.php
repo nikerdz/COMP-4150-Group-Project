@@ -1,0 +1,141 @@
+<?php
+/*
+Handles:
+register user for event
+unregister
+check if registered
+get events user is registered for
+get list of users registered to event
+*/
+
+require_once(__DIR__ . '/../config/constants.php');
+require_once(CONFIG_PATH . 'db_config.php');
+
+class Registration
+{
+    private PDO $pdo;
+
+    public function __construct()
+    {
+        global $pdo;
+        $this->pdo = $pdo;
+    }
+
+    /* ---------------------------------------------------
+       Register a user for an event
+       --------------------------------------------------- */
+    public function register(int $userId, int $eventId): bool
+    {
+        $sql = "
+            INSERT INTO Registration (user_id, event_id)
+            VALUES (:uid, :eid)
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        try {
+            return $stmt->execute([
+                ':uid' => $userId,
+                ':eid' => $eventId
+            ]);
+        } catch (PDOException $e) {
+            // Duplicate = already registered
+            return false;
+        }
+    }
+
+    /* ---------------------------------------------------
+       Cancel registration
+       --------------------------------------------------- */
+    public function unregister(int $userId, int $eventId): bool
+    {
+        $sql = "
+            DELETE FROM Registration
+            WHERE user_id = :uid AND event_id = :eid
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':uid' => $userId,
+            ':eid' => $eventId
+        ]);
+    }
+
+    /* ---------------------------------------------------
+       Check if a user is registered
+       --------------------------------------------------- */
+    public function isRegistered(int $userId, int $eventId): bool
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*)
+            FROM Registration
+            WHERE user_id = :uid AND event_id = :eid
+        ");
+        $stmt->execute([
+            ':uid' => $userId,
+            ':eid' => $eventId
+        ]);
+
+        return $stmt->fetchColumn() > 0;
+    }
+
+    /* ---------------------------------------------------
+       Get all event IDs a user is registered for
+       --------------------------------------------------- */
+    public function getEventIdsForUser(int $userId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT event_id
+            FROM Registration
+            WHERE user_id = :uid
+        ");
+        $stmt->execute([':uid' => $userId]);
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
+    /* ---------------------------------------------------
+       Get full event details for upcoming registered events
+       (moved logically out of Event.php)
+       --------------------------------------------------- */
+    public function getUpcomingEventsForUser(int $userId, int $limit = 6): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                e.*, 
+                c.club_name,
+                r.registration_date
+            FROM Registration r
+            JOIN Event e ON r.event_id = e.event_id
+            JOIN Club c ON e.club_id = c.club_id
+            WHERE r.user_id = :uid
+              AND e.event_status <> 'cancelled'
+              AND (e.event_date >= NOW() OR e.event_date IS NULL)
+            ORDER BY e.event_date ASC
+            LIMIT :limit
+        ");
+
+        $stmt->bindValue(':uid', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /* ---------------------------------------------------
+       Get all users registered for an event
+       (useful for club executives)
+       --------------------------------------------------- */
+    public function getUsersForEvent(int $eventId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT u.*
+            FROM Registration r
+            JOIN User u ON r.user_id = u.user_id
+            WHERE r.event_id = :eid
+        ");
+        $stmt->execute([':eid' => $eventId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}

@@ -125,29 +125,4 @@ class Club
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    /* --------------------------
-       Get all clubs a user is a member of
-       -------------------------- */
-    public function getClubsForUser(int $userId): array
-    {
-        $sql = "
-            SELECT
-                c.*,
-                m.membership_date,
-                GROUP_CONCAT(DISTINCT cat.category_name) AS categories
-            FROM Membership m
-            JOIN Club c ON m.club_id = c.club_id
-            LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
-            LEFT JOIN Category cat ON ct.category_id = cat.category_id
-            WHERE m.user_id = :uid
-            GROUP BY c.club_id, m.membership_date
-            ORDER BY c.club_name ASC
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':uid' => $userId]);
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 }
