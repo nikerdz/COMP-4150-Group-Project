@@ -43,9 +43,9 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         <?php if(isset($_SESSION['user_id'])): ?>
             <!-- Visible only if logged in -->
             <li><a href="<?php echo USER_URL; ?>dashboard.php">DASHBOARD</a></li>
+            <li><a href="<?php echo USER_URL; ?>explore.php">EXPLORE</a></li>
             <li><a href="<?php echo USER_URL; ?>profile.php">PROFILE</a></li>
-            <li><a href="<?php echo CLUB_URL; ?>all-clubs.php">CLUBS</a></li>
-            <li><a href="<?php echo EVENT_URL; ?>all-events.php">EVENTS</a></li>
+            <li><a href="<?php echo USER_URL; ?>settings.php">SETTINGS</a></li>
             <li><a href="<?php echo PHP_URL; ?>auth_handle_logout.php">LOGOUT</a></li>
         <?php else: ?>
             <!-- Visible only if NOT logged in -->
@@ -53,9 +53,6 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <li><a href="<?php echo PUBLIC_URL; ?>login.php">LOGIN</a></li>
             <li><a href="<?php echo PUBLIC_URL; ?>register.php">REGISTER</a></li>
         <?php endif; ?>
-        <!-- Always visible -->
-        <li><a href="<?php echo PUBLIC_URL; ?>about.php">ABOUT</a></li>
-        <li><a href="<?php echo PUBLIC_URL; ?>contact.php">CONTACT</a></li>
     </ul>
 
         <!-- Sidebar logo at bottom -->

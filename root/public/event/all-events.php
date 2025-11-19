@@ -1,1 +1,0 @@
-<!-- listing all events ever with a search and filter -->
