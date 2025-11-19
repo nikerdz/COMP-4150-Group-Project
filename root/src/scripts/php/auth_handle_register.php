@@ -34,8 +34,9 @@ $email    = trim($_POST['email']);
 $pass     = $_POST['password'];
 $confirm  = $_POST['confirm_password'];
 $gender   = $_POST['gender'];
-$faculty  = $_POST['faculty']        ?? null;
-$year     = $_POST['year_of_study']  ?? null;
+$faculty  = $_POST['faculty']          ?? null;
+$level     = $_POST['level_of_study'];
+$year     = $_POST['year_of_study']    ?? null;
 
 // Password match check
 if ($pass !== $confirm) {
@@ -60,6 +61,7 @@ try {
         'password'       => $hashed,
         'gender'         => $gender,
         'faculty'        => $faculty,
+        'level_of_study' => $level,
         'year_of_study'  => $year
     ]);
 

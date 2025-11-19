@@ -83,6 +83,15 @@ session_start();
                             <option value="Science">Science</option>
                         </select>
                     </div>
+
+                    <div class="auth-field">
+                        <label for="level">Level of Study</label>
+                        <select id="level" name="level">
+                            <option value="" disabled selected>Select your study level</option>
+                            <option value="undergraduate">Undergraduate</option>
+                            <option value="graduate">Graduate</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="auth-row">
