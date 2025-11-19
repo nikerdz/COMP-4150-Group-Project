@@ -21,6 +21,8 @@
     align-items: center;
 }
 
+/* Avatar */
+
 .profile-avatar {
     width: 180px;
     height: 180px;
@@ -33,6 +35,180 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     flex-shrink: 0;
 }
+
+.profile-avatar.profile-avatar-male {
+    background: var(--dark-blue); /* default */
+}
+
+.profile-avatar.profile-avatar-female {
+    background: #e95c9d; /* pink-ish */
+}
+
+.profile-avatar span {
+    font-family: "Cubao", sans-serif;
+    font-size: 2.4rem;
+    color: var(--cream);
+}
+
+/* Main info */
+
+.profile-main-info {
+    flex: 1;
+}
+
+/* Row that holds text on left and buttons on right */
+
+.profile-main-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+/* Text block (name, chips, email, join date) */
+
+.profile-main-text {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Name */
+
+.profile-hero-text h1,
+.profile-main-info h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.3rem;
+    margin-bottom: 4px;
+}
+
+/* Primary meta line (level, faculty, year) */
+
+.profile-hero-meta,
+.profile-meta-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.profile-hero-meta span,
+.profile-meta-line span {
+    background: rgba(255,255,255,0.7);
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+/* Secondary meta line (email, join date) */
+
+.profile-hero-email,
+.profile-meta-secondary {
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+/* ==========================
+   Profile – Hero actions (Edit / Settings buttons)
+========================== */
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    margin-top: 0;
+    /* Center the buttons vertically in the hero row */
+    align-self: center;
+}
+
+/* Base button style */
+
+.profile-edit-btn,
+.profile-settings-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+/* Primary button: Edit profile */
+
+.profile-edit-btn {
+    background: var(--red);
+    color: var(--cream);
+    border: 2px solid var(--red);
+}
+
+.profile-edit-btn:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* Secondary button: Settings */
+
+.profile-settings-btn {
+    background: var(--red);
+    color: var(--cream);
+    border: 2px solid var(--red);
+}
+
+.profile-settings-btn:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* ==========================
+   Profile – Sections (Upcoming events / Your clubs)
+========================== */
+
+.profile-section {
+    max-width: 1075px;
+    margin: 0 auto 28px auto;
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    padding: 20px 18px;
+}
+
+.profile-section-header {
+    margin-bottom: 10px;
+}
+
+.profile-section-header h2 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 1.9rem;
+    color: var(--red);
+    margin-bottom: 4px;
+}
+
+.profile-section-header p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+    margin-bottom: 14px;
+}
+
+/* Header row with CTA on the right (View all events / View all clubs) */
+
 .profile-section-header-with-cta {
     display: flex;
     justify-content: space-between;
@@ -55,187 +231,15 @@
     color: var(--cream);
     text-decoration: none;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .profile-section-cta:hover {
     background: var(--dark-blue);
 }
-.profile-section-more {
-    margin-top: 10px;
-    text-align: right;
-}
-
-.profile-more-btn {
-    display: inline-block;
-    padding: 7px 14px;
-    border-radius: 999px;
-    background: var(--dark-blue);
-    color: var(--cream);
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.profile-more-btn:hover {
-    background: var(--red);
-}
-
-
-/* Avatar colour by gender */
-.profile-avatar.profile-avatar-male {
-    background: var(--dark-blue); /* default */
-}
-
-.profile-avatar.profile-avatar-female {
-    background: #e95c9d; /* pink-ish */
-}
-
-.profile-avatar span {
-    font-family: "Cubao", sans-serif;
-    font-size: 2.4rem;
-    color: var(--cream);
-}
-
-/* Main info wrapper */
-.profile-main-info {
-    flex: 1;
-}
-
-/* Row that holds text on left and buttons on right */
-.profile-main-header-row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-}
-
-/* Text block (name, chips, email, join date) */
-.profile-main-text {
-    flex: 1;
-    min-width: 0;
-}
-
-/* Name */
-.profile-hero-text h1,
-.profile-main-info h1 {
-    font-family: "Cubao", sans-serif;
-    font-weight: lighter;
-    font-size: 2.3rem;
-    margin-bottom: 4px;
-}
-
-/* Primary meta line (level, faculty, year) */
-.profile-hero-meta,
-.profile-meta-line {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    font-size: 0.85rem;
-    margin-bottom: 6px;
-}
-
-.profile-hero-meta span,
-.profile-meta-line span {
-    background: rgba(255,255,255,0.7);
-    border-radius: 999px;
-    padding: 3px 10px;
-    color: var(--dark-blue);
-    font-weight: 600;
-}
-
-/* Secondary meta line (email, join date) */
-.profile-hero-email,
-.profile-meta-secondary {
-    font-size: 0.98rem;
-    color: var(--dark-blue);
-    opacity: 0.9;
-    margin-bottom: 10px;
-}
-
-/* Buttons area (Edit + Settings) */
-.profile-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    margin-top: 0;
-}
-
-/* Base button style */
-.profile-edit-btn,
-.profile-settings-btn {
-    display: inline-block;
-    padding: 8px 16px;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease,
-        background 0.15s ease,
-        color 0.15s ease,
-        border-color 0.15s ease;
-}
-
-/* Primary button: Edit profile */
-.profile-edit-btn {
-    background: var(--red);
-    color: var(--cream);
-    border: 2px solid var(--red);
-}
-
-.profile-edit-btn:hover {
-    background: var(--dark-blue);
-    border-color: var(--dark-blue);
-    transform: translateY(-1px);
-    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
-}
-
-/* Secondary button: Settings */
-.profile-settings-btn {
-    background: var(--red);
-    color: var(--cream);
-    border: 2px solid var(--red);
-}
-
-.profile-settings-btn:hover {
-    background: var(--dark-blue);
-    border-color: var(--dark-blue);
-    transform: translateY(-1px);
-    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
-}
-
-/* ==========================
-   Profile – Sections
-========================== */
-
-.profile-section {
-    max-width: 1075px;
-    margin: 0 auto 28px auto;
-    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
-    padding: 20px 18px;
-}
-
-.profile-section-header h2 {
-    font-family: "Cubao", sans-serif;
-    font-weight: lighter;
-    font-size: 1.9rem;
-    color: var(--red);
-    margin-bottom: 4px;
-}
-
-.profile-section-header p {
-    font-family: "JosefinSans", sans-serif;
-    font-size: 0.98rem;
-    color: var(--dark-blue);
-    margin-bottom: 14px;
-}
 
 /* Empty states */
+
 .profile-empty-state,
 .profile-empty {
     font-size: 0.95rem;
@@ -255,6 +259,29 @@
     text-decoration: underline;
 }
 
+/* Show more (profile → user-events.php / user-clubs.php) */
+
+.profile-section-more {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.profile-more-btn {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--dark-blue);
+    color: var(--cream);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.profile-more-btn:hover {
+    background: var(--red);
+}
+
 /* ==========================
    Profile – Cards Grid
 ========================== */
@@ -266,42 +293,51 @@
     gap: 16px;
 }
 
-
 /* ==========================
-   Responsive
+   Profile – Interests display (on hero)
 ========================== */
 
-@media (max-width: 720px) {
-    .profile-hero-inner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+.profile-interests-row {
+    display: flex;
+    align-items: center;      /* keeps "Interests:" lined up with chips */
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
 
-    .profile-avatar {
-        width: 80px;
-        height: 80px;
-    }
+.profile-interests-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-right: 4px;
+}
 
-    .profile-hero-text h1,
-    .profile-main-info h1 {
-        font-size: 2rem;
-    }
+.profile-interest-pill {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
 
-    .profile-main-header-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
+/* A slightly different style option used elsewhere if needed */
 
-    .profile-actions {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
+.profile-interests-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--dark-blue);
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    white-space: nowrap;
 }
 
 /* ==========================
-   Profile – Edit form
+   Profile – Edit form (profile-edit.php)
 ========================== */
 
 .profile-edit-section {
@@ -310,6 +346,7 @@
 }
 
 /* Messages on edit page */
+
 .profile-message {
     margin-bottom: 12px;
     padding: 8px 12px;
@@ -329,12 +366,14 @@
     border: 1px solid rgba(40, 167, 69, 0.35);
 }
 
-/* Make the edit form feel similar to auth forms */
+/* Form container */
+
 .profile-edit-form {
     margin-top: 4px;
 }
 
 /* Ensure <select> matches your auth input style */
+
 .auth-field select {
     padding: 10px 12px;
     border: 2px solid #1c348d;
@@ -346,57 +385,36 @@
 }
 
 /* Actions row (cancel + save) */
+
 .profile-edit-actions {
     margin-top: 18px;
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    align-items: center;   /* vertically center both */
+    align-items: center;
     flex-wrap: nowrap;
 }
 
 /* Normalize both buttons so they line up perfectly */
+
 .profile-edit-actions .profile-edit-cancel,
 .profile-edit-actions .profile-edit-save {
     display: inline-flex;          /* same display for both <a> and <button> */
     align-items: center;           /* vertical centering of text */
     justify-content: center;
-    padding: 8px 18px;             /* same padding */
+    padding: 8px 18px;
     border-radius: 999px;
     font-size: 0.9rem;
     font-weight: 600;
     text-align: center;
     box-sizing: border-box;
-    margin: 0;                     /* kill any top margin from .auth-btn */
-    line-height: 1.2;              /* consistent line height */
-    white-space: nowrap;           /* keep text on one line */
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 /* Cancel button styling */
-.profile-edit-cancel {
-    text-decoration: none;
-    color: var(--dark-blue);
-    background: rgba(255, 255, 255, 0.7);
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    transition: background 0.15s ease, transform 0.15s ease,
-                box-shadow 0.15s ease, border-color 0.15s ease;
-}
 
-.profile-edit-cancel:hover {
-    background: #ffffff;
-    border-color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
-}
-
-/* Save button – keep auth-btn colors but align size + position */
-.profile-edit-save {
-    padding: 8px 18px !important;  /* override any auth-btn padding */
-    margin: 0 !important;          /* override any auth-btn margin */
-}
-
-
-/* Cancel button styling */
 .profile-edit-cancel {
     text-decoration: none;
     color: var(--dark-blue);
@@ -416,41 +434,15 @@
     box-shadow: 0 3px 10px rgba(0,0,0,0.18);
 }
 
-/* Save button – uses auth-btn styling too */
+/* Save button – uses auth button styling but normalized size */
+
 .profile-edit-save {
-    padding: 8px 16px; /* same as cancel for consistent size */
+    padding: 8px 18px !important;
+    margin: 0 !important;
 }
 
 /* ==========================
-   Profile – Interests display
-========================== */
-
-/* Interests row under email */
-.profile-interests-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    font-size: 0.9rem;
-    margin-top: 4px;
-}
-
-.profile-interests-label {
-    font-weight: 700;
-    color: var(--dark-blue);
-}
-
-.profile-interest-pill {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 999px;
-    padding: 3px 10px;
-    color: var(--dark-blue);
-    font-weight: 600;
-}
-
-
-/* ==========================
-   Profile – Interests edit
+   Profile – Interests edit (checkbox chips)
 ========================== */
 
 .profile-edit-interests {
@@ -494,40 +486,6 @@
     color: var(--dark-blue);
     opacity: 0.8;
 }
-/* ==========================
-   Profile – Interests row
-========================== */
-
-.profile-interests-row {
-    display: flex;
-    align-items: center;      /* <-- keeps "Interests:" lined up with chips */
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
-}
-
-.profile-interests-label {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--dark-blue);
-    margin-right: 4px;
-}
-
-.profile-interests-chip {
-    display: inline-flex;     /* center text inside pill */
-    align-items: center;
-    justify-content: center;
-    padding: 3px 10px;
-    border-radius: 999px;
-    background: #ffffff;
-    color: var(--dark-blue);
-    font-size: 0.8rem;
-    font-weight: 600;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    white-space: nowrap;
-}
-
-
 
 /* ==========================
    Settings page
@@ -538,6 +496,7 @@
 }
 
 /* groups inside the card */
+
 .settings-group {
     margin-top: 10px;
     padding-top: 10px;
@@ -564,6 +523,7 @@
 }
 
 /* Change password row with hold-to-view button */
+
 .settings-password-row {
     align-items: flex-end;
 }
@@ -593,6 +553,7 @@
 }
 
 /* Actions row (right-aligned buttons) */
+
 .settings-actions {
     margin-top: 16px;
     display: flex;
@@ -600,6 +561,7 @@
 }
 
 /* Danger box for delete account */
+
 .settings-danger {
     margin-top: 24px;
     padding: 16px 14px;
@@ -627,7 +589,39 @@
     box-shadow: 0 4px 14px rgba(0,0,0,0.22);
 }
 
+/* ==========================
+   Responsive
+========================== */
+
 @media (max-width: 720px) {
+    .profile-hero-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-hero-text h1,
+    .profile-main-info h1 {
+        font-size: 2rem;
+    }
+
+    .profile-main-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .profile-actions {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        align-self: flex-start; /* don’t center vertically on small screens */
+    }
+
     .settings-section {
         max-width: 100%;
     }
