@@ -1,0 +1,296 @@
+/* ==========================
+   Profile – Hero
+========================== */
+
+.profile-hero {
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    color: var(--red);
+    padding: 40px 22px;
+    border-radius: 15px;
+    max-width: 1075px;
+    margin: 10px auto 25px auto;
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 10px var(--cream), 0 0 20px var(--cream);
+}
+
+.profile-hero-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 22px;
+    align-items: center;
+}
+
+.profile-avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--cream);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+}
+
+.profile-avatar span {
+    font-family: "Cubao", sans-serif;
+    font-size: 2.4rem;
+    color: var(--cream);
+}
+
+/* Main info wrapper */
+.profile-main-info {
+    flex: 1;
+}
+
+/* Row that holds text on left and buttons on right */
+.profile-main-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+/* Text block (name, chips, email, join date) */
+.profile-main-text {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Name */
+.profile-hero-text h1,
+.profile-main-info h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.3rem;
+    margin-bottom: 4px;
+}
+
+/* Primary meta line (level, faculty, year) */
+.profile-hero-meta,
+.profile-meta-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.profile-hero-meta span,
+.profile-meta-line span {
+    background: rgba(255,255,255,0.7);
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+/* Secondary meta line (email, join date) */
+.profile-hero-email,
+.profile-meta-secondary {
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+/* Buttons area (Edit + Settings) */
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    margin-top: 0;
+}
+
+/* Base button style */
+.profile-edit-btn,
+.profile-settings-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+/* Primary button: Edit profile */
+.profile-edit-btn {
+    background: var(--red);
+    color: var(--cream);
+    border: 2px solid var(--red);
+}
+
+.profile-edit-btn:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* Secondary button: Settings */
+.profile-settings-btn {
+    background: var(--red);
+    color: var(--cream);
+    border: 2px solid var(--red);
+}
+
+.profile-settings-btn:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* ==========================
+   Profile – Sections
+========================== */
+
+.profile-section {
+    max-width: 1075px;
+    margin: 0 auto 28px auto;
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    padding: 20px 18px;
+}
+
+.profile-section-header h2 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 1.9rem;
+    color: var(--red);
+    margin-bottom: 4px;
+}
+
+.profile-section-header p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+    margin-bottom: 14px;
+}
+
+/* Empty states */
+.profile-empty-state,
+.profile-empty {
+    font-size: 0.95rem;
+    color: var(--dark-blue);
+    text-align: left;
+}
+
+.profile-empty-state a,
+.profile-empty a {
+    color: var(--red);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.profile-empty-state a:hover,
+.profile-empty a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   Profile – Cards Grid
+========================== */
+
+.profile-cards-grid,
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.profile-card {
+    background: var(--cream);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+}
+
+.profile-card h3 {
+    font-family: "JosefinSans", sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--red);
+    margin-bottom: 2px;
+}
+
+.profile-card-meta {
+    font-size: 0.85rem;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+.profile-card-tag {
+    display: inline-block;
+    margin-top: 2px;
+    padding: 2px 8px;
+    font-size: 0.78rem;
+    border-radius: 999px;
+    background: var(--dark-blue);
+    color: var(--cream);
+    font-weight: 600;
+}
+
+/* Optional: special styling for "Free event" tag */
+.profile-card-tag-free {
+    background: var(--dark-blue);
+}
+
+.profile-card-text {
+    font-size: 0.9rem;
+    color: var(--dark-blue);
+    margin-top: 4px;
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media (max-width: 720px) {
+    .profile-hero-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-hero-text h1,
+    .profile-main-info h1 {
+        font-size: 2rem;
+    }
+
+    .profile-main-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .profile-actions {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+}
