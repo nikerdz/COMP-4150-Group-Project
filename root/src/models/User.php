@@ -18,7 +18,7 @@ class User
     public function register($data): bool
     {
         $sql = "INSERT INTO User 
-                (first_name, last_name, user_email, user_password, faculty, year_of_study)
+                (first_name, last_name, user_email, user_password, gender, faculty, level_of_study, year_of_study)
                 VALUES (?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->pdo->prepare($sql);
@@ -28,7 +28,9 @@ class User
             $data['last_name'],
             $data['email'],
             $data['password'],
+            $data['gender'],
             $data['faculty'],
+            $data['level_of_study'],
             $data['year_of_study']
         ]);
     }
