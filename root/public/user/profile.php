@@ -58,11 +58,23 @@ if ($genderUpper === 'F') {
     $avatarClass .= ' profile-avatar-male';
 }
 
-// Get upcoming events user registered for
+// Get upcoming events user registered for (max 6 from DB)
 $upcomingEvents = $eventModel->getUpcomingEventsForUser($userId, 6);
+$eventCount     = count($upcomingEvents);
 
-// Get clubs user is a member of
-$userClubs = $clubModel->getClubsForUser($userId);
+// Get clubs user is a member of (no limit from DB)
+$userClubs  = $clubModel->getClubsForUser($userId);
+$clubCount  = count($userClubs);
+
+// Limit how many we SHOW on profile
+$MAX_PROFILE_ITEMS = 3;
+
+$displayEvents = array_slice($upcomingEvents, 0, $MAX_PROFILE_ITEMS);
+$displayClubs  = array_slice($userClubs,      0, $MAX_PROFILE_ITEMS);
+
+// Show-more only if there are MORE than 3
+$hasMoreEvents = $eventCount > $MAX_PROFILE_ITEMS;
+$hasMoreClubs  = $clubCount  > $MAX_PROFILE_ITEMS;
 
 // ✅ Success message from profile_handle_update.php (session flash)
 $profileSuccess = $_SESSION['profile_success'] ?? null;
@@ -161,29 +173,55 @@ $interestNames = $userModel->getInterestNames($userId);
 
     <!-- Upcoming Events section -->
     <section class="profile-section">
-        <div class="profile-section-header">
-            <h2>Upcoming Events</h2>
-            <p>Events you’re registered for. Don’t miss out.</p>
+        <div class="profile-section-header profile-section-header-with-cta">
+            <div class="profile-section-header-main">
+                <h2>Upcoming Events</h2>
+                <p>Events you’re registered for. Don’t miss out.</p>
+            </div>
+            <a
+                class="profile-section-cta"
+                href="<?php echo USER_URL; ?>explore.php?view=events"
+            >
+                View all events
+            </a>
         </div>
 
-        <?php if (!empty($upcomingEvents)): ?>
+        <?php if (!empty($displayEvents)): ?>
             <div class="profile-grid">
-                <?php foreach ($upcomingEvents as $event): ?>
+                <?php foreach ($displayEvents as $event): ?>
                     <?php
-                        $eventName  = htmlspecialchars($event['event_name']);
-                        $clubName   = htmlspecialchars($event['club_name'] ?? '');
-                        $location   = htmlspecialchars($event['event_location'] ?? 'TBA');
-                        $eventDate  = !empty($event['event_date'])
+                        $eventId   = (int)$event['event_id'];
+                        $eventName = htmlspecialchars($event['event_name']);
+                        $clubId    = isset($event['club_id']) ? (int)$event['club_id'] : null;
+                        $clubName  = htmlspecialchars($event['club_name'] ?? '');
+                        $location  = htmlspecialchars($event['event_location'] ?? 'TBA');
+                        $eventDate = !empty($event['event_date'])
                             ? date('M j, Y · g:i A', strtotime($event['event_date']))
                             : 'Date TBA';
-                        $fee        = isset($event['event_fee']) ? (float)$event['event_fee'] : 0.0;
+                        $fee       = isset($event['event_fee']) ? (float)$event['event_fee'] : 0.0;
                     ?>
                     <article class="profile-card">
-                        <h3><?php echo $eventName; ?></h3>
+                        <h3>
+                            <a href="<?php echo PUBLIC_URL . 'event/view-event.php?id=' . $eventId; ?>">
+                                <?php echo $eventName; ?>
+                            </a>
+                        </h3>
+
                         <?php if ($clubName): ?>
-                            <p class="profile-card-meta"><?php echo $clubName; ?></p>
+                            <p class="profile-card-meta">
+                                <?php if ($clubId): ?>
+                                    <a href="<?php echo PUBLIC_URL . 'club/view-club.php?id=' . $clubId; ?>">
+                                        <?php echo $clubName; ?>
+                                    </a>
+                                <?php else: ?>
+                                    <?php echo $clubName; ?>
+                                <?php endif; ?>
+                            </p>
                         <?php endif; ?>
-                        <p class="profile-card-meta"><?php echo $eventDate; ?> · <?php echo $location; ?></p>
+
+                        <p class="profile-card-meta">
+                            <?php echo htmlspecialchars($eventDate); ?> · <?php echo $location; ?>
+                        </p>
 
                         <?php if ($fee > 0): ?>
                             <p class="profile-card-tag">Paid event · $<?php echo number_format($fee, 2); ?></p>
@@ -193,36 +231,58 @@ $interestNames = $userModel->getInterestNames($userId);
                     </article>
                 <?php endforeach; ?>
             </div>
+
+            <?php if ($hasMoreEvents): ?>
+                <div class="profile-section-more">
+                    <a class="profile-more-btn" href="<?php echo EVENT_URL; ?>user-events.php">
+                        Show more
+                    </a>
+                </div>
+            <?php endif; ?>
+
         <?php else: ?>
             <p class="profile-empty">
                 You aren’t registered for any upcoming events yet.
-                <a href="<?php echo USER_URL; ?>explore.php">Explore events</a>
+                <a href="<?php echo USER_URL; ?>explore.php?view=events">Explore events</a>
             </p>
         <?php endif; ?>
     </section>
 
     <!-- Clubs section -->
     <section class="profile-section">
-        <div class="profile-section-header">
-            <h2>Your Clubs</h2>
-            <p>Clubs you’re a member of on campus.</p>
+        <div class="profile-section-header profile-section-header-with-cta">
+            <div class="profile-section-header-main">
+                <h2>Your Clubs</h2>
+                <p>Clubs you’re a member of on campus.</p>
+            </div>
+            <a
+                class="profile-section-cta"
+                href="<?php echo USER_URL; ?>explore.php?view=clubs"
+            >
+                View all clubs
+            </a>
         </div>
 
-        <?php if (!empty($userClubs)): ?>
+        <?php if (!empty($displayClubs)): ?>
             <div class="profile-grid">
-                <?php foreach ($userClubs as $club): ?>
+                <?php foreach ($displayClubs as $club): ?>
                     <?php
-                        $clubName       = htmlspecialchars($club['club_name']);
-                        $clubDesc       = htmlspecialchars($club['club_description'] ?? 'No description yet.');
+                        $clubId        = (int)$club['club_id'];
+                        $clubName      = htmlspecialchars($club['club_name']);
+                        $clubDesc      = htmlspecialchars($club['club_description'] ?? 'No description yet.');
                         $membershipDate = !empty($club['membership_date'])
                             ? date('M j, Y', strtotime($club['membership_date']))
                             : null;
-                        $categories     = !empty($club['categories'])
+                        $categories    = !empty($club['categories'])
                             ? explode(',', $club['categories'])
                             : [];
                     ?>
                     <article class="profile-card">
-                        <h3><?php echo $clubName; ?></h3>
+                        <h3>
+                            <a href="<?php echo PUBLIC_URL . 'club/view-club.php?id=' . $clubId; ?>">
+                                <?php echo $clubName; ?>
+                            </a>
+                        </h3>
 
                         <?php if (!empty($categories)): ?>
                             <p class="profile-card-tag">
@@ -240,10 +300,19 @@ $interestNames = $userModel->getInterestNames($userId);
                     </article>
                 <?php endforeach; ?>
             </div>
+
+            <?php if ($hasMoreClubs): ?>
+                <div class="profile-section-more">
+                    <a class="profile-more-btn" href="<?php echo CLUB_URL; ?>user-clubs.php">
+                        Show more
+                    </a>
+                </div>
+            <?php endif; ?>
+
         <?php else: ?>
             <p class="profile-empty">
                 You’re not a member of any clubs yet.
-                <a href="<?php echo USER_URL; ?>explore.php">Find a club to join</a>
+                <a href="<?php echo USER_URL; ?>explore.php?view=clubs">Find a club to join</a>
             </p>
         <?php endif; ?>
     </section>

@@ -14,7 +14,7 @@
 
 /* Make dash cards fixed-width so they overflow in the carousel */
 .dash-card {
-    flex: 0 0 auto;          /* do NOT shrink, width comes from min/max below */
+    flex: 0 0 auto;
     min-width: 260px;
     max-width: 280px;
 }
@@ -37,7 +37,10 @@
     margin-bottom: 2px;
 }
 
-/* Make links in headings look consistent on ALL card types */
+/* ==========================
+   Heading links – normal + visited
+   ========================== */
+
 .explore-card h3 a,
 .dash-card h3 a,
 .profile-card h3 a {
@@ -46,9 +49,48 @@
     transition: color 0.2s;
 }
 
+.explore-card h3 a:visited,
+.dash-card h3 a:visited,
+.profile-card h3 a:visited {
+    color: var(--dark-blue); /* same as normal, no purple */
+}
+
+/* Hover / active (including visited+hover) */
 .explore-card h3 a:hover,
 .dash-card h3 a:hover,
-.profile-card h3 a:hover {
+.profile-card h3 a:hover,
+.explore-card h3 a:visited:hover,
+.dash-card h3 a:visited:hover,
+.profile-card h3 a:visited:hover,
+.explore-card h3 a:active,
+.dash-card h3 a:active,
+.profile-card h3 a:active,
+.explore-card h3 a:visited:active,
+.dash-card h3 a:visited:active,
+.profile-card h3 a:visited:active {
+    color: var(--red);
+}
+
+/* ==========================
+   Club name links inside meta
+   (e.g. profile upcoming events)
+   ========================== */
+
+.profile-card-meta a {
+    text-decoration: none;
+    color: var(--dark-blue);
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.profile-card-meta a:visited {
+    color: var(--dark-blue);
+}
+
+.profile-card-meta a:hover,
+.profile-card-meta a:visited:hover,
+.profile-card-meta a:active,
+.profile-card-meta a:visited:active {
     color: var(--red);
 }
 
