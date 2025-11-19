@@ -124,46 +124,6 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
         </div>
     </section>
 
-    <!-- Upcoming Events -->
-    <section class="dashboard-section">
-        <div class="dashboard-section-header">
-            <h2>Upcoming Events</h2>
-            <p>Events from clubs you&rsquo;re a member of. Starred items are ones you&rsquo;re registered for.</p>
-        </div>
-
-        <div class="dashboard-carousel" data-carousel>
-            <button
-                class="carousel-btn prev"
-                type="button"
-                aria-label="Previous"
-            >‹</button>
-
-            <div class="dash-track-wrapper">
-                <div class="dashboard-carousel-track">
-                    <?php if (!empty($upcomingEvents)): ?>
-                        <?php foreach ($upcomingEvents as $event): ?>
-                            <?php
-                                // Use dash-card style inside the dashboard carousel
-                                $cardContext = 'dashboard';
-                                $hiddenClass = '';
-                                include(LAYOUT_PATH . 'event-card.php');
-                            ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p class="explore-empty-text">No upcoming events.</p>
-                    <?php endif; ?>
-
-                </div>
-            </div>
-
-            <button
-                class="carousel-btn next"
-                type="button"
-                aria-label="Next"
-            >›</button>
-        </div>
-    </section>
-
     <!-- Recommended Clubs -->
     <section class="dashboard-section">
         <div class="dashboard-section-header">

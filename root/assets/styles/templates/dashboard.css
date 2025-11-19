@@ -152,9 +152,11 @@
     font-size: 2rem;
     color: var(--red);
     margin-bottom: 4px;
+    text-align: center;
 }
 
 .dashboard-section-header p {
+    text-align: center;
     font-family: "JosefinSans", sans-serif;
     font-size: 0.98rem;
     color: var(--dark-blue);
