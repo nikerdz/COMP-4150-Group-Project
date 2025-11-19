@@ -173,6 +173,29 @@
     background: var(--dark-blue);
 }
 
+/* ==========================
+   Profile page – keep cards
+   from stretching full width
+   when there are only 1–2
+========================== */
+
+.profile-grid .explore-card,
+.profile-grid .dash-card,
+.profile-grid .profile-card {
+    max-width: 360px;      /* cap width so a single card isn't huge */
+    width: 100%;
+    justify-self: left;  /* center inside the grid column */
+}
+
+/* On very small screens, let them use full width again */
+@media (max-width: 600px) {
+    .profile-grid .explore-card,
+    .profile-grid .dash-card,
+    .profile-grid .profile-card {
+        max-width: 100%;
+    }
+}
+
 /* Responsive tweaks for dash cards on small screens */
 @media (max-width: 900px) {
     .dash-card {
