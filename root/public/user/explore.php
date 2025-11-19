@@ -191,7 +191,11 @@ $totalItems    = count($items);
                     <article class="<?php echo $cardClass; ?>">
                         <?php if ($type === 'club'): ?>
                             <span class="explore-pill explore-pill-club">Club</span>
-                            <h3><?php echo htmlspecialchars($data['club_name']); ?></h3>
+                            <h3>
+                                <a href="<?php echo PUBLIC_URL . 'club/view-club.php?id=' . (int)$data['club_id']; ?>">
+                                    <?php echo htmlspecialchars($data['club_name']); ?>
+                                </a>
+                            </h3>
 
                             <?php if (!empty($data['categories'])): ?>
                                 <p class="explore-meta">
@@ -214,7 +218,11 @@ $totalItems    = count($items);
                         <?php else: ?>
                             <!-- Event card -->
                             <span class="explore-pill explore-pill-event">Event</span>
-                            <h3><?php echo htmlspecialchars($data['event_name']); ?></h3>
+                            <h3>
+                                <a href="<?php echo PUBLIC_URL . 'event/view-event.php?id=' . (int)$data['event_id']; ?>">
+                                    <?php echo htmlspecialchars($data['event_name']); ?>
+                                </a>
+                            </h3>
 
                             <p class="explore-meta">
                                 <?php echo htmlspecialchars($data['club_name']); ?>

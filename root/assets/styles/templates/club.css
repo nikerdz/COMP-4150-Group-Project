@@ -1,0 +1,29 @@
+/* ==========================
+   Club Page Styles
+========================== */
+.club-view-card {
+    background: var(--cream);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+    max-width: 850px;
+    margin: auto;
+}
+
+.club-view-card h1 {
+    color: var(--red);
+    font-family: "Cubao";
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+}
+
+.club-description {
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.club-categories {
+    margin-top: 10px;
+    color: var(--dark-blue);
+    font-size: 1.1rem;
+}

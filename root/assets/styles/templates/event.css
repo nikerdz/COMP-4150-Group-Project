@@ -1,0 +1,29 @@
+/* ==========================
+   Event Page Styles
+========================== */
+.event-view-card {
+    background: var(--cream);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+    max-width: 850px;
+    margin: auto;
+}
+
+.event-view-card h1 {
+    color: var(--dark-blue);
+    font-family: "Cubao";
+    font-size: 2.4rem;
+}
+
+.event-club {
+    color: var(--red);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.event-description {
+    margin: 20px 0;
+    line-height: 1.6;
+}
