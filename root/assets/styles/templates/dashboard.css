@@ -191,30 +191,6 @@
     display: none;
 }
 
-.dash-card {
-    min-width: 260px;
-    max-width: 320px;
-    flex: 0 0 auto;
-
-    background: var(--cream);
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
-    padding: 20px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.dash-card h3 {
-    font-family: "JosefinSans", sans-serif;
-    font-weight: bolder;
-    font-size: 1.2rem;
-    color: var(--red);
-    margin-bottom: 2px;
-}
-
 .dash-meta {
     font-size: 0.85rem;
     color: var(--dark-blue);
@@ -244,11 +220,6 @@
 .dash-tag-registered {
     background: var(--red);
     color: var(--cream);
-}
-
-.dash-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
 
 .carousel-btn {
@@ -304,12 +275,6 @@
 }
 
 @media (max-width: 600px) {
-    .dash-card {
-        min-width: 220px;
-        max-width: 260px;
-        padding: 18px 14px;
-    }
-
     .dashboard-section-header h2 {
         font-size: 1.7rem;
     }

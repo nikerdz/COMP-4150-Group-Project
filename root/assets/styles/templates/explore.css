@@ -202,52 +202,6 @@
     gap: 18px;
 }
 
-/* Card */
-
-.explore-card {
-    background: var(--cream);
-    border-radius: 12px;
-    padding: 18px 16px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.explore-card h3 {
-    font-family: "JosefinSans", sans-serif;
-    font-weight: 700;
-    font-size: 1.15rem;
-    color: var(--red);
-}
-
-.explore-card-meta {
-    font-size: 0.85rem;
-    color: var(--dark-blue);
-    font-weight: 600;
-}
-
-.explore-card-text {
-    font-size: 0.9rem;
-    color: var(--dark-blue);
-}
-
-.explore-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
-}
-
-.explore-card h3 a {
-    text-decoration: none;
-    color: var(--dark-blue);
-    transition: color 0.2s;
-}
-
-.explore-card h3 a:hover {
-    color: var(--red);
-}
-
 /* Tags */
 
 .explore-tag {
@@ -413,20 +367,6 @@
     gap: 18px;
 }
 
-.explore-card {
-    background: var(--cream);
-    border-radius: 12px;
-    padding: 18px 16px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.explore-card.is-hidden {
-    display: none;
-}
-
 .explore-pill {
     display: inline-block;
     font-size: 0.75rem;
@@ -444,11 +384,6 @@
 .explore-pill-event {
     background: var(--red);
     color: var(--cream);
-}
-
-.explore-card h3 {
-    font-size: 1.15rem;
-    color: var(--red);
 }
 
 .explore-meta {

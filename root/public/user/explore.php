@@ -182,79 +182,16 @@ $totalItems    = count($items);
             <div class="explore-grid" id="exploreGrid">
                 <?php foreach ($items as $index => $item): ?>
                     <?php
-                    $isHidden = $index >= $VISIBLE_COUNT;
-                    $cardClass = 'explore-card' . ($isHidden ? ' is-hidden' : '');
-                    $type = $item['type'];
-                    $data = $item['data'];
+                        $isHidden = $index >= $VISIBLE_COUNT;
+                        $type = $item['type'];
+                        $data = $item['data'];
                     ?>
 
-                    <article class="<?php echo $cardClass; ?>">
-                        <?php if ($type === 'club'): ?>
-                            <h3>
-                                <a href="<?php echo PUBLIC_URL . 'club/view-club.php?id=' . (int)$data['club_id']; ?>">
-                                    <?php echo htmlspecialchars($data['club_name']); ?>
-                                </a>
-                            </h3>
-
-                            <span class="explore-pill explore-pill-club">Club</span>
-
-                            <?php if (!empty($data['categories'])): ?>
-                                <p class="explore-meta">
-                                    <?php echo htmlspecialchars($data['categories']); ?>
-                                </p>
-                            <?php endif; ?>
-
-                            <p class="explore-text">
-                                <?php
-                                echo htmlspecialchars(
-                                    $data['club_description'] ?: 'No description has been added yet.'
-                                );
-                                ?>
-                            </p>
-
-                            <p class="explore-meta-small">
-                                Access: <?php echo htmlspecialchars(prettyCondition($data['club_condition'] ?? null)); ?>
-                            </p>
-
-                        <?php else: ?>
-                            <!-- Event card -->
-                            <h3>
-                                <a href="<?php echo PUBLIC_URL . 'event/view-event.php?id=' . (int)$data['event_id']; ?>">
-                                    <?php echo htmlspecialchars($data['event_name']); ?>
-                                </a>
-                            </h3>
-
-                            <span class="explore-pill explore-pill-event">Event</span>
-
-                            <p class="explore-meta">
-                                <?php echo htmlspecialchars($data['club_name']); ?>
-                            </p>
-
-                            <p class="explore-meta-small">
-                                <?php
-                                if (!empty($data['event_date'])) {
-                                    $dt = date('M j, Y · g:i A', strtotime($data['event_date']));
-                                    echo htmlspecialchars($dt);
-                                }
-                                ?>
-                                <?php if (!empty($data['event_location'])): ?>
-                                    · <?php echo htmlspecialchars($data['event_location']); ?>
-                                <?php endif; ?>
-                            </p>
-
-                            <p class="explore-text">
-                                <?php
-                                echo htmlspecialchars(
-                                    $data['event_description'] ?: 'No description has been added yet.'
-                                );
-                                ?>
-                            </p>
-
-                            <p class="explore-meta-small">
-                                Access: <?php echo htmlspecialchars(prettyCondition($data['event_condition'] ?? null)); ?>
-                            </p>
-                        <?php endif; ?>
-                    </article>
+                    <?php if ($type === 'club'): ?>
+                        <?php $club = $data; $hiddenClass = $isHidden ? 'is-hidden' : ''; include LAYOUT_PATH . 'club-card.php'; ?>
+                    <?php else: ?>
+                        <?php $event = $data; $hiddenClass = $isHidden ? 'is-hidden' : ''; include LAYOUT_PATH . 'event-card.php'; ?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </div>
 

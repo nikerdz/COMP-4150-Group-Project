@@ -1,0 +1,95 @@
+/* Card base styles */
+.explore-card,
+.dash-card,
+.profile-card {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 18px 16px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.explore-card:hover,
+.dash-card:hover,
+.profile-card:hover {
+    transform: translateY(-5px); /* or -4px for profile, can standardize */
+    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+}
+
+/* Card headings */
+.explore-card h3,
+.dash-card h3,
+.profile-card h3 {
+    font-family: "JosefinSans", sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem; /* adjust per context if needed */
+    color: var(--red);
+    margin-bottom: 2px;
+}
+
+.explore-card h3 a {
+    text-decoration: none;
+    color: var(--dark-blue);
+    transition: color 0.2s;
+}
+
+.explore-card h3 a:hover {
+    color: var(--red);
+}
+
+/* Card meta and text */
+.explore-card-meta,
+.dash-meta,
+.profile-card-meta {
+    font-size: 0.85rem;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+.explore-card-text,
+.dash-text,
+.profile-card-text {
+    font-size: 0.9rem;
+    color: var(--dark-blue);
+}
+
+/* Tags and pills */
+.explore-tag,
+.profile-card-tag,
+.dash-tag,
+.dash-tag-registered {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.explore-tag,
+.dash-tag,
+.profile-card-tag {
+    background: var(--dark-blue);
+    color: var(--cream);
+}
+
+.dash-tag-registered {
+    background: var(--red);
+    color: var(--cream);
+}
+
+/* Optional special case for profile free tag */
+.profile-card-tag-free {
+    background: var(--dark-blue);
+}
+
+@media (max-width: 600px) {
+    .dash-card {
+        min-width: 220px;
+        max-width: 260px;
+        padding: 18px 14px;
+    }
+}
