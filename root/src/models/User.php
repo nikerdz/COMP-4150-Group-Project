@@ -13,13 +13,13 @@ class User
     }
 
     /* --------------------------
-       Register a new user
-       -------------------------- */
-    public function register($data): bool
+    Register a new user
+    -------------------------- */
+    public function register(array $data): bool
     {
         $sql = "INSERT INTO User 
                 (first_name, last_name, user_email, user_password, gender, faculty, level_of_study, year_of_study)
-                VALUES (?, ?, ?, ?, ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->pdo->prepare($sql);
 
@@ -31,9 +31,10 @@ class User
             $data['gender'],
             $data['faculty'],
             $data['level_of_study'],
-            $data['year_of_study']
+            $data['year_of_study'] ?? null
         ]);
     }
+
 
     /* --------------------------
          Find user by email
