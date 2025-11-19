@@ -72,10 +72,12 @@
 }
 
 /* ==========================
-   Club name links inside meta
-   (e.g. profile upcoming events)
+   Meta links (club names etc.)
+   Used in explore-meta, dash-meta, profile-card-meta
    ========================== */
 
+.explore-meta a,
+.dash-meta a,
 .profile-card-meta a {
     text-decoration: none;
     color: var(--dark-blue);
@@ -83,13 +85,23 @@
     transition: color 0.2s;
 }
 
+.explore-meta a:visited,
+.dash-meta a:visited,
 .profile-card-meta a:visited {
-    color: var(--dark-blue);
+    color: var(--dark-blue); /* no purple after click */
 }
 
+.explore-meta a:hover,
+.dash-meta a:hover,
 .profile-card-meta a:hover,
+.explore-meta a:visited:hover,
+.dash-meta a:visited:hover,
 .profile-card-meta a:visited:hover,
+.explore-meta a:active,
+.dash-meta a:active,
 .profile-card-meta a:active,
+.explore-meta a:visited:active,
+.dash-meta a:visited:active,
 .profile-card-meta a:visited:active {
     color: var(--red);
 }

@@ -20,6 +20,10 @@ $classes = $baseClass;
 if (!empty($hiddenClass)) {
     $classes .= ' ' . $hiddenClass;
 }
+
+// Club helper vars
+$clubName = $event['club_name'] ?? '';
+$clubId   = isset($event['club_id']) ? (int)$event['club_id'] : null;
 ?>
 <article class="<?php echo $classes; ?>">
     <h3>
@@ -30,9 +34,17 @@ if (!empty($hiddenClass)) {
 
     <span class="explore-pill explore-pill-event">Event</span>
 
-    <p class="explore-meta">
-        <?php echo htmlspecialchars($event['club_name']); ?>
-    </p>
+    <?php if (!empty($clubName)): ?>
+        <p class="explore-meta">
+            <?php if (!empty($clubId)): ?>
+                <a href="<?php echo PUBLIC_URL . 'club/view-club.php?id=' . $clubId; ?>">
+                    <?php echo htmlspecialchars($clubName); ?>
+                </a>
+            <?php else: ?>
+                <?php echo htmlspecialchars($clubName); ?>
+            <?php endif; ?>
+        </p>
+    <?php endif; ?>
 
     <p class="explore-meta-small">
         <?php if (!empty($event['event_date'])): ?>
