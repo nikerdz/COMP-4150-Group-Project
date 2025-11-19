@@ -435,3 +435,35 @@
     color: var(--dark-blue);
     opacity: 0.8;
 }
+/* ==========================
+   Profile – Interests row
+========================== */
+
+.profile-interests-row {
+    display: flex;
+    align-items: center;      /* <-- keeps "Interests:" lined up with chips */
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.profile-interests-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-right: 4px;
+}
+
+.profile-interests-chip {
+    display: inline-flex;     /* center text inside pill */
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--dark-blue);
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    white-space: nowrap;
+}
