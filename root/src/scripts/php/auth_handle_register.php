@@ -22,7 +22,7 @@ function register_error_and_back(string $message): void {
 if (
     empty($_POST['first_name']) || empty($_POST['last_name']) ||
     empty($_POST['email']) || empty($_POST['password']) ||
-    empty($_POST['confirm_password'])
+    empty($_POST['confirm_password']) || empty($_POST['gender'])
 ) {
     register_error_and_back("Please fill in all required fields.");
 }
@@ -33,6 +33,7 @@ $last     = trim($_POST['last_name']);
 $email    = trim($_POST['email']);
 $pass     = $_POST['password'];
 $confirm  = $_POST['confirm_password'];
+$gender   = $_POST['gender'];
 $faculty  = $_POST['faculty']        ?? null;
 $year     = $_POST['year_of_study']  ?? null;
 
@@ -57,6 +58,7 @@ try {
         'last_name'      => $last,
         'email'          => $email,
         'password'       => $hashed,
+        'gender'         => $gender,
         'faculty'        => $faculty,
         'year_of_study'  => $year
     ]);
