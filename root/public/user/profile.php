@@ -200,7 +200,7 @@ $interestNames = $userModel->getInterestNames($userId);
                 class="profile-section-cta"
                 href="<?php echo USER_URL; ?>explore.php?view=clubs"
             >
-                View all clubs
+                Explore Clubs
             </a>
         </div>
 
@@ -229,7 +229,6 @@ $interestNames = $userModel->getInterestNames($userId);
         <?php else: ?>
             <p class="profile-empty">
                 You’re not a member of any clubs yet.
-                <a href="<?php echo USER_URL; ?>explore.php?view=clubs">Find a club to join</a>
             </p>
         <?php endif; ?>
     </section>
@@ -248,7 +247,7 @@ $interestNames = $userModel->getInterestNames($userId);
                 class="profile-section-cta"
                 href="<?php echo USER_URL; ?>explore.php?view=events"
             >
-                View all events
+                Explore Events
             </a>
         </div>
 
@@ -277,7 +276,6 @@ $interestNames = $userModel->getInterestNames($userId);
         <?php else: ?>
             <p class="profile-empty">
                 You aren’t registered for any upcoming events yet.
-                <a href="<?php echo USER_URL; ?>explore.php?view=events">Explore events</a>
             </p>
         <?php endif; ?>
     </section>

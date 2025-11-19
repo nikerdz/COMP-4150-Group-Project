@@ -108,8 +108,9 @@
 .quicklink-label {
     margin-top: 8px;
     font-family: "JosefinSans", sans-serif;
+    font-weight: bold;
     font-size: 0.95rem;
-    color: var(--dark-blue);
+    color: var(--red);
 }
 
 /* Responsive tweaks */
