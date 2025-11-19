@@ -85,20 +85,18 @@ session_start();
                     </div>
                 </div>
 
-
                     <div class="auth-field">
                         <label for="year_of_study">Year of Study</label>
                         <input type="number" id="year_of_study" name="year_of_study" min="1" max="999999">
                     </div>
+                    
+                    <button type="submit" class="auth-btn">Create Account</button>
+
+                    <p class="auth-footer-text">
+                        Already have an account?
+                        <a href="<?php echo PUBLIC_URL; ?>login.php">Log in</a>
+                    </p>
                 </div>
-
-                <button type="submit" class="auth-btn">Create Account</button>
-
-                <p class="auth-footer-text">
-                    Already have an account?
-                    <a href="<?php echo PUBLIC_URL; ?>login.php">Log in</a>
-                </p>
-
             </form>
         </div>
     </section>
