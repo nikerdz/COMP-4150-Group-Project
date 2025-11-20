@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Club (
     club_email VARCHAR(100) UNIQUE,
     club_description TEXT,
     creation_date DATE DEFAULT (CURRENT_DATE),
-    club_condition ENUM('none', 'women_only', 'undergrad_only') DEFAULT 'none',
+    club_condition ENUM('none', 'women_only', 'undergrad_only', 'first_year_only') DEFAULT 'none',
     club_status ENUM('active', 'inactive') DEFAULT 'active'
 );
 

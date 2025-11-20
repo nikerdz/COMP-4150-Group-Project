@@ -39,7 +39,7 @@ class Membership
         // Check restrictions
         switch ($condition) {
             case 'women_only':
-                if (strtolower($data['gender']) !== 'female') {
+                if (($data['gender']) !== 'F') {
                     return false;
                 }
                 break;
