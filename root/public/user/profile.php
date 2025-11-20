@@ -210,7 +210,7 @@ $interestNames = $userModel->getInterestNames($userId);
                         class="profile-more-btn"
                         href="<?php echo CLUB_URL; ?>user-clubs.php"
                     >
-                        Show more clubs
+                        Show All Clubs
                     </a>
                 </div>
             <?php endif; ?>
@@ -222,7 +222,7 @@ $interestNames = $userModel->getInterestNames($userId);
     </section>
 
     <!-- ==============================
-         UPCOMING EVENTS (event-card.php)
+         Registered EVENTS (event-card.php)
     ============================== -->
     <section class="profile-section">
         <div class="profile-section-header-with-cta">
@@ -256,7 +256,7 @@ $interestNames = $userModel->getInterestNames($userId);
                         class="profile-more-btn"
                         href="<?php echo EVENT_URL; ?>user-events.php"
                     >
-                        Show more events
+                        Show All Events
                     </a>
                 </div>
             <?php endif; ?>

@@ -196,6 +196,18 @@
     margin-bottom: 10px;
 }
 
+.profile-section-header h2 {
+    text-align: center;
+    font-size: 2.6rem;
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    color: var(--red);
+}
+
+.profile-section-header p {
+    text-align: center;
+}
+
 .profile-section-header-main h2 {
     font-family: "Cubao", sans-serif;
     font-weight: lighter;
@@ -492,6 +504,19 @@
     max-width: 800px;
 }
 
+.settings-section h2 {
+    font-family: "Cubao", sans-serif;
+    font-size: 2.6rem;
+    color: var(--red);
+    font-weight: lighter;
+    text-align: center;
+}
+
+.settings-section p{
+    font-weight: bold;
+    text-align: center;
+}
+
 /* groups inside the card */
 
 .settings-group {
@@ -508,6 +533,7 @@
 
 .settings-group-title {
     font-family: "Cubao", sans-serif;
+    font-weight: lighter;
     font-size: 1.4rem;
     color: var(--red);
     margin-bottom: 4px;
@@ -517,6 +543,8 @@
     font-size: 0.95rem;
     color: var(--dark-blue);
     margin-bottom: 14px;
+    text-align: left !important;
+    font-weight: normal !important;
 }
 
 /* Change password row with hold-to-view button */
