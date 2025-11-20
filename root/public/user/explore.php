@@ -84,8 +84,9 @@ usort($items, function ($a, $b) {
 });
 
 // How many cards visible initially
-$VISIBLE_COUNT = 9;
+$VISIBLE_COUNT = 12;
 $totalItems    = count($items);
+
 ?>
 
 <!DOCTYPE html>
@@ -281,23 +282,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (grid && loadMore) {
         loadMore.addEventListener('click', () => {
-            const hidden = grid.querySelectorAll('.explore-card.is-hidden');
-            let count = 0;
+            // Find hidden cards in the grid
+            const hiddenCards = grid.querySelectorAll('.explore-card.is-hidden');
+            let revealed = 0;
 
-            hidden.forEach(card => {
-                if (count < 9) {
+            // Reveal up to 6 cards per click (2 rows of 3)
+            hiddenCards.forEach(card => {
+                if (revealed < 6) {
                     card.classList.remove('is-hidden');
-                    count++;
+                    revealed++;
                 }
             });
 
-            if (grid.querySelectorAll('.explore-card.is-hidden').length === 0) {
+            // If no hidden cards remain, hide the button
+            if (!grid.querySelector('.explore-card.is-hidden')) {
                 loadMore.style.display = 'none';
             }
         });
     }
 });
 </script>
+
 
 </body>
 </html>
