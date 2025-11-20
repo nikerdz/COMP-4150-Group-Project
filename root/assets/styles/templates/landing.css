@@ -260,10 +260,14 @@
     transition: 0.2s;
     margin-top: 20px;
     transition: 0.3s, transform 0.3s;
+    align-self: center;
+    width: fit-content;
+    transition: 0.3s ease;
 }
 
 .contact-form button:hover {
-    transform: scale(1.01);
+    transform: scale(1.1);
+    transition: 0.3s ease;
 }
 
 .contact-success {
