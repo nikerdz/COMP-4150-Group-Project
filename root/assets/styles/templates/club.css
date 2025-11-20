@@ -126,6 +126,21 @@
     margin-bottom: 10px;
 }
 
+.club-meta-secondary a {
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+    opacity: 0.9;
+    margin-bottom: 10px;
+    transition: 0.3s ease;
+    text-decoration: none;
+}
+
+.club-meta-secondary a:hover {
+    color: var(--red);
+    transition: 0.3s ease;
+}
+
+
 /* Buttons area (Edit + Settings) */
 .club-actions {
     display: flex;

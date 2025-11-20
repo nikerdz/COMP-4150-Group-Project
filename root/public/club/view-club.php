@@ -94,6 +94,15 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                             <strong>Restrictions:</strong> <?= htmlspecialchars(prettyCondition($club['club_condition'])); ?>
                         </p>
 
+                        <?php if (!empty($club['club_email'])): ?>
+                            <p class="club-meta-secondary">
+                                <strong>Contact:</strong> 
+                                <a href="mailto:<?= htmlspecialchars($club['club_email']) ?>">
+                                    <?= htmlspecialchars($club['club_email']) ?>
+                                </a>
+                            </p>
+                        <?php endif; ?>
+
                         <?php if ($userRole): ?>
                             <p class="club-meta-line">
                                 <span><strong>Your Role:</strong> <?= ucfirst($userRole) ?></span>
