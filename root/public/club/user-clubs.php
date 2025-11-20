@@ -87,7 +87,7 @@ $VISIBLE_COUNT = 6;
         <?php if ($totalClubs === 0): ?>
             <p class="user-clubs-empty">
                 You’re not a member of any clubs yet.
-                <a href="<?php echo USER_URL; ?>explore.php">Browse clubs on Explore</a>
+                <a href="<?php echo USER_URL; ?>explore.php?view=clubs">Browse clubs on Explore</a>
                 to find something that interests you.
             </p>
         <?php else: ?>

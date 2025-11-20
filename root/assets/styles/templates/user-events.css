@@ -1,0 +1,145 @@
+/* ==========================
+   My Events – Hero
+   ========================== */
+
+.user-events-hero {
+    max-width: 1075px;
+    margin: 10px auto 25px auto;
+    padding: 40px 24px;
+    border-radius: 15px;
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 10px var(--cream), 0 0 20px var(--cream);
+}
+
+.user-events-hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.user-events-hero-inner h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.4rem;
+    color: var(--red);
+    margin-bottom: 8px;
+}
+
+.user-events-hero-inner p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 1.0rem;
+    color: var(--dark-blue);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ==========================
+   My Events – Section & Grid
+   ========================== */
+
+.user-events-section {
+    max-width: 1075px;
+    margin: 0 auto 32px auto;
+    padding: 20px 18px 24px 18px;
+    border-radius: 12px;
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+}
+
+.user-events-header {
+    margin-bottom: 14px;
+}
+
+.user-events-header h2 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 1.9rem;
+    color: var(--red);
+    margin-bottom: 4px;
+}
+
+.user-events-header p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+}
+
+/* Grid of event cards – 3 per row on desktop, then 2, then 1 */
+
+.user-events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* Hide cards marked as is-hidden (for "Load more" logic) */
+.user-events-grid .is-hidden {
+    display: none;
+}
+
+/* Empty state */
+
+.user-events-empty {
+    font-size: 0.95rem;
+    color: var(--dark-blue);
+}
+
+.user-events-empty a {
+    color: var(--red);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.user-events-empty a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   Load More button
+   ========================== */
+
+.user-events-load-more-wrapper {
+    margin-top: 18px;
+    text-align: center;
+}
+
+.user-events-load-more {
+    display: inline-block;
+    padding: 9px 20px;
+    border-radius: 999px;
+    border: none;
+    background: var(--red);
+    color: var(--cream);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.user-events-load-more:hover {
+    background: var(--dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.22);
+}
+
+/* ==========================
+   Responsive
+   ========================== */
+
+@media (max-width: 900px) {
+    .user-events-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .user-events-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-events-hero-inner h1 {
+        font-size: 2rem;
+    }
+}
