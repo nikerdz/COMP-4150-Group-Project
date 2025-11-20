@@ -43,7 +43,7 @@ session_start();
             <p class="contact-error">Something went wrong. Please try again.</p>
         <?php endif; ?>
 
-        <form action="<?php echo PHP_URL; ?>scontact_handle_submit.php" method="POST" class="contact-form">
+        <form action="<?php echo PHP_URL; ?>contact_handle_submit.php" method="POST" class="contact-form">
             
             <label>Name</label>
             <input type="text" name="name" required>
