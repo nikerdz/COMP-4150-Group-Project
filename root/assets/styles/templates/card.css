@@ -1,4 +1,7 @@
-/* Card base styles */
+/* ==========================
+   Base card styles
+========================== */
+
 .explore-card,
 .dash-card,
 .profile-card {
@@ -12,13 +15,14 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Make dash cards fixed-width so they overflow in the carousel */
+/* Dash cards: fixed-ish width for carousels */
 .dash-card {
     flex: 0 0 auto;
     min-width: 260px;
     max-width: 280px;
 }
 
+/* Hover state */
 .explore-card:hover,
 .dash-card:hover,
 .profile-card:hover {
@@ -26,7 +30,10 @@
     box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
 
-/* Card headings */
+/* ==========================
+   Card headings & links
+========================== */
+
 .explore-card h3,
 .dash-card h3,
 .profile-card h3 {
@@ -36,10 +43,6 @@
     color: var(--red);
     margin-bottom: 2px;
 }
-
-/* ==========================
-   Heading links – normal + visited
-   ========================== */
 
 .explore-card h3 a,
 .dash-card h3 a,
@@ -55,7 +58,6 @@
     color: var(--dark-blue);
 }
 
-/* Hover / active (including visited+hover) */
 .explore-card h3 a:hover,
 .dash-card h3 a:hover,
 .profile-card h3 a:hover,
@@ -72,9 +74,8 @@
 }
 
 /* ==========================
-   Meta links (club names etc.)
-   Used in explore-meta, dash-meta, profile-card-meta
-   ========================== */
+   Meta links & text
+========================== */
 
 .explore-meta a,
 .dash-meta a,
@@ -120,6 +121,10 @@
     font-size: 0.9rem;
     color: var(--dark-blue);
 }
+
+/* ==========================
+   Tags & pills
+========================== */
 
 .explore-tag,
 .profile-card-tag,
@@ -172,53 +177,8 @@
 }
 
 /* ==========================
-   Profile page – cards layout
-   (same feel as dashboard cards)
-========================== */
-
-.profile-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: flex-start;
-}
-
-/* Every card inside profile-grid uses the SAME width */
-.profile-grid .explore-card,
-.profile-grid .dash-card,
-.profile-grid .profile-card {
-    flex: 0 0 280px;   /* base width similar to dash-card */
-    max-width: 280px;
-}
-
-/* On medium screens let them breathe a bit */
-@media (max-width: 900px) {
-    .profile-grid .explore-card,
-    .profile-grid .dash-card,
-    .profile-grid .profile-card {
-        flex: 1 1 240px;
-        max-width: 320px;
-    }
-}
-
-/* On very small screens, allow full width */
-@media (max-width: 600px) {
-    .profile-grid {
-        justify-content: center;
-    }
-
-    .profile-grid .explore-card,
-    .profile-grid .dash-card,
-    .profile-grid .profile-card {
-        flex: 1 1 100%;
-        max-width: 100%;
-    }
-}
-
-
-/* ==========================
    Role pills for club cards
-   ========================== */
+========================== */
 
 .explore-role-pill {
     display: inline-block;
@@ -245,3 +205,94 @@
     gap: 8px; /* space between Club + Role */
 }
 
+/* ==========================
+   Profile page – card grid
+   (keep cards from stretching)
+========================== */
+
+.profile-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+/* Fixed tile width on desktop */
+.profile-grid .explore-card,
+.profile-grid .dash-card,
+.profile-grid .profile-card {
+    flex: 0 0 280px;
+    max-width: 280px;
+}
+
+/* Medium screens – allow a bit more flexibility */
+@media (max-width: 900px) {
+    .profile-grid .explore-card,
+    .profile-grid .dash-card,
+    .profile-grid .profile-card {
+        flex: 1 1 240px;
+        max-width: 320px;
+    }
+}
+
+/* Small screens – stack nicely */
+@media (max-width: 600px) {
+    .profile-grid {
+        justify-content: center;
+    }
+
+    .profile-grid .explore-card,
+    .profile-grid .dash-card,
+    .profile-grid .profile-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+/* ==========================
+   Dashboard – dash card sizing
+   (carousel behaviour)
+========================== */
+
+@media (max-width: 900px) {
+    .dash-card {
+        min-width: 220px;
+        max-width: 240px;
+        padding: 18px 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dash-card {
+        min-width: 200px;
+        max-width: 220px;
+    }
+}
+
+/* ==========================
+   Club – cards grid
+   (used on view-club, etc.)
+========================== */
+
+.club-cards-grid,
+.club-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns on desktop */
+    gap: 18px;
+}
+
+/* Tablets: 2 columns */
+@media (max-width: 900px) {
+    .club-cards-grid,
+    .club-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Phones: 1 column */
+@media (max-width: 600px) {
+    .club-cards-grid,
+    .club-grid {
+        grid-template-columns: 1fr;
+    }
+}
