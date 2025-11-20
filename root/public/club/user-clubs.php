@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Helper used by club-card.php
+// Helper used by club-card.php (local copy so we don't need utils.php here)
 function prettyCondition(?string $cond): string
 {
     return match ($cond) {
@@ -35,7 +35,7 @@ $displayName = !empty($_SESSION['first_name'])
 $membershipModel = new Membership();
 
 // Fetch ALL clubs this user is in
-$userClubs = $membershipModel->getClubsForUser($userId);
+$userClubs  = $membershipModel->getClubsForUser($userId);
 $totalClubs = count($userClubs);
 
 // How many cards visible initially
@@ -80,8 +80,17 @@ $VISIBLE_COUNT = 6;
     <!-- Clubs list -->
     <section class="user-clubs-section">
         <div class="user-clubs-header">
-            <h2>Clubs you’ve joined</h2>
-            <p>Manage and revisit the communities you’re already part of.</p>
+            <div class="user-clubs-header-main">
+                <h2>Clubs you’ve joined</h2>
+                <p>Manage and revisit the communities you’re already part of.</p>
+            </div>
+
+            <a
+                href="<?php echo CLUB_URL; ?>add-club.php"
+                class="user-clubs-create-btn"
+            >
+                Create a club
+            </a>
         </div>
 
         <?php if ($totalClubs === 0): ?>
@@ -127,7 +136,7 @@ $VISIBLE_COUNT = 6;
 <!-- Inline JS just for "Load more" behaviour on this page -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const grid       = document.getElementById('userClubsGrid');
+    const grid        = document.getElementById('userClubsGrid');
     const loadMoreBtn = document.getElementById('userClubsLoadMore');
 
     if (!grid || !loadMoreBtn) return;
@@ -152,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-
 
 </body>
 </html>
