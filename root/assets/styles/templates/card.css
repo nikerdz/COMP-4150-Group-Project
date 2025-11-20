@@ -172,50 +172,49 @@
 }
 
 /* ==========================
-   Profile page – keep cards
-   from stretching full width
-   when there are only 1–2
+   Profile page – cards layout
+   (same feel as dashboard cards)
 ========================== */
 
 .profile-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, max-content));
-    justify-content: left;
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: flex-start;
 }
 
+/* Every card inside profile-grid uses the SAME width */
 .profile-grid .explore-card,
 .profile-grid .dash-card,
 .profile-grid .profile-card {
-    width: 100%;
-    max-width: 360px;
+    flex: 0 0 280px;   /* base width similar to dash-card */
+    max-width: 280px;
 }
 
-
-/* On very small screens, let them use full width again */
-@media (max-width: 600px) {
+/* On medium screens let them breathe a bit */
+@media (max-width: 900px) {
     .profile-grid .explore-card,
     .profile-grid .dash-card,
     .profile-grid .profile-card {
+        flex: 1 1 240px;
+        max-width: 320px;
+    }
+}
+
+/* On very small screens, allow full width */
+@media (max-width: 600px) {
+    .profile-grid {
+        justify-content: center;
+    }
+
+    .profile-grid .explore-card,
+    .profile-grid .dash-card,
+    .profile-grid .profile-card {
+        flex: 1 1 100%;
         max-width: 100%;
     }
 }
 
-/* Responsive tweaks for dash cards on small screens */
-@media (max-width: 900px) {
-    .dash-card {
-        min-width: 220px;
-        max-width: 240px;
-        padding: 18px 14px;
-    }
-}
-
-@media (max-width: 600px) {
-    .dash-card {
-        min-width: 200px;
-        max-width: 220px;
-    }
-}
 
 /* ==========================
    Role pills for club cards
