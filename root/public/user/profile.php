@@ -182,7 +182,6 @@ $interestNames = $userModel->getInterestNames($userId);
         <div class="profile-section-header-with-cta">
             <div class="profile-section-header-main">
                 <h2>Your Clubs</h2>
-                <p>Clubs you’re a member of.</p>
             </div>
 
             <a
@@ -229,7 +228,6 @@ $interestNames = $userModel->getInterestNames($userId);
         <div class="profile-section-header-with-cta">
             <div class="profile-section-header-main">
                 <h2>Upcoming Events</h2>
-                <p>Events you’re registered for.</p>
             </div>
 
             <a
