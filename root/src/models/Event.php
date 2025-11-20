@@ -107,5 +107,32 @@ class Event
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/* --------------------------
+   Create a new event
+   -------------------------- */
+public function createEvent(array $data): bool
+{
+    $stmt = $this->pdo->prepare("
+        INSERT INTO Event (
+            club_id, event_name, event_description, event_location, 
+            event_date, capacity, event_condition, event_fee
+        ) VALUES (
+            :club_id, :event_name, :event_description, :event_location, 
+            :event_date, :capacity, :event_condition, :event_fee
+        )
+    ");
+
+    return $stmt->execute([
+        ':club_id' => $data['club_id'],
+        ':event_name' => $data['event_name'],
+        ':event_description' => $data['event_description'] ?? null,
+        ':event_location' => $data['event_location'] ?? null,
+        ':event_date' => $data['event_date'],
+        ':capacity' => $data['capacity'] ?? null,
+        ':event_condition' => $data['event_condition'] ?? 'none',
+        ':event_fee' => $data['event_fee'] ?? 0.00
+    ]);
+}
+
 
 }
