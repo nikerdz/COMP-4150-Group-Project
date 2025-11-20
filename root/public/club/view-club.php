@@ -112,7 +112,7 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                     </div>
 
                     <div class="club-actions">
-                        <?php if ($userRole === 'exec'): ?>
+                        <?php if ($userRole === 'executive'): ?>
                             <a class="club-edit-btn" href="<?= CLUB_URL ?>edit-club.php?id=<?= $clubId ?>">Edit Club</a>
                         <?php elseif ($userRole === 'member'): ?>
                             <form method="post" action="<?= PHP_URL ?>club-handle-leave.php" style="display:inline;">
@@ -177,7 +177,7 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
         </div>
         <br>
         <div class="club-actions">
-            <?php if ($userRole === 'exec'): ?>
+            <?php if ($userRole === 'executive'): ?>
                 <a class="club-add-event-btn" href="<?= EVENT_URL ?>add-event.php?club_id=<?= $clubId ?>">Add Event</a>
             <?php endif; ?>
         </div>
