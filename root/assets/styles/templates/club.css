@@ -185,7 +185,7 @@
    Club – Sections
 ========================== */
 
-.club-section {
+.club-section {   
     max-width: 1075px;
     margin: 0 auto 28px auto;
     background: linear-gradient(to bottom, var(--cream), var(--light-blue));
@@ -614,3 +614,32 @@
     margin: 5px 0;
     font-weight: 500;
 }
+
+/* Add Event Button – same style as Edit Club */
+.club-add-event-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--cream);
+    background: var(--red);
+    border: 2px solid var(--red);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+    cursor: pointer;
+}
+
+.club-add-event-btn:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+

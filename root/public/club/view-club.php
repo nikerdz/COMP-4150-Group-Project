@@ -23,7 +23,8 @@ if (isset($_SESSION['user_id'])) {
     $membershipModel = new Membership();
     $membership = $membershipModel->getMembership($clubId, $_SESSION['user_id']);
     if ($membership) {
-        $userRole = $membership['role'];
+        // If role is anything other than 'member', treat as exec
+        $userRole = ($membership['role'] !== 'member') ? 'exec' : 'member';
     }
 }
 
@@ -128,7 +129,7 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
         <?php endif; ?>
     </section>
 
-    <!-- Club Upcoming Events Section -->
+    <!-- Club Events Section -->
     <section class="club-section">
         <div class="club-section-header">
             <h2>Events</h2>
@@ -163,6 +164,12 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                 </div>
             <?php else: ?>
                 <p class="club-empty">No past events.</p>
+            <?php endif; ?>
+        </div>
+        <br>
+        <div class="club-actions">
+            <?php if ($userRole === 'exec'): ?>
+                <a class="club-add-event-btn" href="<?= EVENT_URL ?>add-event.php?club_id=<?= $clubId ?>">Add Event</a>
             <?php endif; ?>
         </div>
     </section>
