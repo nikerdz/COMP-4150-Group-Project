@@ -177,13 +177,20 @@
    when there are only 1–2
 ========================== */
 
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, max-content));
+    justify-content: left;
+    gap: 20px;
+}
+
 .profile-grid .explore-card,
 .profile-grid .dash-card,
 .profile-grid .profile-card {
-    max-width: 360px;
     width: 100%;
-    justify-self: left;
+    max-width: 360px;
 }
+
 
 /* On very small screens, let them use full width again */
 @media (max-width: 600px) {
