@@ -127,17 +127,19 @@ $VISIBLE_COUNT = 6;
 <!-- Inline JS just for "Load more" behaviour on this page -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const grid = document.getElementById('userClubsGrid');
+    const grid       = document.getElementById('userClubsGrid');
     const loadMoreBtn = document.getElementById('userClubsLoadMore');
 
     if (!grid || !loadMoreBtn) return;
+
+    const CARDS_PER_CLICK = 3; // show 1 row (3 cards) each time
 
     loadMoreBtn.addEventListener('click', function () {
         const hiddenCards = grid.querySelectorAll('.explore-card.is-hidden');
         let revealed = 0;
 
         hiddenCards.forEach(card => {
-            if (revealed < 6) {
+            if (revealed < CARDS_PER_CLICK) {
                 card.classList.remove('is-hidden');
                 revealed++;
             }
@@ -150,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 
 </body>
 </html>
