@@ -194,3 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize dashboard carousels (if present on this page)
     setupDashboardCarousels();
 });
+
+// ==========================
+// Event tabs (upcoming / past)
+// ==========================
+
+document.querySelectorAll(".event-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+        document.querySelectorAll(".event-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        const target = tab.dataset.tab;
+
+        document.getElementById("tab-upcoming").style.display = "none";
+        document.getElementById("tab-past").style.display = "none";
+
+        document.getElementById("tab-" + target).style.display = "block";
+    });
+});
+

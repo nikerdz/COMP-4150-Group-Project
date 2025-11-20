@@ -5,7 +5,7 @@ join club
 leave club
 check membership
 get clubs user belongs to
- */
+*/
 
 class Membership
 {
@@ -61,9 +61,8 @@ class Membership
     -------------------------- */
     public function getMembership(int $clubId, int $userId): ?array
     {
-        // Check if user is an exec
         $stmt = $this->pdo->prepare("
-            SELECT m.user_id, m.club_id, 
+            SELECT m.user_id, m.club_id, m.membership_date,
                    COALESCE(e.executive_role, 'member') AS role
             FROM Membership m
             LEFT JOIN Executive e 
@@ -82,13 +81,14 @@ class Membership
 
     /* --------------------------
        Get all members of a club
-       Returns array of users with their role (member/exec)
+       Returns array of users with their role (member/exec) and join date
     -------------------------- */
     public function getClubMembers(int $clubId): array
     {
         $stmt = $this->pdo->prepare("
             SELECT u.user_id, u.first_name, u.last_name, 
-                   COALESCE(e.executive_role, 'member') AS role
+                   COALESCE(e.executive_role, 'member') AS role,
+                   m.membership_date
             FROM Membership m
             JOIN User u ON m.user_id = u.user_id
             LEFT JOIN Executive e 

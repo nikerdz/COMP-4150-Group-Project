@@ -55,22 +55,13 @@
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    background: var(--dark-blue);
+    background: var(--light-blue);
     display: flex;
     align-items: center;
     justify-content: center;
     border: 3px solid var(--cream);
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     flex-shrink: 0;
-}
-
-/* Avatar colour by gender */
-.club-avatar.club-avatar-male {
-    background: var(--dark-blue);
-}
-
-.club-avatar.club-avatar-female {
-    background: #e95c9d;
 }
 
 .club-avatar span {
@@ -523,3 +514,83 @@
     font-family: inherit;
 }
 
+.event-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.event-tab {
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--dark-blue);
+    color: var(--cream);
+    border: 2px solid var(--dark-blue);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background .2s, transform .2s;
+}
+
+.event-tab:hover {
+    background: var(--red);
+    border-color: var(--red);
+    transform: translateY(-2px);
+}
+
+.event-tab.active {
+    background: var(--red);
+    border-color: var(--red);
+}
+
+.member-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.member-item {
+    background: var(--cream);
+    padding: 12px 18px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e6e6e6;
+    transition: 0.2s ease-in-out;
+}
+
+.member-bubbles {
+    display: flex;
+    gap: 10px; /* spacing between bubbles */
+}
+
+.member-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.member-name {
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+.member-role {
+    background: var(--light-blue);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--dark-blue);
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.member-join-bubble {
+    background: var(--light-blue);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--dark-blue);
+    white-space: nowrap;
+}

@@ -1,5 +1,6 @@
 <?php
 require_once('../../src/config/constants.php');
+require_once('../../src/config/utils.php');
 require_once(MODELS_PATH . 'Club.php');
 require_once(MODELS_PATH . 'Membership.php');
 require_once(MODELS_PATH . 'Event.php');
@@ -89,12 +90,13 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
 
                         <p class="club-meta-secondary">
                             <strong>Founded:</strong> <?= htmlspecialchars($club['creation_date']); ?> ·
-                            <strong>Restrictions:</strong> <?= htmlspecialchars($club['club_condition']); ?>
+                            <strong>Restrictions:</strong> <?= htmlspecialchars(prettyCondition($club['club_condition'])); ?>
                         </p>
 
                         <?php if ($userRole): ?>
                             <p class="club-meta-line">
                                 <span><strong>Your Role:</strong> <?= ucfirst($userRole) ?></span>
+                                <span class="member-join-bubble"><strong>Joined:</strong> <?= date('M d, Y', strtotime($membership['membership_date'])) ?></span>
                             </p>
                         <?php endif; ?>
                     </div>
@@ -108,7 +110,7 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                                 <button class="club-edit-save" type="submit">Leave Club</button>
                             </form>
                         <?php else: ?>
-                            <form method="post" action="<?= CLUB_URL ?>join.php" style="display:inline;">
+                            <form method="post" action="<?= PHP_URL ?>club-handle-join.php" style="display:inline;">
                                 <input type="hidden" name="club_id" value="<?= $clubId ?>">
                                 <button class="club-edit-save" type="submit">Join Club</button>
                             </form>
@@ -122,43 +124,70 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
     <!-- Club Upcoming Events Section -->
     <section class="club-section">
         <div class="club-section-header">
-            <h2>Upcoming Events</h2>
+            <h2>Events</h2>
         </div>
 
-        <?php if (!empty($upcomingEvents)): ?>
-            <div class="club-cards-grid">
-                <?php foreach ($upcomingEvents as $event): ?>
-                    <div class="club-interest-chip">
-                        <strong><?= htmlspecialchars($event['event_name']); ?></strong><br>
-                        <?= date('M d, Y', strtotime($event['event_date'])); ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <p class="club-empty">No upcoming events.</p>
-        <?php endif; ?>
+        <!-- TABS -->
+        <div class="event-tabs">
+            <button class="event-tab active" data-tab="upcoming">Upcoming</button>
+            <button class="event-tab" data-tab="past">Past</button>
+        </div>
+
+        <!-- UPCOMING TAB CONTENT -->
+        <div class="event-tab-content" id="tab-upcoming" style="display:block;">
+            <?php if (!empty($upcomingEvents)): ?>
+                <div class="club-cards-grid">
+                    <?php foreach ($upcomingEvents as $event): ?>
+                        <?php include(LAYOUT_PATH . 'event-card.php'); ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p class="club-empty">No upcoming events.</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- PAST TAB CONTENT -->
+        <div class="event-tab-content" id="tab-past" style="display:none;">
+            <?php if (!empty($pastEvents)): ?>
+                <div class="club-cards-grid">
+                    <?php foreach ($pastEvents as $event): ?>
+                        <?php include(LAYOUT_PATH . 'event-card.php'); ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p class="club-empty">No past events.</p>
+            <?php endif; ?>
+        </div>
     </section>
 
-        <!-- Club Members Section -->
+    <!-- Club Members Section -->
     <section class="club-section">
         <div class="club-section-header">
-            <h2>Club Members</h2>
-            <p>All members of <?= htmlspecialchars($club['club_name']); ?>.</p>
+            <h2>Members</h2>
         </div>
 
         <?php if (!empty($members)): ?>
-            <div class="club-grid">
+            <div class="member-list">
                 <?php foreach ($members as $member): ?>
-                    <div class="club-interest-chip">
-                        <?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?>
-                        <?php if ($member['role'] === 'exec'): ?>
-                            <span style="font-size:0.7rem; color: var(--red);">Exec</span>
-                        <?php endif; ?>
+                    <div class="member-item">
+                        <span class="member-name">
+                            <?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?>
+                        </span>
+
+                        <div class="member-bubbles">
+                            <span class="member-role">
+                                <?= ucfirst($member['role']) ?>
+                            </span>
+
+                            <span class="member-join-bubble">
+                                Joined: <?= date('M d, Y', strtotime($member['membership_date'])) ?>
+                            </span>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <p class="club-empty">No members yet.</p>
+            <p class="club-empty">No members found.</p>
         <?php endif; ?>
     </section>
 
