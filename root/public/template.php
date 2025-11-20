@@ -1,5 +1,6 @@
 <?php
 require_once('../src/config/constants.php');
+require_once('../src/config/utils.php');
 session_start();
 ?>
 

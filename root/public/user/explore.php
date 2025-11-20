@@ -1,5 +1,6 @@
 <?php
 require_once('../../src/config/constants.php');
+require_once('../../src/config/utils.php');
 require_once(MODELS_PATH . 'Club.php');
 require_once(MODELS_PATH . 'Event.php');
 
@@ -9,18 +10,6 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     header("Location: " . PUBLIC_URL . "login.php");
     exit();
-}
-
-// Helpers
-function prettyCondition(?string $cond): string
-{
-    return match ($cond) {
-        'women_only'      => 'Women only',
-        'undergrad_only'  => 'Undergraduates only',
-        'first_year_only' => 'First years only',
-        'none', null, ''  => 'Open to all',
-        default           => ucfirst(str_replace('_', ' ', $cond)),
-    };
 }
 
 // Models
