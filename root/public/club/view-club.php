@@ -7,6 +7,13 @@ require_once(MODELS_PATH . 'Event.php');
 
 session_start();
 
+// Success toast after creating a club
+$clubAddSuccess = $_SESSION['club_add_success'] ?? null;
+if ($clubAddSuccess !== null) {
+    $clubAddSuccess = htmlspecialchars($clubAddSuccess, ENT_QUOTES, 'UTF-8');
+}
+unset($_SESSION['club_add_success']);
+
 $clubId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $clubModel = new Club();
@@ -61,6 +68,11 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
 <main>
+    <?php if ($clubAddSuccess): ?>
+        <div class="auth-toast auth-toast-success">
+            <?php echo $clubAddSuccess; ?>
+        </div>
+    <?php endif; ?>
 
     <!-- Club Hero Section -->
     <section class="club-hero">
