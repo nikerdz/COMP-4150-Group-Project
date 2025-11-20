@@ -334,6 +334,10 @@
     box-sizing: border-box;
 }
 
+.auth-field label {
+    margin-top: 10px;
+}
+
 /* Actions row (cancel + save) */
 .club-edit-actions {
     margin-top: 18px;
@@ -342,6 +346,17 @@
     gap: 10px;
     align-items: center;
     flex-wrap: nowrap;
+}
+
+.auth-field textarea {
+  color: var(--dark-blue);
+  padding: 10px;
+  border: 2px solid var(--dark-blue);
+  border-radius: 10px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Normalize both buttons so they line up perfectly */
@@ -380,7 +395,16 @@
 
 /* Save button – uses auth-btn styling too */
 .club-edit-save {
+    background-color: var(--red);
+    border: var(--red);
+    color: var(--cream);
     padding: 8px 16px;
+    transition: 0.3s ease;
+}
+
+.club-edit-save:hover {
+    scale: 1.03;
+    transition: 0.3s ease;
 }
 
 

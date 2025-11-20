@@ -132,4 +132,85 @@ class Club
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/* --------------------------
+   Get category IDs for a club
+   -------------------------- */
+public function getClubCategoryIds(int $clubId): array
+{
+    $stmt = $this->pdo->prepare("
+        SELECT category_id
+        FROM Club_Tags
+        WHERE club_id = :id
+    ");
+    $stmt->execute([':id' => $clubId]);
+
+    return array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'category_id');
+}
+
+
+/* --------------------------
+   Update club information
+   -------------------------- */
+
+public function updateClub(int $clubId, array $data): bool
+{
+    try {
+        // Begin transaction
+        $this->pdo->beginTransaction();
+
+        // --------------------
+        // Update main club table
+        // --------------------
+        $sql = "
+            UPDATE Club
+            SET club_name = :name,
+                club_email = :email,
+                club_description = :description,
+                club_condition = :condition
+            WHERE club_id = :id
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':name'        => $data['club_name'],
+            ':email'       => $data['club_email'] ?? null,
+            ':description' => $data['club_description'] ?? null,
+            ':condition'   => $data['club_condition'] ?? 'none',
+            ':id'          => $clubId,
+        ]);
+
+        // --------------------
+        // Update tags
+        // --------------------
+        if (isset($data['tags']) && is_array($data['tags'])) {
+            // Delete old tags
+            $delStmt = $this->pdo->prepare("DELETE FROM Club_Tags WHERE club_id = :id");
+            $delStmt->execute([':id' => $clubId]);
+
+            // Insert new tags
+            if (!empty($data['tags'])) {
+                $insertStmt = $this->pdo->prepare("
+                    INSERT INTO Club_Tags (club_id, category_id) VALUES (:club_id, :cat_id)
+                ");
+                foreach ($data['tags'] as $catId) {
+                    $insertStmt->execute([
+                        ':club_id' => $clubId,
+                        ':cat_id'  => $catId,
+                    ]);
+                }
+            }
+        }
+
+        // Commit transaction
+        $this->pdo->commit();
+        return true;
+
+    } catch (PDOException $e) {
+        $this->pdo->rollBack();
+        error_log("Failed to update club: " . $e->getMessage());
+        return false;
+    }
+}
+
+
 }

@@ -218,6 +218,16 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
 
 </main>
 
+<?php if (!empty($_SESSION['toast_message'])): ?>
+    <div class="auth-toast auth-toast-success" id="clubToast">
+        <?= htmlspecialchars($_SESSION['toast_message']) ?>
+    </div>
+    <?php
+        // Clear flash after displaying
+        unset($_SESSION['toast_message'], $_SESSION['toast_type']);
+    ?>
+<?php endif; ?>
+
 
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>

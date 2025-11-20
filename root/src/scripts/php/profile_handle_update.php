@@ -64,7 +64,7 @@ try {
     // Clear any old errors
     unset($_SESSION['profile_error']);
 
-    // ✅ Flash success message for profile.php
+    // Flash success message for profile.php
     $_SESSION['profile_success'] = "Profile updated successfully.";
 
     // Redirect to profile (toast will show there)
