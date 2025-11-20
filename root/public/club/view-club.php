@@ -50,7 +50,7 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClubHub | <?= htmlspecialchars($pageTitle) ?></title>
+    <title>ClubHub | <?= htmlspecialchars($club['club_name']) ?></title>
 
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?= time(); ?>">
 </head>
@@ -105,7 +105,7 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                         <?php if ($userRole === 'exec'): ?>
                             <a class="club-edit-btn" href="<?= CLUB_URL ?>edit-club.php?id=<?= $clubId ?>">Edit Club</a>
                         <?php elseif ($userRole === 'member'): ?>
-                            <form method="post" action="<?= CLUB_URL ?>leave.php" style="display:inline;">
+                            <form method="post" action="<?= PHP_URL ?>club-handle-leave.php" style="display:inline;">
                                 <input type="hidden" name="club_id" value="<?= $clubId ?>">
                                 <button class="club-edit-save" type="submit">Leave Club</button>
                             </form>
@@ -119,6 +119,13 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                 </div>
             </div>
         </div>
+
+        <?php if (!empty($_SESSION['error'])): ?>
+            <div class="club-error-message">
+                <?= htmlspecialchars($_SESSION['error']) ?>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
     </section>
 
     <!-- Club Upcoming Events Section -->
@@ -171,7 +178,9 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                 <?php foreach ($members as $member): ?>
                     <div class="member-item">
                         <span class="member-name">
-                            <?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?>
+                            <a href="<?= PUBLIC_URL ?>user/view-user.php?id=<?= $member['user_id'] ?>">
+                                <?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?>
+                            </a>
                         </span>
 
                         <div class="member-bubbles">

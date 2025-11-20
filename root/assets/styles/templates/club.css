@@ -576,6 +576,18 @@
     color: var(--dark-blue);
 }
 
+.member-name a {
+    color: var(--dark-blue);
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.member-name a:hover {
+    color: var(--red);
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
 .member-role {
     background: var(--light-blue);
     padding: 6px 12px;
@@ -593,4 +605,12 @@
     font-size: 0.9rem;
     color: var(--dark-blue);
     white-space: nowrap;
+}
+
+.club-error-message {
+    text-align: center;
+    color: var(--red);
+    border-radius: 8px;
+    margin: 5px 0;
+    font-weight: 500;
 }

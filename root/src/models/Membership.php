@@ -19,6 +19,47 @@ class Membership
 
     public function join(int $userId, int $clubId): bool
     {
+        // Fetch user and club info
+        $stmt = $this->pdo->prepare("
+            SELECT u.gender, u.level_of_study, u.year_of_study, c.club_condition
+            FROM User u
+            CROSS JOIN Club c
+            WHERE u.user_id = :uid AND c.club_id = :cid
+            LIMIT 1
+        ");
+        $stmt->execute([':uid' => $userId, ':cid' => $clubId]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data) {
+            return false; // user or club not found
+        }
+
+        $condition = $data['club_condition'];
+
+        // Check restrictions
+        switch ($condition) {
+            case 'women_only':
+                if (strtolower($data['gender']) !== 'female') {
+                    return false;
+                }
+                break;
+            case 'undergrad_only':
+                if (strtolower($data['level_of_study']) !== 'undergraduate') {
+                    return false;
+                }
+                break;
+            case 'first_year_only':
+                if ((int)$data['year_of_study'] !== 1) {
+                    return false;
+                }
+                break;
+            case 'none':
+            default:
+                // No restriction
+                break;
+        }
+
+        // Insert membership
         $stmt = $this->pdo->prepare("
             INSERT INTO Membership (user_id, club_id)
             VALUES (:uid, :cid)
@@ -27,7 +68,7 @@ class Membership
         try {
             return $stmt->execute([':uid' => $userId, ':cid' => $clubId]);
         } catch (PDOException $e) {
-            return false; // Already joined
+            return false; // Already joined or DB error
         }
     }
 
