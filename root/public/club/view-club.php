@@ -24,7 +24,7 @@ if (isset($_SESSION['user_id'])) {
     $membership = $membershipModel->getMembership($clubId, $_SESSION['user_id']);
     if ($membership) {
         // If role is anything other than 'member', treat as exec
-        $userRole = ($membership['role'] !== 'member') ? 'exec' : 'member';
+        $userRole = ($membership['role'] !== 'member') ? 'executive' : 'member';
     }
 }
 
