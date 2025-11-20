@@ -1,6 +1,6 @@
 /* ==========================
    My Clubs – Hero
-   ========================== */
+========================== */
 
 .user-clubs-hero {
     max-width: 1075px;
@@ -36,7 +36,7 @@
 
 /* ==========================
    My Clubs – Section & Grid
-   ========================== */
+========================== */
 
 .user-clubs-section {
     max-width: 1075px;
@@ -47,11 +47,23 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.12);
 }
 
+/* Header: text on left, "Create a club" button on right */
+
 .user-clubs-header {
     margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
 }
 
-.user-clubs-header h2 {
+.user-clubs-header-main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.user-clubs-header-main h2 {
     font-family: "Cubao", sans-serif;
     font-weight: lighter;
     font-size: 1.9rem;
@@ -59,10 +71,35 @@
     margin-bottom: 4px;
 }
 
-.user-clubs-header p {
+.user-clubs-header-main p {
     font-family: "JosefinSans", sans-serif;
     font-size: 0.98rem;
     color: var(--dark-blue);
+}
+
+/* "Create a club" CTA button – consistent with other red pill buttons */
+
+.user-clubs-create-btn {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--red);
+    color: var(--cream);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.user-clubs-create-btn:hover {
+    background: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
 }
 
 /* Grid of club cards – 3 per row on desktop, then 2, then 1 */
@@ -97,7 +134,7 @@
 
 /* ==========================
    Load More button
-   ========================== */
+========================== */
 
 .user-clubs-load-more-wrapper {
     margin-top: 18px;
@@ -126,11 +163,18 @@
 
 /* ==========================
    Responsive
-   ========================== */
+========================== */
 
 @media (max-width: 900px) {
     .user-clubs-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .user-clubs-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
