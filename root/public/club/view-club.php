@@ -127,12 +127,12 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                         <?php if ($userRole === 'executive'): ?>
                             <a class="club-edit-btn" href="<?= CLUB_URL ?>edit-club.php?id=<?= $clubId ?>">Edit Club</a>
                         <?php elseif ($userRole === 'member'): ?>
-                            <form method="post" action="<?= PHP_URL ?>club-handle-leave.php" style="display:inline;">
+                            <form method="post" action="<?= PHP_URL ?>club_handle_leave.php" style="display:inline;">
                                 <input type="hidden" name="club_id" value="<?= $clubId ?>">
                                 <button class="club-edit-save" type="submit">Leave Club</button>
                             </form>
                         <?php else: ?>
-                            <form method="post" action="<?= PHP_URL ?>club-handle-join.php" style="display:inline;">
+                            <form method="post" action="<?= PHP_URL ?>club_handle_join.php" style="display:inline;">
                                 <input type="hidden" name="club_id" value="<?= $clubId ?>">
                                 <button class="club-edit-save" type="submit">Join Club</button>
                             </form>
