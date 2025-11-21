@@ -13,6 +13,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// Toast flash (delete club, errors, etc.)
+$toastMessage = $_SESSION['toast_message'] ?? null;
+$toastType    = $_SESSION['toast_type']    ?? null;
+unset($_SESSION['toast_message'], $_SESSION['toast_type']);
+
 $userId = (int)$_SESSION['user_id'];
 
 // Name for hero title (fallback to generic)
@@ -54,6 +59,12 @@ $VISIBLE_COUNT = 6;
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
 <main>
+
+    <?php if ($toastMessage): ?>
+        <div class="auth-toast <?php echo ($toastType === 'success') ? 'auth-toast-success' : ''; ?>">
+            <?php echo htmlspecialchars($toastMessage, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
+    <?php endif; ?>
 
     <!-- Hero -->
     <section class="user-clubs-hero">
