@@ -47,13 +47,13 @@ $members = $membershipModel->getClubMembers($clubId);
 // split into upcoming vs past
 // --------------------------------------
 
-// Get a reasonable batch of events, then filter by this club
+
 $allEvents = $eventModel->searchEvents(
-    null,   // no search term
-    null,   // no category filter
-    null,   // no condition filter
-    100,    // limit
-    0       // offset
+    null,
+    null,
+    null, 
+    100,
+    0
 );
 
 // Filter events by this club
@@ -74,7 +74,6 @@ foreach ($clubEvents as $ev) {
     try {
         $eventDate = new DateTime($ev['event_date']);
     } catch (Exception $e) {
-        // If parsing fails, treat as upcoming
         $upcomingEvents[] = $ev;
         continue;
     }
