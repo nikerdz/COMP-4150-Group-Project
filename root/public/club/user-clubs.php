@@ -1,6 +1,7 @@
 <?php
 // Shows all clubs the logged-in user is a member of (6 at a time with "Load more")
 require_once('../../src/config/constants.php');
+require_once('../../src/config/utils.php');
 require_once(MODELS_PATH . 'Membership.php');
 require_once(MODELS_PATH . 'Club.php');
 
@@ -10,18 +11,6 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     header("Location: " . PUBLIC_URL . "login.php");
     exit();
-}
-
-// Helper used by club-card.php (local copy so we don't need utils.php here)
-function prettyCondition(?string $cond): string
-{
-    return match ($cond) {
-        'women_only'      => 'Women only',
-        'undergrad_only'  => 'Undergraduates only',
-        'first_year_only' => 'First years only',
-        'none', null, ''  => 'Open to all',
-        default           => ucfirst(str_replace('_', ' ', $cond)),
-    };
 }
 
 $userId = (int)$_SESSION['user_id'];
