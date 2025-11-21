@@ -283,38 +283,5 @@ foreach ($clubEvents as $ev) {
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?= time(); ?>"></script>
-
-<!-- Inline JS just for Events tabs -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const tabs = document.querySelectorAll('.event-tab');
-    const upcomingTabContent = document.getElementById('tab-upcoming');
-    const pastTabContent     = document.getElementById('tab-past');
-
-    if (!tabs.length || !upcomingTabContent || !pastTabContent) {
-        return;
-    }
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function () {
-            const target = this.dataset.tab;
-
-            // Active state on buttons
-            tabs.forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-
-            // Show / hide content
-            if (target === 'past') {
-                upcomingTabContent.style.display = 'none';
-                pastTabContent.style.display     = 'block';
-            } else {
-                upcomingTabContent.style.display = 'block';
-                pastTabContent.style.display     = 'none';
-            }
-        });
-    });
-});
-</script>
-
 </body>
 </html>

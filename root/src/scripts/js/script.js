@@ -213,3 +213,37 @@ document.querySelectorAll(".event-tab").forEach(tab => {
     });
 });
 
+
+
+// ==========================
+// Club view – Event tabs (Upcoming / Past)
+// ==========================
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs = document.querySelectorAll('.event-tab');
+    const upcomingTabContent = document.getElementById('tab-upcoming');
+    const pastTabContent     = document.getElementById('tab-past');
+
+    // If this page doesn't have event tabs, bail out
+    if (!tabs.length || !upcomingTabContent || !pastTabContent) {
+        return;
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            const target = this.dataset.tab;
+
+            // Active state on buttons
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            // Show / hide content
+            if (target === 'past') {
+                upcomingTabContent.style.display = 'none';
+                pastTabContent.style.display     = 'block';
+            } else {
+                upcomingTabContent.style.display = 'block';
+                pastTabContent.style.display     = 'none';
+            }
+        });
+    });
+});
