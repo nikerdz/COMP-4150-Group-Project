@@ -102,4 +102,15 @@ class Payment
 
         return $stmt->execute([':rid' => $registrationId]);
     }
+
+    public function countCompletedPayments() {
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM Payment WHERE payment_status = 'completed'");
+        return (int)$stmt->fetchColumn();
+    }
+
+    public function getTotalRevenue() {
+        $stmt = $this->pdo->query("SELECT SUM(amount) FROM Payment WHERE payment_status = 'completed'");
+        return (float)$stmt->fetchColumn();
+    }
+
 }

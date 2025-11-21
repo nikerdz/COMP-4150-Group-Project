@@ -174,4 +174,9 @@ class User
 
         $this->pdo->commit();
     }
+
+    public function getAllUsers(): array {
+        return $this->pdo->query("SELECT * FROM User")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
