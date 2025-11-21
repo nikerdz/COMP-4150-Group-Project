@@ -124,15 +124,32 @@ class Registration
 
     /* ---------------------------------------------------
        Get all users registered for an event
-       (useful for club executives)
+       (used for the registrations section)
        --------------------------------------------------- */
     public function getUsersForEvent(int $eventId): array
     {
         $stmt = $this->pdo->prepare("
-            SELECT u.*
+            SELECT 
+                u.user_id,
+                u.first_name,
+                u.last_name,
+                COALESCE(e.executive_role, 'member') AS role
             FROM Registration r
             JOIN User u ON r.user_id = u.user_id
+            JOIN Event ev ON r.event_id = ev.event_id
+            LEFT JOIN Executive e 
+              ON u.user_id = e.user_id 
+             AND ev.club_id = e.club_id
             WHERE r.event_id = :eid
+            ORDER BY 
+                CASE
+                    WHEN LOWER(COALESCE(e.executive_role, 'member')) IN ('admin','administrator','president','owner')
+                        THEN 0
+                    WHEN LOWER(COALESCE(e.executive_role, 'member')) <> 'member'
+                        THEN 1
+                    ELSE 2
+                END,
+                u.first_name ASC
         ");
         $stmt->execute([':eid' => $eventId]);
 
@@ -140,8 +157,8 @@ class Registration
     }
 
     /* ---------------------------------------------------
-   Count number of people registered for event
-   --------------------------------------------------- */
+       Count number of people registered for event
+       --------------------------------------------------- */
     public function countRegistrations(int $eventId): int
     {
         $stmt = $this->pdo->prepare("
@@ -155,8 +172,8 @@ class Registration
     }
 
     /* ---------------------------------------------------
-   Get a single registration record (or null)
-   --------------------------------------------------- */
+       Get a single registration record (or null)
+       --------------------------------------------------- */
     public function getRegistration(int $eventId, int $userId): ?array
     {
         $stmt = $this->pdo->prepare("
@@ -174,6 +191,4 @@ class Registration
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
-
-
 }

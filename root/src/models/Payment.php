@@ -23,11 +23,11 @@ class Payment
     /* ----------------------------------------------------
        Create a pending payment for a registration
        ---------------------------------------------------- */
-    public function createPending(int $registrationId, float $amount): bool
+    public function createPending(int $registrationId, float $amount, string $method = 'cash'): bool
     {
         $sql = "
-            INSERT INTO Payment (registration_id, amount, payment_status)
-            VALUES (:rid, :amount, 'pending')
+            INSERT INTO Payment (registration_id, amount, payment_status, payment_method)
+            VALUES (:rid, :amount, 'pending', :method)
         ";
 
         $stmt = $this->pdo->prepare($sql);
@@ -35,7 +35,8 @@ class Payment
         try {
             return $stmt->execute([
                 ':rid'    => $registrationId,
-                ':amount' => $amount
+                ':amount' => $amount,
+                ':method' => $method
             ]);
         } catch (PDOException $e) {
             // Avoid duplicate payments
@@ -91,7 +92,7 @@ class Payment
     }
 
     /* ----------------------------------------------------
-       Delete payment when unregistering
+       Delete payment when unregistering (if ever needed)
        ---------------------------------------------------- */
     public function deletePaymentByRegistration(int $registrationId): bool
     {
