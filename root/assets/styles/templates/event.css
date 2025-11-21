@@ -1,29 +1,393 @@
 /* ==========================
    Event Page Styles
 ========================== */
+
+.event-hero {
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    color: var(--red);
+    padding: 40px 22px;
+    border-radius: 15px;
+    max-width: 1075px;
+    margin: 10px auto 25px auto;
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 10px var(--cream), 0 0 20px var(--cream);
+}
+
+.event-hero-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 22px;
+    align-items: center;
+}
+
+.event-avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--cream);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+}
+
+.event-avatar span {
+    font-family: "Cubao", sans-serif;
+    font-size: 2.4rem;
+    color: var(--cream);
+}
+
+/* Main info wrapper */
+.event-main-info {
+    flex: 1;
+}
+
+/* Row that holds text on left and buttons on right */
+.event-main-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+/* Text block */
+.event-main-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.event-main-text h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.3rem;
+    margin-bottom: 6px;
+}
+
+/* Make "Hosted by: Club" slightly larger on event page only */
+.event-main-text .explore-meta {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-bottom: 8px;
+}
+
+/* Meta lines */
+.event-meta-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.event-meta-line span {
+    background: rgba(255,255,255,0.7);
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+.event-meta-secondary {
+    font-size: 0.98rem;
+    color: var(--dark-blue);
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.event-meta-secondary a {
+    color: var(--dark-blue);
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.event-meta-secondary a:hover {
+    color: var(--red);
+    transition: 0.3s ease;
+}
+
+/* Buttons area */
+.event-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+/* Unified pill button style (applies to Register, Unregister, Edit, Post Comment) */
+.event-primary-btn,
+.event-secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+/* Primary action (Register / Unregister / Login / Post Comment) */
+.event-primary-btn {
+    background: var(--red);
+    color: var(--cream);
+    border-color: var(--red);
+}
+
+.event-primary-btn:hover {
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* Secondary actions (Edit) */
+.event-secondary-btn {
+    background: var(--dark-blue);
+    color: var(--cream);
+    border-color: var(--dark-blue);
+}
+
+.event-secondary-btn:hover {
+    background: var(--red);
+    border-color: var(--red);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* Status badges */
+.event-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.event-badge-registered {
+    background: rgba(40, 167, 69, 0.15);
+    color: #1f7a35;
+    border: 1px solid rgba(40, 167, 69, 0.35);
+}
+
+.event-badge-full {
+    background: rgba(217, 83, 79, 0.15);
+    color: #a33;
+    border: 1px solid rgba(217, 83, 79, 0.35);
+}
+
+/* Responsive hero */
+@media (max-width: 720px) {
+    .event-hero-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .event-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .event-main-text h1 {
+        font-size: 2rem;
+    }
+
+    .event-main-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .event-actions {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}
+
+/* ==========================
+   Event – Details Card
+========================== */
+
 .event-view-card {
     background: var(--cream);
-    padding: 30px;
+    padding: 24px;
     border-radius: 16px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.12);
-    margin: auto;
+    margin: 10px 0;
 }
 
 .event-view-card h1 {
     color: var(--dark-blue);
     font-family: "Cubao", sans-serif;
     font-weight: lighter;
-    font-size: 2.4rem;
-}
-
-.event-club {
-    color: var(--red);
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 2.0rem;
+    margin-bottom: 6px;
 }
 
 .event-description {
-    margin: 20px 0;
+    margin: 12px 0 4px 0;
     line-height: 1.6;
+}
+
+/* ==========================
+   Event – Registrations
+========================== */
+
+.event-registrations {
+    margin-top: 10px;
+}
+
+.registration-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.registration-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--cream);
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.registration-name {
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+.registration-role {
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* Member (default) */
+.registration-role-member {
+    background: var(--light-blue);
+    color: var(--dark-blue);
+}
+
+/* Executives (non-member roles) */
+.registration-role-exec {
+    background: var(--red);
+    color: var(--cream);
+}
+
+/* Admin / owner style */
+.registration-role-admin {
+    background: #c62828;
+    color: #ffffff;
+}
+
+/* ==========================
+   Event – Comments
+========================== */
+
+.event-comments {
+    margin-top: 10px;
+}
+
+/* Button on the right of the text area */
+.comment-form {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.comment-form textarea {
+    flex: 1;
+    min-height: 80px;
+    max-height: 220px; /* limit how tall it can be dragged */
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 2px solid var(--dark-blue);
+    font-size: 0.95rem;
+    resize: vertical;
+    color: var(--dark-blue);
+    box-sizing: border-box;
+}
+
+.comment-form textarea::placeholder {
+    opacity: 0.7;
+}
+
+/* Uses same pill style + hover as other primary buttons */
+.comment-submit-btn {
+    align-self: flex-start;
+}
+
+/* On small screens, stack them nicely */
+@media (max-width: 600px) {
+    .comment-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .comment-submit-btn {
+        align-self: flex-end;
+        margin-top: 4px;
+    }
+}
+
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comment-item {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 10px 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+    gap: 10px;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+.comment-date {
+    font-size: 0.8rem;
+    color: rgba(0,0,0,0.6);
+}
+
+.comment-body {
+    font-size: 0.93rem;
+    color: var(--dark-blue);
+    white-space: pre-wrap;
 }
