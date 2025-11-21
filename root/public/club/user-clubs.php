@@ -122,34 +122,5 @@ $VISIBLE_COUNT = 6;
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
 
-<!-- Inline JS just for "Load more" behaviour on this page -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const grid        = document.getElementById('userClubsGrid');
-    const loadMoreBtn = document.getElementById('userClubsLoadMore');
-
-    if (!grid || !loadMoreBtn) return;
-
-    const CARDS_PER_CLICK = 3; // show 1 row (3 cards) each time
-
-    loadMoreBtn.addEventListener('click', function () {
-        const hiddenCards = grid.querySelectorAll('.explore-card.is-hidden');
-        let revealed = 0;
-
-        hiddenCards.forEach(card => {
-            if (revealed < CARDS_PER_CLICK) {
-                card.classList.remove('is-hidden');
-                revealed++;
-            }
-        });
-
-        // If no hidden cards remain, hide the button
-        if (!grid.querySelector('.explore-card.is-hidden')) {
-            loadMoreBtn.style.display = 'none';
-        }
-    });
-});
-</script>
-
 </body>
 </html>

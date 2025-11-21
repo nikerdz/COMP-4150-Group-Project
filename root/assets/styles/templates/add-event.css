@@ -1,0 +1,115 @@
+/* ==========================
+   Add Event Page Styles
+   (similar look to auth card)
+========================== */
+
+@import url('colours.css');
+
+/* Main wrapper */
+.add-event-section {
+    padding: 40px 0 60px;
+}
+
+/* Card container */
+.add-event-card {
+    max-width: 1075px;
+    margin: 20px auto 0 auto;
+    width: 100%;
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    border-radius: 15px;
+    padding: 40px 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* Heading + subtitle */
+.add-event-card h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.4rem;
+    text-align: center;
+    color: var(--red);
+    margin-bottom: 10px;
+}
+
+.add-event-subtitle {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 1.05rem;
+    text-align: center;
+    color: var(--dark-blue);
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+}
+
+/* Form layout */
+.add-event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Reuse auth-field blocks so inputs look consistent */
+.add-event-form .auth-field label {
+    font-weight: bold;
+    color: var(--dark-blue);
+}
+
+.add-event-form textarea {
+    color: var(--dark-blue);
+    padding: 10px;
+    border: 2px solid var(--dark-blue);
+    border-radius: 10px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Submit button */
+.add-event-btn {
+    background: var(--red);
+    color: var(--cream);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    align-self: center;
+    transition: 0.3s;
+}
+
+.add-event-btn:hover {
+    transform: scale(1.03);
+}
+
+/* Messages */
+.add-event-error {
+    margin: 10px 0 26px;
+    text-align: center;
+    color: var(--red);
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.add-event-success {
+    margin: 10px 0 26px;
+    text-align: center;
+    color: #28a745;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .add-event-card {
+        padding: 30px 18px;
+    }
+
+    .add-event-card h1 {
+        font-size: 2.1rem;
+    }
+
+    .add-event-subtitle {
+        font-size: 1rem;
+    }
+}

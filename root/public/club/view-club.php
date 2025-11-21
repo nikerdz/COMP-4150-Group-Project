@@ -16,8 +16,10 @@ unset($_SESSION['club_add_success']);
 
 $clubId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-$clubModel = new Club();
+$clubModel       = new Club();
 $membershipModel = new Membership();
+$eventModel      = new Event();
+
 $club = $clubModel->findById($clubId);
 
 if (!$club) {
@@ -25,9 +27,11 @@ if (!$club) {
     exit;
 }
 
-$userRole = null;
+// Determine user role in this club (if logged in)
+$userRole   = null;
+$membership = null;
+
 if (isset($_SESSION['user_id'])) {
-    $membershipModel = new Membership();
     $membership = $membershipModel->getMembership($clubId, $_SESSION['user_id']);
     if ($membership) {
         // If role is anything other than 'member', treat as exec
@@ -38,19 +42,49 @@ if (isset($_SESSION['user_id'])) {
 // Fetch all club members
 $members = $membershipModel->getClubMembers($clubId);
 
-// Fetch upcoming events
-$eventModel = new Event();
-$upcomingEvents = $eventModel->searchEvents(
-    null,
-    null,
-    null,
-    20,
-    0
+// --------------------------------------
+// Fetch events for this club,
+// split into upcoming vs past
+// --------------------------------------
+
+// Get a reasonable batch of events, then filter by this club
+$allEvents = $eventModel->searchEvents(
+    null,   // no search term
+    null,   // no category filter
+    null,   // no condition filter
+    100,    // limit
+    0       // offset
 );
 
 // Filter events by this club
-$upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $clubId);
+$clubEvents = array_filter($allEvents, fn($e) => (int)$e['club_id'] === $clubId);
 
+$upcomingEvents = [];
+$pastEvents     = [];
+
+$now = new DateTime('now');
+
+foreach ($clubEvents as $ev) {
+    if (empty($ev['event_date'])) {
+        // If no date, treat as upcoming by default
+        $upcomingEvents[] = $ev;
+        continue;
+    }
+
+    try {
+        $eventDate = new DateTime($ev['event_date']);
+    } catch (Exception $e) {
+        // If parsing fails, treat as upcoming
+        $upcomingEvents[] = $ev;
+        continue;
+    }
+
+    if ($eventDate >= $now) {
+        $upcomingEvents[] = $ev;
+    } else {
+        $pastEvents[] = $ev;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +122,7 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
 
                         <p class="club-meta-secondary">
                             <b>Tags:</b>
-                            <?php if ($club['categories']): ?>
+                            <?php if (!empty($club['categories'])): ?>
                                 <?php foreach (explode(',', $club['categories']) as $cat): ?>
                                     <span class="club-interest-pill"><?= htmlspecialchars($cat) ?></span>
                                 <?php endforeach; ?>
@@ -108,17 +142,20 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
 
                         <?php if (!empty($club['club_email'])): ?>
                             <p class="club-meta-secondary">
-                                <strong>Contact:</strong> 
+                                <strong>Contact:</strong>
                                 <a href="mailto:<?= htmlspecialchars($club['club_email']) ?>">
                                     <?= htmlspecialchars($club['club_email']) ?>
                                 </a>
                             </p>
                         <?php endif; ?>
 
-                        <?php if ($userRole): ?>
+                        <?php if ($userRole && $membership): ?>
                             <p class="club-meta-line">
                                 <span><strong>Your Role:</strong> <?= ucfirst($userRole) ?></span>
-                                <span class="member-join-bubble"><strong>Joined:</strong> <?= date('M d, Y', strtotime($membership['membership_date'])) ?></span>
+                                <span class="member-join-bubble">
+                                    <strong>Joined:</strong>
+                                    <?= date('M d, Y', strtotime($membership['membership_date'])) ?>
+                                </span>
                             </p>
                         <?php endif; ?>
                     </div>
@@ -156,10 +193,18 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
             <h2>Events</h2>
         </div>
 
-        <!-- TABS -->
-        <div class="event-tabs">
-            <button class="event-tab active" data-tab="upcoming">Upcoming</button>
-            <button class="event-tab" data-tab="past">Past</button>
+        <!-- Tabs + Add Event button in one row -->
+        <div class="club-events-header-row">
+            <div class="event-tabs">
+                <button class="event-tab active" data-tab="upcoming">Upcoming</button>
+                <button class="event-tab" data-tab="past">Past</button>
+            </div>
+
+            <?php if ($userRole === 'executive'): ?>
+                <a class="club-add-event-btn" href="<?= EVENT_URL ?>add-event.php?club_id=<?= $clubId ?>">
+                    Add Event
+                </a>
+            <?php endif; ?>
         </div>
 
         <!-- UPCOMING TAB CONTENT -->
@@ -185,12 +230,6 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
                 </div>
             <?php else: ?>
                 <p class="club-empty">No past events.</p>
-            <?php endif; ?>
-        </div>
-        <br>
-        <div class="club-actions">
-            <?php if ($userRole === 'executive'): ?>
-                <a class="club-add-event-btn" href="<?= EVENT_URL ?>add-event.php?club_id=<?= $clubId ?>">Add Event</a>
             <?php endif; ?>
         </div>
     </section>
@@ -235,11 +274,10 @@ $upcomingEvents = array_filter($upcomingEvents, fn($e) => $e['club_id'] == $club
         <?= htmlspecialchars($_SESSION['toast_message']) ?>
     </div>
     <?php
-        // Clear flash after displaying
+        // Clear flash after displaying so it doesn't keep showing
         unset($_SESSION['toast_message'], $_SESSION['toast_type']);
     ?>
 <?php endif; ?>
-
 
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
