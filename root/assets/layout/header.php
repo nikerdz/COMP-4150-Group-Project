@@ -40,22 +40,35 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 <!-- Sidebar -->
 <div id="sidebar" class="sidebar">
     <ul class="sidebar-links">
-        <?php if(isset($_SESSION['user_id'])): ?>
-            <!-- Visible only if logged in -->
-            <li><a href="<?php echo USER_URL; ?>dashboard.php">DASHBOARD</a></li>
-            <li><a href="<?php echo USER_URL; ?>explore.php">EXPLORE</a></li>
-            <li><a href="<?php echo USER_URL; ?>profile.php">PROFILE</a></li>
-            <li><a href="<?php echo USER_URL; ?>settings.php">SETTINGS</a></li>
-            <li><a href="<?php echo PHP_URL; ?>auth_handle_logout.php">LOGOUT</a></li>
+
+        <?php if (isset($_SESSION['user_id'])): ?>
+
+            <?php if (!empty($_SESSION['is_admin'])): ?>
+                <!-- Admin Sidebar -->
+                <li><a href="<?php echo ADMIN_URL; ?>dashboard.php">DASHBOARD</a></li>
+                <li><a href="<?php echo USER_URL; ?>profile.php">PROFILE</a></li>
+                <li><a href="<?php echo USER_URL; ?>settings.php">SETTINGS</a></li>
+                <li><a href="<?php echo PHP_URL; ?>auth_handle_logout.php">LOGOUT</a></li>
+
+            <?php else: ?>
+                <!-- Regular User Sidebar -->
+                <li><a href="<?php echo USER_URL; ?>dashboard.php">DASHBOARD</a></li>
+                <li><a href="<?php echo USER_URL; ?>explore.php">EXPLORE</a></li>
+                <li><a href="<?php echo USER_URL; ?>profile.php">PROFILE</a></li>
+                <li><a href="<?php echo USER_URL; ?>settings.php">SETTINGS</a></li>
+                <li><a href="<?php echo PHP_URL; ?>auth_handle_logout.php">LOGOUT</a></li>
+            <?php endif; ?>
+
         <?php else: ?>
-            <!-- Visible only if NOT logged in -->
-             <li><a href="<?php echo PUBLIC_URL; ?>">HOME</a></li>
+            <!-- Public Sidebar (not logged in) -->
+            <li><a href="<?php echo PUBLIC_URL; ?>">HOME</a></li>
             <li><a href="<?php echo PUBLIC_URL; ?>login.php">LOGIN</a></li>
             <li><a href="<?php echo PUBLIC_URL; ?>register.php">REGISTER</a></li>
         <?php endif; ?>
+
     </ul>
 
-        <!-- Sidebar logo at bottom -->
+    <!-- Sidebar logo at bottom -->
     <div class="sidebar-footer">
         <img
             src="<?php echo IMG_URL; ?>logo_hub.png"
@@ -65,8 +78,8 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             data-duck-src="<?php echo IMG_URL; ?>dancing-duck.gif"
         >
     </div>
-
 </div>
+
 
 <!-- Sidebar overlay (click outside to close) -->
 <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
