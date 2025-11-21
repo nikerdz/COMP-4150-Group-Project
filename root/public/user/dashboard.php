@@ -28,10 +28,10 @@ if (!empty($_SESSION['first_name'])) {
 }
 
 // Instantiate models
-$userModel        = new User();
-$clubModel        = new Club();
-$eventModel       = new Event();
-$membershipModel  = new Membership();
+$userModel         = new User();
+$clubModel         = new Club();
+$eventModel        = new Event();
+$membershipModel   = new Membership();
 $registrationModel = new Registration();
 
 // Fetch clubs the user is a member of
@@ -79,7 +79,7 @@ if (!empty($interestCategoryIds)) {
         foreach ($clubsForCategory as $club) {
             $cid = (int)$club['club_id'];
 
-            // Skip if user is already a member
+            // ❌ Skip if user is already a member of this club
             if (isset($myClubIds[$cid])) {
                 continue;
             }

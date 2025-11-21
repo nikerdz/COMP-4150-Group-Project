@@ -196,26 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================
-// Event tabs (upcoming / past)
-// ==========================
-
-document.querySelectorAll(".event-tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-        document.querySelectorAll(".event-tab").forEach(t => t.classList.remove("active"));
-        tab.classList.add("active");
-
-        const target = tab.dataset.tab;
-
-        document.getElementById("tab-upcoming").style.display = "none";
-        document.getElementById("tab-past").style.display = "none";
-
-        document.getElementById("tab-" + target).style.display = "block";
-    });
-});
-
-
-
-// ==========================
 // Club view – Event tabs (Upcoming / Past)
 // ==========================
 document.addEventListener('DOMContentLoaded', function () {
@@ -248,8 +228,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
-
 // ==========================
 // My Clubs – "Load more" behaviour
 // ==========================
@@ -281,5 +259,40 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// ==========================
+// Explore – Filters toggle + "Load more"
+// ==========================
+document.addEventListener('DOMContentLoaded', function () {
+    const exploreGrid     = document.getElementById('exploreGrid');
+    const exploreLoadMore = document.getElementById('exploreLoadMore');
+    const filterBtn       = document.getElementById('exploreFilterToggle');
+    const filterPanel     = document.getElementById('exploreFilterPanel');
 
+    // Toggle filters open/closed
+    if (filterBtn && filterPanel) {
+        filterBtn.addEventListener('click', function () {
+            filterPanel.classList.toggle('is-open');
+        });
+    }
 
+    // Load more explore cards (2 rows = 6 cards at a time)
+    if (exploreGrid && exploreLoadMore) {
+        const CARDS_PER_CLICK = 6;
+
+        exploreLoadMore.addEventListener('click', function () {
+            const hiddenCards = exploreGrid.querySelectorAll('.explore-card.is-hidden');
+            let revealed = 0;
+
+            hiddenCards.forEach(card => {
+                if (revealed < CARDS_PER_CLICK) {
+                    card.classList.remove('is-hidden');
+                    revealed++;
+                }
+            });
+
+            if (!exploreGrid.querySelector('.explore-card.is-hidden')) {
+                exploreLoadMore.style.display = 'none';
+            }
+        });
+    }
+});
