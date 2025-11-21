@@ -212,5 +212,51 @@ public function updateClub(int $clubId, array $data): bool
     }
 }
 
+/* --------------------------
+   Delete a club completely
+   -------------------------- */
+public function deleteClub(int $clubId): bool
+{
+    try {
+        // Begin transaction for safety
+        $this->pdo->beginTransaction();
+
+        // 1. Delete tags
+        $stmt = $this->pdo->prepare("
+            DELETE FROM Club_Tags WHERE club_id = :id
+        ");
+        $stmt->execute([':id' => $clubId]);
+
+        // 2. Delete memberships (execs & members)
+        $stmt = $this->pdo->prepare("
+            DELETE FROM Membership WHERE club_id = :id
+        ");
+        $stmt->execute([':id' => $clubId]);
+
+        // 3. Delete events
+        $stmt = $this->pdo->prepare("
+        DELETE FROM Events WHERE club_id = :id
+        ");
+        $stmt->execute([':id' => $clubId]);
+
+        // 5. Delete the club record
+        $stmt = $this->pdo->prepare("
+            DELETE FROM Club WHERE club_id = :id
+        ");
+        $stmt->execute([':id' => $clubId]);
+
+        // Commit all changes
+        $this->pdo->commit();
+        return true;
+
+    } catch (PDOException $e) {
+        // Rollback on error
+        $this->pdo->rollBack();
+        error_log("Failed to delete club: " . $e->getMessage());
+        return false;
+    }
+}
+
+
 
 }
