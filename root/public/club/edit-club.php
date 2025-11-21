@@ -95,7 +95,7 @@ unset($_SESSION['club_edit_error'], $_SESSION['club_edit_success']);
 
         <form
             class="club-edit-form"
-            action="<?php echo PHP_URL; ?>club-handle-edit.php"
+            action="<?php echo PHP_URL; ?>club_handle_edit.php"
             method="post"
         >
             <input type="hidden" name="club_id" value="<?php echo $clubId; ?>">
@@ -184,6 +184,42 @@ unset($_SESSION['club_edit_error'], $_SESSION['club_edit_success']);
                 </button>
             </div>
         </form>
+
+        <!-- ===========================
+            Delete Club Section
+        =========================== -->
+        <div class="club-delete-section">
+            <h3>Delete Club</h3>
+            <p class="club-delete-warning">
+                This action is <strong>permanent</strong> and cannot be undone.<br>
+                To delete this club, type <strong><?php echo $nameVal; ?></strong> below.
+            </p>
+
+            <form
+                class="club-delete-form"
+                action="<?php echo PHP_URL; ?>club_handle_delete.php"
+                method="post"
+                onsubmit="return confirm('Are you sure you want to permanently delete this club?');"
+            >
+                <input type="hidden" name="club_id" value="<?php echo $clubId; ?>">
+
+                <div class="auth-field">
+                    <label for="confirm_club_name">Type club name to confirm:</label>
+                    <input
+                        type="text"
+                        id="confirm_club_name"
+                        name="confirm_club_name"
+                        placeholder="Enter club name exactly"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="club-delete-button">
+                    Delete Club
+                </button>
+            </form>
+        </div>
+
     </section>
 </main>
 
