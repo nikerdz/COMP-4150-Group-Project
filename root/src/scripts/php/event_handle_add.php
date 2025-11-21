@@ -10,16 +10,17 @@ session_start();
 // Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['error'] = "You must be logged in to add an event.";
-    header("Location: " . PUBLIC_URL . 'auth/login.php');
+    // ✅ Redirect to the correct login page
+    header("Location: " . PUBLIC_URL . 'login.php');
     exit;
 }
 
 // Check club ID
 $clubId = isset($_POST['club_id']) ? (int)$_POST['club_id'] : 0;
 
-$clubModel = new Club();
+$clubModel       = new Club();
 $membershipModel = new Membership();
-$eventModel = new Event();
+$eventModel      = new Event();
 
 $club = $clubModel->findById($clubId);
 if (!$club) {
@@ -37,39 +38,44 @@ if (!$membership || $membership['role'] === 'member') {
 }
 
 // Validate inputs
-$eventName = trim($_POST['event_name'] ?? '');
+$eventName        = trim($_POST['event_name'] ?? '');
 $eventDescription = trim($_POST['event_description'] ?? '');
-$eventLocation = trim($_POST['event_location'] ?? '');
-$eventDate = $_POST['event_date'] ?? '';
-$capacity = isset($_POST['capacity']) ? (int)$_POST['capacity'] : null;
-$eventCondition = $_POST['event_condition'] ?? 'none';
-$eventFee = isset($_POST['event_fee']) ? (float)$_POST['event_fee'] : 0.00;
+$eventLocation    = trim($_POST['event_location'] ?? '');
+$eventDate        = $_POST['event_date'] ?? '';
+$capacity         = isset($_POST['capacity']) ? (int)$_POST['capacity'] : null;
+$eventCondition   = $_POST['event_condition'] ?? 'none';
+$eventFee         = isset($_POST['event_fee']) ? (float)$_POST['event_fee'] : 0.00;
 
 if (empty($eventName) || empty($eventDate)) {
     $_SESSION['error'] = "Event name and date are required.";
-    header("Location: " . PUBLIC_URL . "club/add-event.php?club_id={$clubId}");
+    // ✅ Correct path back to Add Event page
+    header("Location: " . PUBLIC_URL . "event/add-event.php?club_id={$clubId}");
     exit;
 }
 
 // Prepare data
 $data = [
-    'club_id' => $clubId,
-    'event_name' => $eventName,
-    'event_description' => $eventDescription,
-    'event_location' => $eventLocation,
-    'event_date' => $eventDate,
-    'capacity' => $capacity,
-    'event_condition' => $eventCondition,
-    'event_fee' => $eventFee
+    'club_id'          => $clubId,
+    'event_name'       => $eventName,
+    'event_description'=> $eventDescription,
+    'event_location'   => $eventLocation,
+    'event_date'       => $eventDate,
+    'capacity'         => $capacity,
+    'event_condition'  => $eventCondition,
+    'event_fee'        => $eventFee
 ];
 
 // Insert event
 if ($eventModel->createEvent($data)) {
-    $_SESSION['success'] = "Event '{$eventName}' created successfully!";
+    // ✅ Use toast message for view-club.php ONLY
+    $_SESSION['toast_message'] = "Event '{$eventName}' created successfully!";
+    $_SESSION['toast_type']    = 'success';
+
     header("Location: " . PUBLIC_URL . "club/view-club.php?id={$clubId}");
     exit;
 } else {
     $_SESSION['error'] = "Failed to create event. The event name might already exist.";
-    header("Location: " . PUBLIC_URL . "club/add-event.php?club_id={$clubId}");
+    // ✅ Correct path back to Add Event page on error
+    header("Location: " . PUBLIC_URL . "event/add-event.php?club_id={$clubId}");
     exit;
 }

@@ -9,16 +9,17 @@ session_start();
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['error'] = "You must be logged in to add an event.";
-    header("Location: " . PUBLIC_URL . 'auth/login.php');
+    // ✅ Correct login path
+    header("Location: " . PUBLIC_URL . 'login.php');
     exit;
 }
 
 // Get club ID from GET
 $clubId = isset($_GET['club_id']) ? (int)$_GET['club_id'] : 0;
 
-$clubModel = new Club();
+$clubModel       = new Club();
 $membershipModel = new Membership();
-$eventModel = new Event();
+$eventModel      = new Event();
 
 $club = $clubModel->findById($clubId);
 if (!$club) {
@@ -35,12 +36,11 @@ if (!$membership || $membership['role'] === 'member') {
     exit;
 }
 
-// Grab flash messages
+// Grab flash error (no success here – success goes to view-club)
 $error = $_SESSION['error'] ?? null;
-$success = $_SESSION['success'] ?? null;
 
-// Clear flash messages
-unset($_SESSION['error'], $_SESSION['success']);
+// Clear flash messages so they don't stick
+unset($_SESSION['error']);
 ?>
 
 <!DOCTYPE html>
@@ -55,20 +55,19 @@ unset($_SESSION['error'], $_SESSION['success']);
 
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
-<main class="auth-section">
-    <div class="auth-card">
+<main class="add-event-section">
+    <div class="add-event-card">
         <h1>Add Event</h1>
-        <p class="auth-subtitle">Create a new event for <strong><?= htmlspecialchars($club['club_name']) ?></strong>. Only club executives can add events.</p>
+        <p class="add-event-subtitle">
+            Create a new event for <strong><?= htmlspecialchars($club['club_name']) ?></strong>.
+            Only club executives can add events.
+        </p>
 
         <?php if ($error): ?>
-            <div class="auth-error"><?= htmlspecialchars($error) ?></div>
+            <div class="add-event-error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <?php if ($success): ?>
-            <div class="auth-success"><?= htmlspecialchars($success) ?></div>
-        <?php endif; ?>
-
-        <form action="<?= PHP_URL ?>event_handle_add.php" method="post" class="auth-form">
+        <form action="<?= PHP_URL ?>event_handle_add.php" method="post" class="add-event-form">
             <input type="hidden" name="club_id" value="<?= $clubId ?>">
 
             <div class="auth-field">
@@ -87,7 +86,7 @@ unset($_SESSION['error'], $_SESSION['success']);
             </div>
 
             <div class="auth-field">
-                <label for="event_date">Date & Time</label>
+                <label for="event_date">Date &amp; Time</label>
                 <input type="datetime-local" id="event_date" name="event_date" required>
             </div>
 
@@ -111,7 +110,7 @@ unset($_SESSION['error'], $_SESSION['success']);
                 <input type="number" id="event_fee" name="event_fee" step="0.01" min="0" value="0">
             </div>
 
-            <button type="submit" class="auth-btn">Add Event</button>
+            <button type="submit" class="add-event-btn">Add Event</button>
         </form>
     </div>
 </main>
