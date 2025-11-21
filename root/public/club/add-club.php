@@ -66,11 +66,11 @@ $clubCondition   = $oldInput['club_condition']   ?? 'none';
             <form
                 method="post"
                 class="auth-form"
-                action="../../src/scripts/php/club_handle_add.php"
+                action="<?php echo PHP_URL; ?>club_handle_add.php"
             >
                 <div class="auth-row">
                     <div class="auth-field">
-                        <label for="club_name">Club name *</label>
+                        <label for="club_name">Club name</label>
                         <input
                             type="text"
                             id="club_name"

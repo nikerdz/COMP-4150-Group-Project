@@ -95,10 +95,10 @@ try {
     // 3) Add creator as a member
     $membershipModel->join($userId, $clubId);
 
-    // 4) Add creator as an executive (president)
+    // 4) Add creator as an executive
     $stmtExec = $pdo->prepare("
         INSERT INTO Executive (user_id, club_id, executive_role)
-        VALUES (:uid, :cid, 'president')
+        VALUES (:uid, :cid, 'Executive')
         ON DUPLICATE KEY UPDATE executive_role = VALUES(executive_role)
     ");
 
