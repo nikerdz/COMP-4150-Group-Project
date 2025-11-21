@@ -35,11 +35,11 @@ if ($confirmName !== $club['club_name']) {
 
 // Delete club
 if ($clubModel->deleteClub($clubId)) {
-    // ✅ include the club name in the toast
+    // include the club name in the toast
     $_SESSION['toast_message'] = 'Club "' . $club['club_name'] . '" has been deleted.';
     $_SESSION['toast_type']    = "success";
 
-    // ✅ redirect to /club/user-clubs.php
+    // redirect to /club/user-clubs.php
     header("Location: " . PUBLIC_URL . "club/user-clubs.php");
     exit();
 }
