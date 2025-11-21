@@ -1,7 +1,4 @@
 <?php
-die("DELETE HANDLER REACHED");
-var_dump($_POST);
-exit();
 require_once(__DIR__ . '/../../config/constants.php');
 require_once(MODELS_PATH . 'Club.php');
 

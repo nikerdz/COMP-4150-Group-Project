@@ -10,6 +10,8 @@ class Club
     {
         global $pdo;
         $this->pdo = $pdo;
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     }
 
     /* --------------------------
@@ -221,29 +223,21 @@ public function deleteClub(int $clubId): bool
         // Begin transaction for safety
         $this->pdo->beginTransaction();
 
-        // 1. Delete tags
-        $stmt = $this->pdo->prepare("
-            DELETE FROM Club_Tags WHERE club_id = :id
-        ");
+        $stmt = $this->pdo->prepare("DELETE FROM Club_Tags WHERE club_id = :id");
         $stmt->execute([':id' => $clubId]);
+        echo "Deleted tags: " . $stmt->rowCount() . "<br>";
 
-        // 2. Delete memberships (execs & members)
-        $stmt = $this->pdo->prepare("
-            DELETE FROM Membership WHERE club_id = :id
-        ");
+        $stmt = $this->pdo->prepare("DELETE FROM Membership WHERE club_id = :id");
         $stmt->execute([':id' => $clubId]);
+        echo "Deleted memberships: " . $stmt->rowCount() . "<br>";
 
-        // 3. Delete events
-        $stmt = $this->pdo->prepare("
-        DELETE FROM Events WHERE club_id = :id
-        ");
+        $stmt = $this->pdo->prepare("DELETE FROM Events WHERE club_id = :id");
         $stmt->execute([':id' => $clubId]);
+        echo "Deleted events: " . $stmt->rowCount() . "<br>";
 
-        // 5. Delete the club record
-        $stmt = $this->pdo->prepare("
-            DELETE FROM Club WHERE club_id = :id
-        ");
+        $stmt = $this->pdo->prepare("DELETE FROM Club WHERE club_id = :id");
         $stmt->execute([':id' => $clubId]);
+        echo "Deleted club: " . $stmt->rowCount() . "<br>";
 
         // Commit all changes
         $this->pdo->commit();
