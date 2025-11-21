@@ -84,6 +84,20 @@ foreach ($clubEvents as $ev) {
         $pastEvents[] = $ev;
     }
 }
+
+if (!isset($_SESSION['recent_clubs'])) {
+    $_SESSION['recent_clubs'] = [];
+}
+
+$clubId = (int)$club['club_id'];
+
+$_SESSION['recent_clubs'] = array_filter($_SESSION['recent_clubs'], function($id) use ($clubId) {
+    return $id != $clubId;
+});
+
+array_unshift($_SESSION['recent_clubs'], $clubId);
+$_SESSION['recent_clubs'] = array_slice($_SESSION['recent_clubs'], 0, 10);
+
 ?>
 
 <!DOCTYPE html>

@@ -73,6 +73,24 @@ if ($event) {
 
 // Load comments for this event (uses Comments table)
 $comments = $event ? $commentModel->getCommentsForEvent($eventId) : [];
+
+
+if (!isset($_SESSION['recent_events'])) {
+    $_SESSION['recent_events'] = [];
+}
+
+// Prevent duplicates → remove if exists
+$_SESSION['recent_events'] = array_filter($_SESSION['recent_events'], function($id) use ($eventId) {
+    return $id != $eventId;
+});
+
+// Add newest to the front
+array_unshift($_SESSION['recent_events'], $eventId);
+
+// Limit to latest 10
+$_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

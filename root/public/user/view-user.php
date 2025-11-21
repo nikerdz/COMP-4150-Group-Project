@@ -73,6 +73,23 @@ $hasMoreEvents = count($userEvents) > $MAX_ITEMS;
 
 // Avatar initial
 $initial = strtoupper(substr($firstName ?: $lastName, 0, 1));
+
+$viewUserId = (int)$user['user_id'];
+
+if ($viewUserId !== $_SESSION['user_id']) {
+
+    if (!isset($_SESSION['recent_users'])) {
+        $_SESSION['recent_users'] = [];
+    }
+
+    $_SESSION['recent_users'] = array_filter($_SESSION['recent_users'], function($id) use ($viewUserId) {
+        return $id != $viewUserId;
+    });
+
+    array_unshift($_SESSION['recent_users'], $viewUserId);
+    $_SESSION['recent_users'] = array_slice($_SESSION['recent_users'], 0, 10);
+}
+
 ?>
 
 <!DOCTYPE html>
