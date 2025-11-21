@@ -127,7 +127,7 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                             <h1><?= htmlspecialchars($event['event_name']); ?></h1>
 
                             <?php if (!empty($clubName)): ?>
-                                <p class="explore-meta">
+                                <p class="explore-meta event-host-meta">
                                     Hosted by:
                                     <?php if (!empty($clubId)): ?>
                                         <a href="<?= PUBLIC_URL ?>club/view-club.php?id=<?= $clubId ?>">
@@ -233,7 +233,6 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                    href="<?= EVENT_URL ?>edit-event.php?id=<?= $eventId ?>">
                                     Edit Event
                                 </a>
-                                <!-- Registrations are shown below, no separate button -->
                             <?php endif; ?>
                         </div>
                     </div>
@@ -342,7 +341,7 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                     <span class="comment-author">
                                         <?= htmlspecialchars($comment['user_name']); ?>
                                     </span>
-                                    <span class="comment-date">
+                                    <span class="comment-date-pill">
                                         <?php
                                         $cts = strtotime($comment['comment_date']);
                                         echo $cts
@@ -351,9 +350,24 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                         ?>
                                     </span>
                                 </div>
-                                <p class="comment-body">
-                                    <?= nl2br(htmlspecialchars($comment['comment_message'])); ?>
-                                </p>
+
+                                <div class="comment-bubble">
+                                    <p class="comment-body">
+                                        <?= nl2br(htmlspecialchars($comment['comment_message'])); ?>
+                                    </p>
+
+                                    <?php if ($userId && (int)$comment['user_id'] === (int)$userId): ?>
+                                        <form method="post"
+                                              action="<?= PHP_URL ?>comment_handle_delete.php"
+                                              class="comment-delete-form">
+                                            <input type="hidden" name="comment_id" value="<?= (int)$comment['comment_id']; ?>">
+                                            <input type="hidden" name="event_id" value="<?= $eventId; ?>">
+                                            <button type="submit" class="comment-delete-btn">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
+                                </div>
                             </li>
                         <?php endforeach; ?>
                     </ul>
