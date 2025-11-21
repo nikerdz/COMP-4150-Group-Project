@@ -269,8 +269,11 @@ $comments = $event ? $commentModel->getCommentsForEvent($eventId) : [];
                             ?>
                             <div class="registration-pill">
                                 <span class="registration-name">
-                                    <?= htmlspecialchars($regUser['first_name'] . ' ' . $regUser['last_name']); ?>
+                                    <a href="<?= PUBLIC_URL ?>user/view-user.php?id=<?= $regUser['user_id'] ?>">
+                                        <?= htmlspecialchars($regUser['first_name'] . ' ' . $regUser['last_name']); ?>
+                                    </a>
                                 </span>
+
                                 <span class="registration-role <?= $roleClass; ?>">
                                     <?= htmlspecialchars($roleLabel); ?>
                                 </span>
