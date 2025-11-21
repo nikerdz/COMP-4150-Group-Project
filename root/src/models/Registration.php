@@ -138,4 +138,42 @@ class Registration
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /* ---------------------------------------------------
+   Count number of people registered for event
+   --------------------------------------------------- */
+    public function countRegistrations(int $eventId): int
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*)
+            FROM Registration
+            WHERE event_id = :eid
+        ");
+
+        $stmt->execute([':eid' => $eventId]);
+        return (int)$stmt->fetchColumn();
+    }
+
+    /* ---------------------------------------------------
+   Get a single registration record (or null)
+   --------------------------------------------------- */
+    public function getRegistration(int $eventId, int $userId): ?array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT *
+            FROM Registration
+            WHERE event_id = :eid AND user_id = :uid
+            LIMIT 1
+        ");
+
+        $stmt->execute([
+            ':eid' => $eventId,
+            ':uid' => $userId
+        ]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
+    }
+
+
 }
