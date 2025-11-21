@@ -247,3 +247,39 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+
+// ==========================
+// My Clubs – "Load more" behaviour
+// ==========================
+document.addEventListener('DOMContentLoaded', function () {
+    const grid        = document.getElementById('userClubsGrid');
+    const loadMoreBtn = document.getElementById('userClubsLoadMore');
+
+    // If we're not on the My Clubs page, do nothing
+    if (!grid || !loadMoreBtn) return;
+
+    // Show 2 rows per click on desktop (3 cards per row -> 6 cards)
+    const CARDS_PER_CLICK = 6;
+
+    loadMoreBtn.addEventListener('click', function () {
+        const hiddenCards = grid.querySelectorAll('.explore-card.is-hidden');
+        let revealed = 0;
+
+        hiddenCards.forEach(card => {
+            if (revealed < CARDS_PER_CLICK) {
+                card.classList.remove('is-hidden');
+                revealed++;
+            }
+        });
+
+        // If no hidden cards remain, hide the button
+        if (!grid.querySelector('.explore-card.is-hidden')) {
+            loadMoreBtn.style.display = 'none';
+        }
+    });
+});
+
+
+
