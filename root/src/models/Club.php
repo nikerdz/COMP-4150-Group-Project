@@ -261,11 +261,15 @@ class Club
         $params = [':status' => $status];
 
         if ($search !== '') {
+            // use distinct placeholders so PDO doesn't complain
             $sql .= " AND (
-                club_name LIKE :q OR
-                club_description LIKE :q
+                club_name        LIKE :q1 OR
+                club_description LIKE :q2
             )";
-            $params[':q'] = "%$search%";
+
+            $like = "%{$search}%";
+            $params[':q1'] = $like;
+            $params[':q2'] = $like;
         }
 
         $sql .= " ORDER BY club_name ASC";
@@ -291,6 +295,4 @@ class Club
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
-
-
 }
