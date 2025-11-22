@@ -4,6 +4,7 @@ require_once('../../src/config/constants.php');
 require_once('../../src/config/utils.php');
 require_once(MODELS_PATH . 'Membership.php');
 require_once(MODELS_PATH . 'Club.php');
+require_once(MODELS_PATH . 'User.php');
 
 session_start();
 
@@ -13,26 +14,37 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Toast flash (delete club, errors, etc.)
+// Models
+$userModel = new User();
+$membershipModel = new Membership();
+
+// Determine whose clubs we are viewing
+if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
+    $targetUserId = (int)$_GET['id'];
+    $isSelf = ($targetUserId === (int)$_SESSION['user_id']);
+} else {
+    $targetUserId = (int)$_SESSION['user_id'];
+    $isSelf = true;
+}
+
+// Toast flash
 $toastMessage = $_SESSION['toast_message'] ?? null;
 $toastType    = $_SESSION['toast_type']    ?? null;
 unset($_SESSION['toast_message'], $_SESSION['toast_type']);
 
-$userId = (int)$_SESSION['user_id'];
-
-// Name for hero title (fallback to generic)
-$displayName = !empty($_SESSION['first_name'])
-    ? htmlspecialchars($_SESSION['first_name'], ENT_QUOTES, 'UTF-8')
-    : 'you';
-
-// Models
-$membershipModel = new Membership();
+// Name for hero title
+if ($isSelf) {
+    $displayName = htmlspecialchars($_SESSION['first_name'] ?? 'You', ENT_QUOTES, 'UTF-8');
+} else {
+    $targetUser = $userModel->findById($targetUserId);
+    $displayName = htmlspecialchars($targetUser['first_name'] ?? 'User', ENT_QUOTES, 'UTF-8');
+}
 
 // Fetch ALL clubs this user is in
-$userClubs  = $membershipModel->getClubsForUser($userId);
+$userClubs  = $membershipModel->getClubsForUser($targetUserId);
 $totalClubs = count($userClubs);
 
-// How many cards visible initially
+// Initial visible cards
 $VISIBLE_COUNT = 6;
 ?>
 <!DOCTYPE html>
@@ -42,7 +54,7 @@ $VISIBLE_COUNT = 6;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ClubHub | My Clubs</title>
+    <title>ClubHub | <?= $isSelf ? "Your Clubs" : $displayName . "'s Clubs" ?></title>
 
     <meta property="og:title" content="ClubHub - My Clubs">
     <meta property="og:description" content="See all clubs you’re a member of on ClubHub.">
@@ -69,43 +81,65 @@ $VISIBLE_COUNT = 6;
     <!-- Hero -->
     <section class="user-clubs-hero">
         <div class="user-clubs-hero-inner">
-            <h1>Your Clubs</h1>
+
+            <h1>
+                <?= $isSelf ? "Your Clubs" : $displayName . "'s Clubs" ?>
+            </h1>
+
             <p>
-                Here are all the clubs you’re a member of, <?php echo $displayName; ?>.
-                Browse your list or jump into a club’s page to see events and details.
+                <?php if ($isSelf): ?>
+                    Here are all the clubs you’re a member of, <?= $displayName ?>.<br>
+                    Browse your list or jump into a club’s page to see events and details.
+                <?php else: ?>
+                    Here are all the clubs <?= $displayName ?> is a member of.<br>
+                    Browse their list or jump into a club’s page to see more.
+                <?php endif; ?>
             </p>
+
         </div>
     </section>
+
 
     <!-- Clubs list -->
     <section class="user-clubs-section">
         <div class="user-clubs-header">
             <div class="user-clubs-header-main">
-                <h2>Clubs you’ve joined</h2>
-                <p>Manage and revisit the communities you’re already part of.</p>
+
+                <h2>
+                    <?= $isSelf ? "Clubs you’ve joined" : "Clubs " . $displayName . " has joined" ?>
+                </h2>
+
+                <p>
+                    <?php if ($isSelf): ?>
+                        Manage and revisit the communities you’re already part of.
+                    <?php else: ?>
+                        See all the communities <?= $displayName ?> is part of.
+                    <?php endif; ?>
+                </p>
             </div>
 
-            <a
-                href="<?php echo CLUB_URL; ?>add-club.php"
-                class="user-clubs-create-btn"
-            >
-                Create a club
-            </a>
+            <?php if ($isSelf): ?>
+                <a href="<?= CLUB_URL ?>add-club.php" class="user-clubs-create-btn">
+                    Create a club
+                </a>
+            <?php endif; ?>
         </div>
 
         <?php if ($totalClubs === 0): ?>
             <p class="user-clubs-empty">
-                You’re not a member of any clubs yet.
-                <a href="<?php echo USER_URL; ?>explore.php?view=clubs">Browse clubs on Explore</a>
-                to find something that interests you.
+                <?php if ($isSelf): ?>
+                    You’re not a member of any clubs yet.
+                    <a href="<?= USER_URL ?>explore.php?view=clubs">Browse clubs on Explore</a>
+                    to find something that interests you.
+                <?php else: ?>
+                    <?= $displayName ?> is not a member of any clubs.
+                <?php endif; ?>
             </p>
         <?php else: ?>
             <div class="user-clubs-grid" id="userClubsGrid">
                 <?php foreach ($userClubs as $index => $club): ?>
                     <?php
-                        // Show first 6, hide the rest until "Load more" is clicked
                         $hiddenClass = ($index >= $VISIBLE_COUNT) ? 'is-hidden' : '';
-                        // Use normal explore-style card
                         $cardContext = 'explore';
                         include LAYOUT_PATH . 'club-card.php';
                     ?>
@@ -125,6 +159,7 @@ $VISIBLE_COUNT = 6;
             <?php endif; ?>
         <?php endif; ?>
     </section>
+
 
 </main>
 

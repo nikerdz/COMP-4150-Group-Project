@@ -31,29 +31,12 @@ $faculty = htmlspecialchars($user['faculty'] ?? '');
 $level   = htmlspecialchars($user['level_of_study'] ?? '');
 $year    = $user['year_of_study'] ?? null;
 
-// Avatar letter
-$initial = strtoupper(substr($first ?: $last, 0, 1));
-
-// Avatar color logic (optional)
-$genderRaw   = $user['gender'] ?? null;
-$genderUpper = $genderRaw ? strtoupper($genderRaw) : null;
-
-$avatarClass = 'usercard-avatar';
-if ($genderUpper === 'F') {
-    $avatarClass .= ' usercard-avatar-female';
-} elseif ($genderUpper === 'M') {
-    $avatarClass .= ' usercard-avatar-male';
-}
-
 // If card is for the logged-in user
 $selfLabel = ($loggedInUserId && $loggedInUserId == $user['user_id']) ? 'You' : null;
 
 ?>
 <article class="<?= $classes ?>">
     <div class="usercard-header">
-        <div class="<?= $avatarClass ?>">
-            <span><?= $initial ?></span>
-        </div>
 
         <h3 class="usercard-name">
             <a href="<?= PUBLIC_URL . 'user/view-user.php?id=' . (int)$user['user_id'] ?>">
@@ -61,15 +44,17 @@ $selfLabel = ($loggedInUserId && $loggedInUserId == $user['user_id']) ? 'You' : 
             </a>
         </h3>
 
+        <span class="explore-pill usercard-pill-type">User</span>
+
         <?php if ($selfLabel): ?>
-            <span class="usercard-pill usercard-pill-self"><?= $selfLabel ?></span>
+            <span class="usercard-pill usercard-pill-type"><?= $selfLabel ?></span>
         <?php elseif (!empty($user['user_type']) && $user['user_type'] === 'admin'): ?>
             <span class="usercard-pill usercard-pill-admin">Admin</span>
         <?php endif; ?>
     </div>
 
     <!-- Meta -->
-    <p class="usercard-meta">
+    <p class="explore-meta">
         <?php if ($level): ?>
             <?= ucfirst($level) ?>
         <?php endif; ?>
@@ -84,7 +69,7 @@ $selfLabel = ($loggedInUserId && $loggedInUserId == $user['user_id']) ? 'You' : 
     </p>
 
     <?php if (!empty($user['join_date'])): ?>
-        <p class="usercard-meta-small">
+        <p class="explore-meta-small">
             Joined <?= date('M d, Y', strtotime($user['join_date'])) ?>
         </p>
     <?php endif; ?>

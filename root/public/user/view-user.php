@@ -141,7 +141,7 @@ if ($viewUserId !== $_SESSION['user_id']) {
         <h2><?= $firstName ?>'s Clubs</h2>
 
         <?php if ($hasMoreClubs): ?>
-            <a class="profile-section-cta" href="<?= USER_URL ?>view-user-clubs.php?id=<?= $targetUserId ?>">
+            <a class="profile-section-cta" href="<?= CLUB_URL ?>user-clubs.php?id=<?= $targetUserId ?>">
                 View All
             </a>
         <?php endif; ?>
@@ -165,10 +165,10 @@ if ($viewUserId !== $_SESSION['user_id']) {
 <!-- =============== USER EVENTS =============== -->
 <section class="profile-section">
     <div class="profile-section-header-with-cta">
-        <h2><?= $firstName ?>'s Events</h2>
+        <h2><?= $firstName ?>'s Upcoming Events</h2>
 
         <?php if ($hasMoreEvents): ?>
-            <a class="profile-section-cta" href="<?= USER_URL ?>view-user-events.php?id=<?= $targetUserId ?>">
+            <a class="profile-section-cta" href="<?= EVENT_URL ?>user-events.php?id=<?= $targetUserId ?>">
                 View All
             </a>
         <?php endif; ?>

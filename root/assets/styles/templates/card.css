@@ -79,7 +79,8 @@
 
 .explore-meta a,
 .dash-meta a,
-.profile-card-meta a {
+.profile-card-meta a
+.user-card-meta a {
     text-decoration: none;
     color: var(--dark-blue);
     font-weight: 600;
@@ -109,7 +110,8 @@
 
 .explore-card-meta,
 .dash-meta,
-.profile-card-meta {
+.profile-card-meta
+.user-card-meta {
     font-size: 0.85rem;
     color: var(--dark-blue);
     font-weight: 600;
@@ -175,6 +177,20 @@
 .profile-card-tag-free {
     background: var(--dark-blue);
 }
+
+.explore-pill-user,
+.usercard-pill-type {
+    display: inline-block;
+    width: fit-content;
+    background: var(--light-blue);
+    color: var(--cream);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 4px;
+}
+
 
 /* ==========================
    Role pills for club cards

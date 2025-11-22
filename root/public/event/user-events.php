@@ -1,9 +1,9 @@
 <?php
-// viewing all events pertaining to the logged in user (registered/upcoming)
 require_once('../../src/config/constants.php');
 require_once('../../src/config/utils.php');
 require_once(MODELS_PATH . 'Registration.php');
 require_once(MODELS_PATH . 'Event.php');
+require_once(MODELS_PATH . 'User.php');
 
 session_start();
 
@@ -13,24 +13,71 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$userId = (int)$_SESSION['user_id'];
-
-// Name for hero title (fallback to generic)
-$displayName = !empty($_SESSION['first_name'])
-    ? htmlspecialchars($_SESSION['first_name'], ENT_QUOTES, 'UTF-8')
-    : 'you';
+$loggedInUserId = (int)$_SESSION['user_id'];
 
 // Models
 $registrationModel = new Registration();
-// $eventModel = new Event(); // keep for future if you want, not needed right now
+$userModel = new User();
 
-// Fetch ALL upcoming events this user is registered for.
-// Using a higher limit here so Load More has something to work with.
-$userEvents  = $registrationModel->getUpcomingEventsForUser($userId, 200);
+// --------------------------------------
+// Determine whose events we are viewing
+// --------------------------------------
+if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
+    $targetUserId = (int)$_GET['id'];
+    $isSelf = ($targetUserId === $loggedInUserId);
+} else {
+    $targetUserId = $loggedInUserId;
+    $isSelf = true;
+}
+
+// Name used in hero/headers
+if ($isSelf) {
+    $displayName = htmlspecialchars($_SESSION['first_name'] ?? 'You', ENT_QUOTES, 'UTF-8');
+} else {
+    $targetUser = $userModel->findById($targetUserId);
+    $displayName = htmlspecialchars($targetUser['first_name'] ?? 'User', ENT_QUOTES, 'UTF-8');
+}
+
+// --------------------------------------
+// Fetch their registered upcoming events
+// --------------------------------------
+$userEvents  = $registrationModel->getUpcomingEventsForUser($targetUserId, 200);
 $totalEvents = count($userEvents);
 
-// How many cards visible initially – 2 rows of 3
+// Number of visible cards before "Load more"
 $VISIBLE_COUNT = 6;
+
+// --------------------------------------
+// Split user events into upcoming vs past
+// --------------------------------------
+$upcomingEvents = [];
+$pastEvents = [];
+
+$now = new DateTime('now');
+
+foreach ($userEvents as $ev) {
+
+    // Treat no-date events as upcoming
+    if (empty($ev['event_date'])) {
+        $upcomingEvents[] = $ev;
+        continue;
+    }
+
+    try {
+        $eventDate = new DateTime($ev['event_date']);
+    } catch (Exception $e) {
+        $upcomingEvents[] = $ev;
+        continue;
+    }
+
+    if ($eventDate >= $now) {
+        $upcomingEvents[] = $ev;
+    } else {
+        $pastEvents[] = $ev;
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,13 +86,13 @@ $VISIBLE_COUNT = 6;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta property="og:title" content="ClubHub - My Events">
-    <meta property="og:description" content="See all events you’re registered for on ClubHub.">
+    <meta property="og:title" content="ClubHub - User Events">
+    <meta property="og:description" content="See upcoming events a user is registered for on ClubHub.">
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
     <meta property="og:url" content="<?php echo EVENT_URL; ?>user-events.php">
     <meta property="og:type" content="website">
 
-    <title>ClubHub | My Events</title>
+    <title>ClubHub | <?= $isSelf ? "My Events" : $displayName . "'s Events" ?></title>
 
     <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?php echo time(); ?>">
@@ -60,53 +107,86 @@ $VISIBLE_COUNT = 6;
     <!-- Hero -->
     <section class="user-events-hero">
         <div class="user-events-hero-inner">
-            <h1>Your Events</h1>
+            <h1><?= $isSelf ? "Your Events" : $displayName . "'s Events" ?></h1>
+
             <p>
-                Here are all the upcoming events you’re registered for, <?php echo $displayName; ?>.
-                Jump into an event page to see full details and club info.
+                <?php if ($isSelf): ?>
+                    Here are all the upcoming events you’re registered for, <?= $displayName ?>. <br>
+                <?php else: ?>
+                    Here are all the upcoming events <?= $displayName ?> is registered for. <br>
+                <?php endif; ?>
+                Jump into an event page to see details.
             </p>
         </div>
     </section>
 
     <!-- Events list -->
-    <section class="user-events-section">
-        <div class="user-events-header">
-            <h2>Events you’re registered for</h2>
-            <p>Keep track of what’s coming up so you don’t miss anything.</p>
-        </div>
+<section class="user-events-section">
+    <div class="user-events-header">
+        <h2>
+            <?= $isSelf ? "Events you're registered for" : $displayName . " is registered for" ?>
+        </h2>
+        <p>
+            <?= $isSelf 
+                ? "Keep track of what's coming up so you don't miss anything."
+                : "These are the events $displayName plans to attend." ?>
+        </p>
+    </div>
 
-        <?php if ($totalEvents === 0): ?>
-            <p class="user-events-empty">
-                You’re not registered for any upcoming events yet.
-                <a href="<?php echo USER_URL; ?>explore.php?view=events">Browse events on Explore</a>
-                to find something that interests you.
-            </p>
-        <?php else: ?>
-            <div class="user-events-grid" id="userEventsGrid">
-                <?php foreach ($userEvents as $index => $event): ?>
-                    <?php
-                        // Show first 6, hide the rest until "Load more" is clicked
+    <!-- Tabs -->
+    <div class="event-tabs">
+        <button class="event-tab active" data-tab="upcoming">Upcoming</button>
+        <button class="event-tab" data-tab="past">Past</button>
+    </div>
+    <br>
+
+    <!-- UPCOMING EVENTS -->
+    <div class="event-tab-content" id="tab-upcoming" style="display:block;">
+        <?php if (!empty($upcomingEvents)): ?>
+            <div class="user-events-grid">
+                <?php foreach ($upcomingEvents as $index => $event): ?>
+                    <?php 
                         $hiddenClass = ($index >= $VISIBLE_COUNT) ? 'is-hidden' : '';
-                        // Use normal explore-style card (same as Explore & profile grids)
-                        $cardContext = 'explore';
-                        include LAYOUT_PATH . 'event-card.php';
+                        $cardContext = 'explore'; 
+                        include LAYOUT_PATH . 'event-card.php'; 
                     ?>
                 <?php endforeach; ?>
             </div>
 
-            <?php if ($totalEvents > $VISIBLE_COUNT): ?>
+            <?php if (count($upcomingEvents) > $VISIBLE_COUNT): ?>
                 <div class="user-events-load-more-wrapper">
-                    <button
-                        type="button"
-                        id="userEventsLoadMore"
-                        class="user-events-load-more"
-                    >
+                    <button id="userEventsLoadMoreUpcoming" class="user-events-load-more">
                         Load more events
                     </button>
                 </div>
             <?php endif; ?>
+        <?php else: ?>
+            <p class="user-events-empty">
+                <?= $isSelf ? "You have no upcoming events." : "$displayName has no upcoming events." ?>
+            </p>
         <?php endif; ?>
-    </section>
+    </div>
+
+    <!-- PAST EVENTS -->
+    <div class="event-tab-content" id="tab-past" style="display:none;">
+        <?php if (!empty($pastEvents)): ?>
+            <div class="user-events-grid">
+                <?php foreach ($pastEvents as $event): ?>
+                    <?php 
+                        $cardContext = 'explore'; 
+                        $hiddenClass = ''; 
+                        include LAYOUT_PATH . 'event-card.php'; 
+                    ?>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="user-events-empty">
+                <?= $isSelf ? "You have no past events." : "$displayName has no past events." ?>
+            </p>
+        <?php endif; ?>
+    </div>
+</section>
+
 
 </main>
 
@@ -115,16 +195,15 @@ $VISIBLE_COUNT = 6;
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
 
-<!-- Inline JS just for "Load more" behaviour on this page -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+// Load more events
+document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('userEventsGrid');
     const loadMoreBtn = document.getElementById('userEventsLoadMore');
 
     if (!grid || !loadMoreBtn) return;
 
-    loadMoreBtn.addEventListener('click', function () {
-        // Reveal up to 6 hidden cards each click (2 more rows of 3)
+    loadMoreBtn.addEventListener('click', () => {
         const hiddenCards = grid.querySelectorAll('.explore-card.is-hidden');
         let revealed = 0;
 
@@ -135,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // If no hidden cards remain, hide the button
         if (!grid.querySelector('.explore-card.is-hidden')) {
             loadMoreBtn.style.display = 'none';
         }
