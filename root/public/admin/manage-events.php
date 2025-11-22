@@ -18,33 +18,16 @@ $eventModel = new Event();
 // Filters
 // -----------------------------
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
-$status = isset($_GET['status']) ? $_GET['status'] : 'pending';  
-// statuses: pending | approved
-
-if (!in_array($status, ['pending', 'approved'], true)) {
+$status = isset($_GET['status']) ? $_GET['status'] : 'pending';
+// allowed: pending | approved | cancelled
+if (!in_array($status, ['pending', 'approved', 'cancelled'], true)) {
     $status = 'pending';
 }
 
 // -----------------------------
-// Fetch Events
+// Fetch Events (admin-specific search)
 // -----------------------------
-$includeInactiveClubs = true; // admins see everything
-
-$events = $eventModel->searchEvents(
-    $search,
-    null,        // no category filter
-    null,        // no condition filter
-    500,
-    0,
-    $includeInactiveClubs
-);
-
-// Filter manually by event_status (pending / approved)
-$events = array_filter($events, function($e) use ($status) {
-    return $e['event_status'] === $status;
-});
-
-$events = array_values($events);
+$events = $eventModel->searchEventsAdmin($search, $status);
 
 $totalEvents = count($events);
 $VISIBLE = 12;
