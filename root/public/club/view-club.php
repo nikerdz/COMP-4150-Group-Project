@@ -86,12 +86,13 @@ if (!empty($members)) {
 
 // includeInactiveClubs = $isAdmin
 $allEvents = $eventModel->searchEvents(
-    null,   // no search string
-    null,   // no category filter
-    null,   // no condition filter
-    100,    // limit
-    0,      // offset
-    $isAdmin // if admin, include events even if club is inactive
+    null,     // search
+    null,     // category
+    null,     // condition
+    200,      // limit
+    0,        // offset
+    'any',    // <-- LOAD ALL STATUS EVENTS
+    $isAdmin  // <-- include inactive clubs for admin
 );
 
 // Filter events by this club
@@ -99,12 +100,24 @@ $clubEvents = array_filter($allEvents, fn($e) => (int)$e['club_id'] === $clubId)
 
 $upcomingEvents = [];
 $pastEvents     = [];
+$pendingEvents  = [];
 
 $now = new DateTime('now');
 
 foreach ($clubEvents as $ev) {
+
+    // ---------------------------
+    // Admin-only pending approval
+    // ---------------------------
+    if ($isAdmin && isset($ev['event_status']) && $ev['event_status'] === 'pending') {
+        $pendingEvents[] = $ev;
+        continue;  // DO NOT process into upcoming/past
+    }
+
+    // ---------------------------
+    // No event date? treat as upcoming
+    // ---------------------------
     if (empty($ev['event_date'])) {
-        // If no date, treat as upcoming by default
         $upcomingEvents[] = $ev;
         continue;
     }
@@ -116,6 +129,9 @@ foreach ($clubEvents as $ev) {
         continue;
     }
 
+    // ---------------------------
+    // Sort into upcoming/past
+    // ---------------------------
     if ($eventDate >= $now) {
         $upcomingEvents[] = $ev;
     } else {
@@ -319,9 +335,13 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
         <!-- Tabs + Add Event button in one row -->
         <div class="club-events-header-row">
             <div class="event-tabs">
+                <?php if ($isAdmin): ?>
+                    <button class="event-tab" data-tab="pending">Pending Approval</button>
+                <?php endif; ?>
                 <button class="event-tab active" data-tab="upcoming">Upcoming</button>
                 <button class="event-tab" data-tab="past">Past</button>
             </div>
+
 
             <?php if ($userRole === 'executive'): ?>
                 <a class="club-add-event-btn" href="<?= EVENT_URL ?>add-event.php?club_id=<?= $clubId ?>">
@@ -342,6 +362,20 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                 <p class="club-empty">No upcoming events.</p>
             <?php endif; ?>
         </div>
+
+        <?php if ($isAdmin): ?>
+            <div class="event-tab-content" id="tab-pending" style="display:none;">
+                <?php if (!empty($pendingEvents)): ?>
+                    <div class="club-cards-grid">
+                        <?php foreach ($pendingEvents as $event): ?>
+                            <?php include(LAYOUT_PATH . 'event-card.php'); ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p class="club-empty">No pending events.</p>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
 
         <!-- PAST TAB CONTENT -->
         <div class="event-tab-content" id="tab-past" style="display:none;">

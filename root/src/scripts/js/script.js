@@ -196,33 +196,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================
-// Club view – Event tabs (Upcoming / Past)
+// Club view – Event tabs (Pending / Upcoming / Past)
 // ==========================
 document.addEventListener('DOMContentLoaded', function () {
     const tabs = document.querySelectorAll('.event-tab');
-    const upcomingTabContent = document.getElementById('tab-upcoming');
-    const pastTabContent     = document.getElementById('tab-past');
+    const contents = document.querySelectorAll('.event-tab-content');
 
-    // If this page doesn't have event tabs, bail out
-    if (!tabs.length || !upcomingTabContent || !pastTabContent) {
-        return;
-    }
+    if (!tabs.length || !contents.length) return;
 
     tabs.forEach(tab => {
         tab.addEventListener('click', function () {
-            const target = this.dataset.tab;
+            const target = this.dataset.tab; // pending, upcoming, past
 
-            // Active state on buttons
+            // Remove active class from all tabs
             tabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
 
-            // Show / hide content
-            if (target === 'past') {
-                upcomingTabContent.style.display = 'none';
-                pastTabContent.style.display     = 'block';
-            } else {
-                upcomingTabContent.style.display = 'block';
-                pastTabContent.style.display     = 'none';
+            // Hide all content sections
+            contents.forEach(c => c.style.display = 'none');
+
+            // Show only the selected content
+            const section = document.getElementById('tab-' + target);
+            if (section) {
+                section.style.display = 'block';
             }
         });
     });
