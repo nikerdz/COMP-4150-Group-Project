@@ -32,13 +32,15 @@ class Event
 
     /* --------------------------
        Search events with filters
+       NOTE: $includeInactiveClubs = true will NOT filter by c.club_status
        -------------------------- */
     public function searchEvents(
         ?string $search,
         ?int $categoryId,
         ?string $condition,
         int $limit = 20,
-        int $offset = 0
+        int $offset = 0,
+        bool $includeInactiveClubs = false
     ): array {
         $sql = "
             SELECT
@@ -50,8 +52,12 @@ class Event
             LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
             LEFT JOIN Category cat ON ct.category_id = cat.category_id
             WHERE e.event_status <> 'cancelled'
-            AND c.club_status = 'active'
         ";
+
+        // Only restrict by active clubs when we are NOT explicitly including inactive ones
+        if (!$includeInactiveClubs) {
+            $sql .= " AND c.club_status = 'active'";
+        }
 
         // --------------------
         // Dynamic filters

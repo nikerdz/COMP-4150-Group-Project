@@ -55,13 +55,14 @@ $members = $membershipModel->getClubMembers($clubId);
 // split into upcoming vs past
 // --------------------------------------
 
-
+// includeInactiveClubs = $isAdmin
 $allEvents = $eventModel->searchEvents(
-    null,
-    null,
-    null, 
-    100,
-    0
+    null,   // no search string
+    null,   // no category filter
+    null,   // no condition filter
+    100,    // limit
+    0,      // offset
+    $isAdmin // if admin, include events even if club is inactive
 );
 
 // Filter events by this club
