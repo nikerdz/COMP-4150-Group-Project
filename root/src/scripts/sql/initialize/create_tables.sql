@@ -101,7 +101,6 @@ CREATE TABLE IF NOT EXISTS Comments (
     event_id INT NOT NULL,
     comment_message TEXT NOT NULL,
     comment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY unique_comment (user_id, event_id, comment_message(255)),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
 );
