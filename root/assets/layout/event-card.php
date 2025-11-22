@@ -63,10 +63,12 @@ $clubId   = isset($event['club_id']) ? (int)$event['club_id'] : null;
         Access: <?php echo htmlspecialchars(prettyCondition($event['event_condition'] ?? null)); ?>
     </p>
 
-    <?php if (!empty($event['event_status'])): ?>
-        <span class="explore-pill explore-pill-status status-<?php echo htmlspecialchars($event['event_status']); ?>">
-            <?php echo ucfirst($event['event_status']); ?>
-        </span>
+    <?php if (!empty($_SESSION['is_admin'])): ?>
+        <?php if (!empty($event['event_status'])): ?>
+            <span class="explore-pill explore-pill-status status-<?php echo htmlspecialchars($event['event_status']); ?>">
+                <?php echo ucfirst($event['event_status']); ?>
+            </span>
+        <?php endif; ?>
     <?php endif; ?>
 
 </article>
