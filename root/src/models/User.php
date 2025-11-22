@@ -190,13 +190,19 @@ class User
         $params = [':status' => $status];
 
         if ($search !== '') {
+            // use distinct placeholders so PDO doesn't complain
             $sql .= " AND (
-                first_name LIKE :q OR
-                last_name LIKE :q OR
-                faculty LIKE :q OR
-                user_email LIKE :q
+                first_name LIKE :q1 OR
+                last_name  LIKE :q2 OR
+                faculty    LIKE :q3 OR
+                user_email LIKE :q4
             )";
-            $params[':q'] = "%$search%";
+
+            $like = "%{$search}%";
+            $params[':q1'] = $like;
+            $params[':q2'] = $like;
+            $params[':q3'] = $like;
+            $params[':q4'] = $like;
         }
 
         $sql .= " ORDER BY first_name ASC";
@@ -225,6 +231,4 @@ class User
         ");
         return $stmt->execute([$userId]);
     }
-
-
 }

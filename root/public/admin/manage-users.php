@@ -26,7 +26,7 @@ if (!in_array($status, ['active', 'suspended'], true)) {
 // -----------------------------
 // Fetch from DB
 // -----------------------------
-$users = $userModel->searchUsers($search, $status); 
+$users = $userModel->searchUsers($search, $status);
 $totalUsers = count($users);
 
 // For load more
@@ -44,7 +44,7 @@ $VISIBLE = 12;
     <meta property="og:description" content="Join ClubHub and explore clubs, events, and connect with fellow students on campus.">
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
     <meta property="og:url" content="https://khan661.myweb.cs.uwindsor.ca/COMP-4150-Group-Project/root/public/">
-    <meta property="og:type" content="website"> <!-- Enhance link previews when shared on Facebook, LinkedIn, and other platforms -->
+    <meta property="og:type" content="website">
 
     <title>ClubHub Admin | Manage Users</title>
 
@@ -58,63 +58,101 @@ $VISIBLE = 12;
 
 <main>
 
-    <!-- Hero -->
-    <section class="explore-hero">
-        <div class="explore-hero-inner">
+    <!-- Hero (separate styling from explore) -->
+    <section class="admin-users-hero">
+        <div class="admin-users-hero-inner">
             <h1>Manage Users</h1>
             <p>Search, browse, and manage student accounts.</p>
         </div>
     </section>
 
-    <!-- Tabs -->
-    <section class="explore-filters-section">
-        <form method="GET" class="explore-filters-form">
+    <!-- Search + Filters -->
+    <section class="admin-users-filters-section">
+        <form method="GET" class="admin-users-filters-form">
 
-            <!-- Search Row -->
-            <div class="explore-search-row">
+            <!-- Search row -->
+            <div class="admin-users-search-row">
                 <input
                     type="text"
                     name="q"
-                    class="explore-search-input"
-                    placeholder="Search students (e.g. 'Anika', 'Computer Science')"
-                    value="<?= htmlspecialchars($search) ?>"
+                    class="admin-users-search-input"
+                    placeholder="Search users (e.g. 'Anika', 'Computer Science')"
+                    value="<?php echo htmlspecialchars($search); ?>"
                 >
-                <button class="explore-search-btn">Search</button>
+                <button class="admin-users-search-btn" type="submit">
+                    Search
+                </button>
+
+                <button
+                    type="button"
+                    class="admin-users-filter-toggle"
+                    id="adminUsersFilterToggle"
+                >
+                    Filters
+                </button>
             </div>
 
-            <!-- Status Tabs -->
-            <div class="manage-tabs">
-                <a href="?status=active&q=<?= urlencode($search) ?>"
-                   class="manage-tab <?= $status === 'active' ? 'active' : '' ?>">
-                    Active Users
-                </a>
+            <!-- Collapsible filter panel (status filter) -->
+            <div class="admin-users-filter-panel" id="adminUsersFilterPanel">
+                <div class="admin-users-filter-group">
+                    <span class="admin-users-filter-label">User Status</span>
+                    <div class="admin-users-status-options">
+                        <label class="admin-users-status-option">
+                            <input
+                                type="radio"
+                                name="status"
+                                value="active"
+                                <?php if ($status === 'active') echo 'checked'; ?>
+                            >
+                            <span>Active</span>
+                        </label>
 
-                <a href="?status=suspended&q=<?= urlencode($search) ?>"
-                   class="manage-tab <?= $status === 'suspended' ? 'active' : '' ?>">
-                    Suspended Users
-                </a>
+                        <label class="admin-users-status-option">
+                            <input
+                                type="radio"
+                                name="status"
+                                value="suspended"
+                                <?php if ($status === 'suspended') echo 'checked'; ?>
+                            >
+                            <span>Suspended</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="admin-users-filter-actions">
+                    <button type="submit" class="admin-users-apply-btn">
+                        Apply
+                    </button>
+                    <a
+                        href="<?php echo PUBLIC_URL; ?>admin/manage-users.php"
+                        class="admin-users-reset-link"
+                    >
+                        Reset
+                    </a>
+                </div>
             </div>
 
         </form>
     </section>
 
     <!-- User Grid -->
-    <section class="explore-results-section">
+    <section class="admin-users-results-section">
         <?php if ($totalUsers === 0): ?>
-            <p class="explore-empty">No users found.</p>
+            <p class="admin-users-empty">No users found.</p>
         <?php else: ?>
-            <div class="explore-grid" id="usersGrid">
+            <div class="admin-users-grid" id="adminUsersGrid">
                 <?php foreach ($users as $i => $user): ?>
                     <?php
-                        $hiddenClass = $i >= $VISIBLE ? 'is-hidden' : '';
+                        // hide everything after the first $VISIBLE users
+                        $hiddenClass = $i >= $VISIBLE ? 'admin-users-card-hidden' : '';
                         include LAYOUT_PATH . 'user-card.php';
                     ?>
                 <?php endforeach; ?>
             </div>
 
             <?php if ($totalUsers > $VISIBLE): ?>
-                <div class="explore-load-more-wrapper">
-                    <button id="loadMoreUsers" class="explore-load-more">
+                <div class="admin-users-load-more-wrapper">
+                    <button id="adminUsersLoadMore" class="admin-users-load-more">
                         Load More
                     </button>
                 </div>
@@ -129,6 +167,38 @@ $VISIBLE = 12;
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
+
+<!-- Page-specific JS so it doesn't share behaviour with explore.php -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const filterToggle = document.getElementById('adminUsersFilterToggle');
+    const filterPanel  = document.getElementById('adminUsersFilterPanel');
+
+    if (filterToggle && filterPanel) {
+        filterToggle.addEventListener('click', function () {
+            filterPanel.classList.toggle('is-open');
+        });
+    }
+
+    const loadMoreBtn = document.getElementById('adminUsersLoadMore');
+    const grid        = document.getElementById('adminUsersGrid');
+
+    if (loadMoreBtn && grid) {
+        loadMoreBtn.addEventListener('click', function () {
+            const hiddenCards = grid.querySelectorAll('.admin-users-card-hidden');
+            const batchSize   = 12;
+
+            for (let i = 0; i < hiddenCards.length && i < batchSize; i++) {
+                hiddenCards[i].classList.remove('admin-users-card-hidden');
+            }
+
+            if (grid.querySelectorAll('.admin-users-card-hidden').length === 0) {
+                loadMoreBtn.style.display = 'none';
+            }
+        });
+    }
+});
+</script>
 
 </body>
 </html>

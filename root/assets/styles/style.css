@@ -20,6 +20,9 @@
 @import url('templates/add-event.css');
 @import url("templates/comment.css");
 @import url("templates/edit-event.css");
+@import url('templates/admin-users.css');
+
+
 
 .is-hidden {
     display: none !important;
