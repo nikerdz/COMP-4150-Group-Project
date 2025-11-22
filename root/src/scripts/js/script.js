@@ -298,28 +298,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        const list = document.getElementById("commentsList");
-        const btn = document.getElementById("loadMoreComments");
+    const list = document.getElementById("commentsList");
+    const btn = document.getElementById("loadMoreComments");
 
-        if (!list || !btn) return;
+    if (!list || !btn) return;
 
-        btn.addEventListener("click", function () {
-            const hidden = list.querySelectorAll(".is-hidden");
-            let shown = 0;
+    btn.addEventListener("click", function () {
+        const hidden = list.querySelectorAll(".is-hidden");
+        let shown = 0;
 
-            hidden.forEach(item => {
-                if (shown < 3) {
-                    item.classList.remove("is-hidden");
-                    shown++;
-                }
-            });
+        hidden.forEach(item => {
+            if (shown < 3) {
+                item.classList.remove("is-hidden");
+                shown++;
+            }
+         });
 
-            // Hide button if done
-            if (list.querySelectorAll(".is-hidden").length === 0) {
-                btn.style.display = "none";
+        // Hide button if done
+        if (list.querySelectorAll(".is-hidden").length === 0) {
+            btn.style.display = "none";
+        }
+    });
+
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const grid = document.getElementById("usersGrid");
+    const btn  = document.getElementById("loadMoreUsers");
+
+    if (!grid || !btn) return;
+
+    btn.addEventListener("click", () => {
+        const hidden = grid.querySelectorAll(".explore-card.is-hidden");
+        let shown = 0;
+
+        hidden.forEach(card => {
+            if (shown < 12) {
+                card.classList.remove("is-hidden");
+                shown++;
             }
         });
 
+        if (grid.querySelectorAll(".is-hidden").length === 0) {
+            btn.style.display = "none";
+        }
     });
+});

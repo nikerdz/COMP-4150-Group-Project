@@ -634,6 +634,26 @@
     box-shadow: 0 4px 14px rgba(0,0,0,0.22);
 }
 
+.profile-status-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.status-active {
+    background: #d4f7d4;
+    color: #106e0c;
+}
+
+.status-suspended {
+    background: #ffe3e3;
+    color: #c20d0d;
+}
+
+
 /* ==========================
    Responsive
 ========================== */
@@ -671,3 +691,4 @@
         max-width: 100%;
     }
 }
+

@@ -59,6 +59,10 @@ $firstName = htmlspecialchars($user['first_name']);
 $lastName  = htmlspecialchars($user['last_name']);
 $fullName  = trim("$firstName $lastName");
 $email     = htmlspecialchars($user['user_email']);
+$faculty   = htmlspecialchars($user['faculty'] ?? 'Not set');
+$level     = htmlspecialchars($user['level_of_study'] ?? 'undergraduate');
+$year      = !empty($user['year_of_study']) ? (int)$user['year_of_study'] : null;
+$joinDate  = !empty($user['join_date']) ? date('M j, Y', strtotime($user['join_date'])) : null;
 
 // Clubs & events they belong to
 $userClubs  = $membershipModel->getClubsForUser($targetUserId);
@@ -90,6 +94,9 @@ if ($viewUserId !== $_SESSION['user_id']) {
     array_unshift($_SESSION['recent_users'], $viewUserId);
     $_SESSION['recent_users'] = array_slice($_SESSION['recent_users'], 0, 10);
 }
+
+// Interests
+$interestNames = $userModel->getInterestNames($targetUserId);
 
 $commentModel    = new Comment();
 $recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
@@ -130,11 +137,64 @@ $recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
             <div class="profile-main-info">
                 <h1><?= $fullName ?></h1>
 
-                <p class="profile-meta-secondary">
-                    <?= $email ?>
+                <p class="profile-meta-line">
+                    <span><?php echo ucfirst($level); ?></span>
+                    <?php if ($faculty !== 'Not set'): ?>
+                        <span><?php echo $faculty; ?></span>
+                    <?php endif; ?>
+                    <?php if ($year): ?>
+                        <span>Year <?php echo $year; ?></span>
+                    <?php endif; ?>
                 </p>
+
+                <p class="profile-meta-secondary">
+                    <span><?php echo $email; ?></span>
+                    <?php if ($joinDate): ?>
+                        <span>· Joined <?php echo $joinDate; ?></span>
+                    <?php endif; ?>
+                </p>
+
+                <?php if (!empty($interestNames)): ?>
+                    <p class="profile-interests-row">
+                        <span class="profile-interests-label">Interests:</span>
+                        <?php foreach ($interestNames as $name): ?>
+                            <span class="profile-interest-pill">
+                                <?php echo htmlspecialchars($name); ?>
+                            </span>
+                        <?php endforeach; ?>
+                    </p>
+                <?php endif; ?>
             </div>
 
+             <div class="profile-actions">
+
+                <p class="profile-status-pill 
+                    <?= $user['user_status'] === 'active' ? 'status-active' : 'status-suspended' ?>">
+                    User Status:
+                    <?= ucfirst($user['user_status']) ?>
+                </p>
+
+                    <!-- SHOW ONLY IF ADMIN -->
+                    <?php if (!empty($_SESSION['is_admin'])): ?>
+
+                        <?php if ($user['user_status'] === 'active'): ?>
+                            <form action="<?= PHP_URL ?>admin_handle_suspend_user.php" method="POST">
+                                <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
+                                <button class="profile-edit-btn">
+                                    Suspend User
+                                </button>
+                            </form>
+                        <?php else: ?>
+                            <form action="<?= PHP_URL ?>admin_handle_activate_user.php" method="POST">
+                                <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
+                                <button class="profile-edit-btn">
+                                    Activate User
+                                </button>
+                            </form>
+                        <?php endif; ?>
+
+                    <?php endif; ?>
+                </div>
         </div>
     </section>
 

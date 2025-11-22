@@ -138,6 +138,8 @@ $isSelf          = true; // you are viewing your own profile
                     <div class="profile-main-text">
                         <h1><?php echo $fullName !== '' ? $fullName : 'Student'; ?></h1>
 
+                        
+
                         <p class="profile-meta-line">
                             <span><?php echo ucfirst($level); ?></span>
                             <?php if ($faculty !== 'Not set'): ?>

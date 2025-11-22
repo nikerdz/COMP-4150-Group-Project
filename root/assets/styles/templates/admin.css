@@ -1,0 +1,25 @@
+.manage-tabs {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.manage-tab {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    background: var(--light-blue);
+    color: var(--dark-blue);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.manage-tab.active {
+    background: var(--dark-blue);
+    color: var(--cream);
+}
+
+.manage-tab:hover {
+    background: var(--red);
+    color: var(--cream);
+}

@@ -179,4 +179,52 @@ class User
         return $this->pdo->query("SELECT * FROM User")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function searchUsers(string $search = '', string $status = 'active'): array
+    {
+        $sql = "
+            SELECT *
+            FROM User
+            WHERE user_status = :status
+        ";
+
+        $params = [':status' => $status];
+
+        if ($search !== '') {
+            $sql .= " AND (
+                first_name LIKE :q OR
+                last_name LIKE :q OR
+                faculty LIKE :q OR
+                user_email LIKE :q
+            )";
+            $params[':q'] = "%$search%";
+        }
+
+        $sql .= " ORDER BY first_name ASC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function suspendUser(int $userId): bool
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE User 
+            SET user_status = 'suspended'
+            WHERE user_id = ?
+        ");
+        return $stmt->execute([$userId]);
+    }
+
+    public function activateUser(int $userId): bool
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE User 
+            SET user_status = 'active'
+            WHERE user_id = ?
+        ");
+        return $stmt->execute([$userId]);
+    }
+
+
 }

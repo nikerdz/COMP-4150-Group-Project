@@ -1,5 +1,3 @@
-<!-- this is the home page for logged-in admin users with shortcuts to diff pages like managing users, clubs, and events
--->
 <?php
 require_once('../../src/config/constants.php');
 require_once('../../src/config/utils.php');
