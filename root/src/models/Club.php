@@ -249,4 +249,31 @@ class Club
             return false;
         }
     }
+
+    public function searchClubsAdmin(string $search = '', string $status = 'active'): array
+    {
+        $sql = "
+            SELECT *
+            FROM Club
+            WHERE club_status = :status
+        ";
+
+        $params = [':status' => $status];
+
+        if ($search !== '') {
+            $sql .= " AND (
+                club_name LIKE :q OR
+                club_description LIKE :q
+            )";
+            $params[':q'] = "%$search%";
+        }
+
+        $sql .= " ORDER BY club_name ASC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
