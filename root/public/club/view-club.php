@@ -51,6 +51,35 @@ if (isset($_SESSION['user_id'])) {
 $members = $membershipModel->getClubMembers($clubId);
 
 // --------------------------------------
+// Sort members: execs first, then by first name
+// --------------------------------------
+if (!empty($members)) {
+    usort($members, function ($a, $b) {
+        $roleA = strtolower($a['role'] ?? 'member');
+        $roleB = strtolower($b['role'] ?? 'member');
+
+        $isExecA = ($roleA !== 'member');
+        $isExecB = ($roleB !== 'member');
+
+        // Execs first
+        if ($isExecA !== $isExecB) {
+            return $isExecA ? -1 : 1;
+        }
+
+        // Then order by first name (case-insensitive)
+        $firstA = strtolower($a['first_name'] ?? '');
+        $firstB = strtolower($b['first_name'] ?? '');
+        if ($firstA === $firstB) {
+            // Tie-break by last name if needed
+            $lastA = strtolower($a['last_name'] ?? '');
+            $lastB = strtolower($b['last_name'] ?? '');
+            return $lastA <=> $lastB;
+        }
+        return $firstA <=> $firstB;
+    });
+}
+
+// --------------------------------------
 // Fetch events for this club,
 // split into upcoming vs past
 // --------------------------------------
@@ -325,16 +354,25 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
         <?php if (!empty($members)): ?>
             <div class="member-list">
                 <?php foreach ($members as $member): ?>
+                    <?php
+                        $roleRaw   = strtolower($member['role'] ?? 'member');
+                        $roleLabel = ucfirst($roleRaw);
+                        $roleClass = 'member-role';
+                        // Anything not "member" is treated as exec-style
+                        if ($roleRaw !== 'member') {
+                            $roleClass .= ' member-role-exec';
+                        }
+                    ?>
                     <div class="member-item">
                         <span class="member-name">
-                            <a href="<?= PUBLIC_URL ?>user/view-user.php?id=<?= $member['user_id'] ?>">
+                            <a href="<?= PUBLIC_URL ?>user/view-user.php?id=<?= (int)$member['user_id'] ?>">
                                 <?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?>
                             </a>
                         </span>
 
                         <div class="member-bubbles">
-                            <span class="member-role">
-                                <?= ucfirst($member['role']) ?>
+                            <span class="<?= $roleClass ?>">
+                                <?= htmlspecialchars($roleLabel) ?>
                             </span>
 
                             <span class="member-join-bubble">
