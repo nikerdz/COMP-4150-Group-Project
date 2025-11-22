@@ -183,95 +183,95 @@ $isSelf          = true; // you are viewing your own profile
     </section>
 
     <?php if (empty($_SESSION['is_admin'])): ?>
-    <!-- ==============================
-         YOUR CLUBS
-    ============================== -->
-    <section class="profile-section">
-        <div class="profile-section-header-with-cta">
-            <div class="profile-section-header-main">
-                <h2>Your Clubs</h2>
-            </div>
-
-            <a
-                class="profile-section-cta"
-                href="<?php echo USER_URL; ?>explore.php?view=clubs"
-            >
-                Explore Clubs
-            </a>
-        </div>
-
-        <?php if (!empty($displayClubs)): ?>
-            <div class="profile-grid">
-                <?php foreach ($displayClubs as $club): ?>
-                    <?php
-                        $cardContext = 'explore';
-                        $hiddenClass = '';
-                        include LAYOUT_PATH . 'club-card.php';
-                    ?>
-                <?php endforeach; ?>
-            </div>
-
-            <?php if ($hasMoreClubs): ?>
-                <div class="profile-section-more">
-                    <a
-                        class="profile-more-btn"
-                        href="<?php echo CLUB_URL; ?>user-clubs.php"
-                    >
-                        Show All Clubs
-                    </a>
+        <!-- ==============================
+            YOUR CLUBS
+        ============================== -->
+        <section class="profile-section">
+            <div class="profile-section-header-with-cta">
+                <div class="profile-section-header-main">
+                    <h2>Your Clubs</h2>
                 </div>
-            <?php endif; ?>
-        <?php else: ?>
-            <p class="profile-empty">
-                You’re not a member of any clubs yet.
-            </p>
-        <?php endif; ?>
-    </section>
 
-    <!-- ==============================
-         REGISTERED EVENTS
-    ============================== -->
-    <section class="profile-section">
-        <div class="profile-section-header-with-cta">
-            <div class="profile-section-header-main">
-                <h2>Upcoming Events</h2>
+                <a
+                    class="profile-section-cta"
+                    href="<?php echo USER_URL; ?>explore.php?view=clubs"
+                >
+                    Explore Clubs
+                </a>
             </div>
 
-            <a
-                class="profile-section-cta"
-                href="<?php echo USER_URL; ?>explore.php?view=events"
-            >
-                Explore Events
-            </a>
-        </div>
-
-        <?php if (!empty($displayEvents)): ?>
-            <div class="profile-grid">
-                <?php foreach ($displayEvents as $event): ?>
-                    <?php
-                        $cardContext = 'explore';
-                        $hiddenClass = '';
-                        include LAYOUT_PATH . 'event-card.php';
-                    ?>
-                <?php endforeach; ?>
-            </div>
-
-            <?php if ($hasMoreEvents): ?>
-                <div class="profile-section-more">
-                    <a
-                        class="profile-more-btn"
-                        href="<?php echo EVENT_URL; ?>user-events.php"
-                    >
-                        Show All Events
-                    </a>
+            <?php if (!empty($displayClubs)): ?>
+                <div class="profile-grid">
+                    <?php foreach ($displayClubs as $club): ?>
+                        <?php
+                            $cardContext = 'explore';
+                            $hiddenClass = '';
+                            include LAYOUT_PATH . 'club-card.php';
+                        ?>
+                    <?php endforeach; ?>
                 </div>
+
+                <?php if ($hasMoreClubs): ?>
+                    <div class="profile-section-more">
+                        <a
+                            class="profile-more-btn"
+                            href="<?php echo CLUB_URL; ?>user-clubs.php"
+                        >
+                            Show All Clubs
+                        </a>
+                    </div>
+                <?php endif; ?>
+            <?php else: ?>
+                <p class="profile-empty">
+                    You’re not a member of any clubs yet.
+                </p>
             <?php endif; ?>
-        <?php else: ?>
-            <p class="profile-empty">
-                You aren’t registered for any upcoming events yet.
-            </p>
-        <?php endif; ?>
-    </section>
+        </section>
+
+        <!-- ==============================
+            REGISTERED EVENTS
+        ============================== -->
+        <section class="profile-section">
+            <div class="profile-section-header-with-cta">
+                <div class="profile-section-header-main">
+                    <h2>Upcoming Events</h2>
+                </div>
+
+                <a
+                    class="profile-section-cta"
+                    href="<?php echo USER_URL; ?>explore.php?view=events"
+                >
+                    Explore Events
+                </a>
+            </div>
+
+            <?php if (!empty($displayEvents)): ?>
+                <div class="profile-grid">
+                    <?php foreach ($displayEvents as $event): ?>
+                        <?php
+                            $cardContext = 'explore';
+                            $hiddenClass = '';
+                            include LAYOUT_PATH . 'event-card.php';
+                        ?>
+                    <?php endforeach; ?>
+                </div>
+
+                <?php if ($hasMoreEvents): ?>
+                    <div class="profile-section-more">
+                        <a
+                            class="profile-more-btn"
+                            href="<?php echo EVENT_URL; ?>user-events.php"
+                        >
+                            Show All Events
+                        </a>
+                    </div>
+                <?php endif; ?>
+            <?php else: ?>
+                <p class="profile-empty">
+                    You aren’t registered for any upcoming events yet.
+                </p>
+            <?php endif; ?>
+        </section>
     <?php endif; ?>
 
     <!-- ==============================
