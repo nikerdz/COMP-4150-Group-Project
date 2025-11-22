@@ -43,7 +43,7 @@ if (!$user) {
 }
 
 // -------------------------------------------
-// Track recently viewed users for dashboard
+// Track recently viewed users (per-type)
 // -------------------------------------------
 if (!isset($_SESSION['recent_users'])) {
     $_SESSION['recent_users'] = [];
@@ -94,6 +94,36 @@ if ($viewUserId !== $_SESSION['user_id']) {
     array_unshift($_SESSION['recent_users'], $viewUserId);
     $_SESSION['recent_users'] = array_slice($_SESSION['recent_users'], 0, 10);
 }
+
+// ------------------------------------
+// Unified recent items (all types)
+// ------------------------------------
+if (!isset($_SESSION['recent_items']) || !is_array($_SESSION['recent_items'])) {
+    $_SESSION['recent_items'] = [];
+}
+
+// We always track the target user as a recent item
+$recentUserId = $targetUserId;
+
+// Remove existing entry for this user
+$_SESSION['recent_items'] = array_values(array_filter(
+    $_SESSION['recent_items'],
+    function ($item) use ($recentUserId) {
+        if (!is_array($item) || !isset($item['type'], $item['id'])) {
+            return true;
+        }
+        return !($item['type'] === 'user' && (int)$item['id'] === $recentUserId);
+    }
+));
+
+// Add newest to the front
+array_unshift($_SESSION['recent_items'], [
+    'type' => 'user',
+    'id'   => $recentUserId,
+]);
+
+// Limit unified list to latest 10
+$_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
 
 // Interests
 $interestNames = $userModel->getInterestNames($targetUserId);
@@ -166,34 +196,34 @@ $recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
                 <?php endif; ?>
             </div>
 
-            <div class="profile-actions">
-                <!-- SHOW ONLY IF ADMIN -->
-                <?php if (!empty($_SESSION['is_admin'])): ?>
+             <div class="profile-actions">
+                    <!-- SHOW ONLY IF ADMIN -->
+                    <?php if (!empty($_SESSION['is_admin'])): ?>
 
-                    <p class="profile-status-pill 
-                        <?= $user['user_status'] === 'active' ? 'status-active' : 'status-suspended' ?>">
-                        User Status:
-                        <?= ucfirst($user['user_status']) ?>
-                    </p>
+                        <p class="profile-status-pill 
+                            <?= $user['user_status'] === 'active' ? 'status-active' : 'status-suspended' ?>">
+                            User Status:
+                            <?= ucfirst($user['user_status']) ?>
+                        </p>
 
-                    <?php if ($user['user_status'] === 'active'): ?>
-                        <form action="<?= PHP_URL ?>admin_handle_suspend_user.php" method="POST">
-                            <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
-                            <button class="profile-edit-btn">
-                                Suspend User
-                            </button>
-                        </form>
-                    <?php else: ?>
-                        <form action="<?= PHP_URL ?>admin_handle_activate_user.php" method="POST">
-                            <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
-                            <button class="profile-edit-btn">
-                                Activate User
-                            </button>
-                        </form>
+                        <?php if ($user['user_status'] === 'active'): ?>
+                            <form action="<?= PHP_URL ?>admin_handle_suspend_user.php" method="POST">
+                                <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
+                                <button class="profile-edit-btn">
+                                    Suspend User
+                                </button>
+                            </form>
+                        <?php else: ?>
+                            <form action="<?= PHP_URL ?>admin_handle_activate_user.php" method="POST">
+                                <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
+                                <button class="profile-edit-btn">
+                                    Activate User
+                                </button>
+                            </form>
+                        <?php endif; ?>
+
                     <?php endif; ?>
-
-                <?php endif; ?>
-            </div>
+                </div>
         </div>
     </section>
 

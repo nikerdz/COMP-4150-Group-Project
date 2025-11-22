@@ -103,49 +103,46 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
 // =============================
 $recentCombined = [];
 
-// --- Clubs ---
-if (!empty($_SESSION['recent_clubs'])) {
-    foreach ($_SESSION['recent_clubs'] as $cid) {
-        $club = $clubModel->findById((int)$cid);
-        if ($club) {
-            $recentCombined[] = [
-                'type' => 'club',
-                'data' => $club
-            ];
+if (!empty($_SESSION['recent_items']) && is_array($_SESSION['recent_items'])) {
+    foreach ($_SESSION['recent_items'] as $entry) {
+        if (!is_array($entry) || empty($entry['type']) || !isset($entry['id'])) {
+            continue;
+        }
+
+        $id = (int)$entry['id'];
+        if ($id <= 0) {
+            continue;
+        }
+
+        if ($entry['type'] === 'club') {
+            $club = $clubModel->findById($id);
+            if ($club) {
+                $recentCombined[] = [
+                    'type' => 'club',
+                    'data' => $club
+                ];
+            }
+        } elseif ($entry['type'] === 'event') {
+            $event = $eventModel->findById($id);
+            if ($event) {
+                $recentCombined[] = [
+                    'type' => 'event',
+                    'data' => $event
+                ];
+            }
+        } elseif ($entry['type'] === 'user') {
+            $u = $userModel->findById($id);
+            if ($u) {
+                $recentCombined[] = [
+                    'type' => 'user',
+                    'data' => $u
+                ];
+            }
         }
     }
 }
 
-// --- Events ---
-if (!empty($_SESSION['recent_events'])) {
-    foreach ($_SESSION['recent_events'] as $eid) {
-        $event = $eventModel->findById((int)$eid);
-        if ($event) {
-            $recentCombined[] = [
-                'type' => 'event',
-                'data' => $event
-            ];
-        }
-    }
-}
-
-// --- Users ---
-if (!empty($_SESSION['recent_users'])) {
-    foreach ($_SESSION['recent_users'] as $uid) {
-        $u = $userModel->findById((int)$uid);
-        if ($u) {
-            $recentCombined[] = [
-                'type' => 'user',
-                'data' => $u
-            ];
-        }
-    }
-}
-
-// Reverse list to newest first (since you unshifted)
-$recentCombined = array_reverse($recentCombined);
-
-// Limit to 10 items
+// Already stored newest-first; just in case, cap at 10
 $recentCombined = array_slice($recentCombined, 0, 10);
 
 ?>
@@ -228,15 +225,15 @@ $recentCombined = array_slice($recentCombined, 0, 10);
 
                                 if ($item['type'] === 'club') {
                                     $club = $item['data'];
-                                    include(LAYOUT_PATH . 'club-card.php');
+                                    include LAYOUT_PATH . 'club-card.php';
                                 } 
                                 elseif ($item['type'] === 'event') {
                                     $event = $item['data'];
-                                    include(LAYOUT_PATH . 'event-card.php');
+                                    include LAYOUT_PATH . 'event-card.php';
                                 } 
                                 elseif ($item['type'] === 'user') {
                                     $user = $item['data'];
-                                    include(LAYOUT_PATH . 'user-card.php');
+                                    include LAYOUT_PATH . 'user-card.php';
                                 }
                             ?>
                         <?php endforeach; ?>
@@ -248,7 +245,7 @@ $recentCombined = array_slice($recentCombined, 0, 10);
             </div>
 
         </section>
-        <?php endif; ?>
+    <?php endif; ?>
         
     <!-- Recommended Clubs -->
     <section class="dashboard-section">

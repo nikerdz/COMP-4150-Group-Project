@@ -107,6 +107,33 @@ $_SESSION['recent_clubs'] = array_filter($_SESSION['recent_clubs'], function($id
 array_unshift($_SESSION['recent_clubs'], $clubId);
 $_SESSION['recent_clubs'] = array_slice($_SESSION['recent_clubs'], 0, 10);
 
+// ------------------------------------
+// Unified recent items (all types)
+// ------------------------------------
+if (!isset($_SESSION['recent_items']) || !is_array($_SESSION['recent_items'])) {
+    $_SESSION['recent_items'] = [];
+}
+
+// Remove existing entry for this club
+$_SESSION['recent_items'] = array_values(array_filter(
+    $_SESSION['recent_items'],
+    function ($item) use ($clubId) {
+        if (!is_array($item) || !isset($item['type'], $item['id'])) {
+            return true;
+        }
+        return !($item['type'] === 'club' && (int)$item['id'] === $clubId);
+    }
+));
+
+// Add newest to the front
+array_unshift($_SESSION['recent_items'], [
+    'type' => 'club',
+    'id'   => $clubId,
+]);
+
+// Limit unified list to latest 10
+$_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
+
 ?>
 
 <!DOCTYPE html>
@@ -337,6 +364,6 @@ $_SESSION['recent_clubs'] = array_slice($_SESSION['recent_clubs'], 0, 10);
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
-<script src="<?php echo JS_URL; ?>script.js?v=<?= time(); ?>"></script>
+<script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
