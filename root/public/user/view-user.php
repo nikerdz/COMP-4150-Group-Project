@@ -73,6 +73,23 @@ $hasMoreEvents = count($userEvents) > $MAX_ITEMS;
 
 // Avatar initial
 $initial = strtoupper(substr($firstName ?: $lastName, 0, 1));
+
+$viewUserId = (int)$user['user_id'];
+
+if ($viewUserId !== $_SESSION['user_id']) {
+
+    if (!isset($_SESSION['recent_users'])) {
+        $_SESSION['recent_users'] = [];
+    }
+
+    $_SESSION['recent_users'] = array_filter($_SESSION['recent_users'], function($id) use ($viewUserId) {
+        return $id != $viewUserId;
+    });
+
+    array_unshift($_SESSION['recent_users'], $viewUserId);
+    $_SESSION['recent_users'] = array_slice($_SESSION['recent_users'], 0, 10);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -124,7 +141,7 @@ $initial = strtoupper(substr($firstName ?: $lastName, 0, 1));
         <h2><?= $firstName ?>'s Clubs</h2>
 
         <?php if ($hasMoreClubs): ?>
-            <a class="profile-section-cta" href="<?= USER_URL ?>view-user-clubs.php?id=<?= $targetUserId ?>">
+            <a class="profile-section-cta" href="<?= CLUB_URL ?>user-clubs.php?id=<?= $targetUserId ?>">
                 View All
             </a>
         <?php endif; ?>
@@ -148,10 +165,10 @@ $initial = strtoupper(substr($firstName ?: $lastName, 0, 1));
 <!-- =============== USER EVENTS =============== -->
 <section class="profile-section">
     <div class="profile-section-header-with-cta">
-        <h2><?= $firstName ?>'s Events</h2>
+        <h2><?= $firstName ?>'s Upcoming Events</h2>
 
         <?php if ($hasMoreEvents): ?>
-            <a class="profile-section-cta" href="<?= USER_URL ?>view-user-events.php?id=<?= $targetUserId ?>">
+            <a class="profile-section-cta" href="<?= EVENT_URL ?>user-events.php?id=<?= $targetUserId ?>">
                 View All
             </a>
         <?php endif; ?>

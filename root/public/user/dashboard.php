@@ -79,7 +79,7 @@ if (!empty($interestCategoryIds)) {
         foreach ($clubsForCategory as $club) {
             $cid = (int)$club['club_id'];
 
-            // ❌ Skip if user is already a member of this club
+            // Skip if user is already a member of this club
             if (isset($myClubIds[$cid])) {
                 continue;
             }
@@ -97,6 +97,57 @@ if (!empty($interestCategoryIds)) {
 
 // Limit to 6 recommended clubs overall
 $recommendedClubs = array_slice($recommendedClubs, 0, 6);
+
+// =============================
+// RECENTLY VIEWED (COMBINED)
+// =============================
+$recentCombined = [];
+
+// --- Clubs ---
+if (!empty($_SESSION['recent_clubs'])) {
+    foreach ($_SESSION['recent_clubs'] as $cid) {
+        $club = $clubModel->findById((int)$cid);
+        if ($club) {
+            $recentCombined[] = [
+                'type' => 'club',
+                'data' => $club
+            ];
+        }
+    }
+}
+
+// --- Events ---
+if (!empty($_SESSION['recent_events'])) {
+    foreach ($_SESSION['recent_events'] as $eid) {
+        $event = $eventModel->findById((int)$eid);
+        if ($event) {
+            $recentCombined[] = [
+                'type' => 'event',
+                'data' => $event
+            ];
+        }
+    }
+}
+
+// --- Users ---
+if (!empty($_SESSION['recent_users'])) {
+    foreach ($_SESSION['recent_users'] as $uid) {
+        $u = $userModel->findById((int)$uid);
+        if ($u) {
+            $recentCombined[] = [
+                'type' => 'user',
+                'data' => $u
+            ];
+        }
+    }
+}
+
+// Reverse list to newest first (since you unshifted)
+$recentCombined = array_reverse($recentCombined);
+
+// Limit to 10 items
+$recentCombined = array_slice($recentCombined, 0, 10);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -156,6 +207,49 @@ $recommendedClubs = array_slice($recommendedClubs, 0, 6);
         </div>
     </section>
 
+    <?php if (!empty($recentCombined)): ?>
+        <section class="dashboard-section">
+
+            <div class="dashboard-section-header">
+                <h2>Recently Viewed</h2>
+                <p>Your most recent clubs, events, and profiles</p>
+            </div>
+
+            <div class="dashboard-carousel" data-carousel>
+                <button class="carousel-btn prev" type="button">‹</button>
+
+                <div class="dash-track-wrapper">
+                    <div class="dashboard-carousel-track">
+                        
+                        <?php foreach ($recentCombined as $item): ?>
+                            <?php
+                                $cardContext = 'dashboard';
+                                $hiddenClass = '';
+
+                                if ($item['type'] === 'club') {
+                                    $club = $item['data'];
+                                    include(LAYOUT_PATH . 'club-card.php');
+                                } 
+                                elseif ($item['type'] === 'event') {
+                                    $event = $item['data'];
+                                    include(LAYOUT_PATH . 'event-card.php');
+                                } 
+                                elseif ($item['type'] === 'user') {
+                                    $user = $item['data'];
+                                    include(LAYOUT_PATH . 'user-card.php');
+                                }
+                            ?>
+                        <?php endforeach; ?>
+
+                    </div>
+                </div>
+
+                <button class="carousel-btn next" type="button">›</button>
+            </div>
+
+        </section>
+        <?php endif; ?>
+        
     <!-- Recommended Clubs -->
     <section class="dashboard-section">
         <div class="dashboard-section-header">

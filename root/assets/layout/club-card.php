@@ -63,7 +63,10 @@ if (!empty($userId)) {
 
     <?php if (!empty($club['categories'])): ?>
         <p class="explore-meta">
-            <?php echo htmlspecialchars($club['categories']); ?>
+            <?php
+                $cats = array_map('trim', explode(',', $club['categories']));
+                echo htmlspecialchars(implode(' · ', $cats));
+            ?>
         </p>
     <?php endif; ?>
 
