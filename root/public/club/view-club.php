@@ -170,8 +170,16 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="ClubHub - My Clubs">
+    <meta property="og:description" content="See all clubs you’re a member of on ClubHub.">
+    <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
+    <meta property="og:url" content="<?php echo CLUB_URL; ?>user-clubs.php">
+    <meta property="og:type" content="website">
+    
     <title>ClubHub | <?= htmlspecialchars($club['club_name']) ?></title>
 
+    <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?= time(); ?>">
 </head>
 
