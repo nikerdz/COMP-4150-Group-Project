@@ -95,7 +95,7 @@ $recentCombined = array_slice($recentCombined, 0, 10);
     <meta property="og:url" content="<?php echo PUBLIC_URL; ?>">
     <meta property="og:type" content="website">
 
-    <title>ClubHub | Admin Dashboard</title>
+    <title>ClubHub Admin | Dashboard</title>
     <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?php echo time(); ?>">
 </head>

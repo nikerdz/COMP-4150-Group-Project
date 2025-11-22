@@ -246,6 +246,8 @@
     gap: 8px; /* space between Club + Role */
 }
 
+
+
 /* ==========================
    Profile page – card grid
    (keep cards from stretching)
@@ -310,6 +312,7 @@
     }
 }
 
+
 /* ==========================
    Club – cards grid
    (used on view-club, etc.)
@@ -336,4 +339,26 @@
     .club-grid {
         grid-template-columns: 1fr;
     }
+}
+
+
+/* Status pill */
+.explore-pill-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 6px;
+    color: var(--cream);
+    width: fit-content;
+}
+
+/* Color variants */
+.status-approved {
+    background: #2e8b57; /* green */
+}
+
+.status-pending {
+    background: #d4a017; /* gold */
 }
