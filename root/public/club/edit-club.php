@@ -109,6 +109,7 @@ unset($_SESSION['club_edit_error'], $_SESSION['club_edit_success']);
                     name="club_name"
                     value="<?php echo $nameVal; ?>"
                     required
+                    maxlength="60"
                 >
             </div>
 
@@ -130,6 +131,7 @@ unset($_SESSION['club_edit_error'], $_SESSION['club_edit_success']);
                     id="club_description"
                     name="club_description"
                     rows="4"
+                    maxlength="600"
                 ><?php echo $descVal; ?></textarea>
             </div>
 
@@ -211,6 +213,7 @@ unset($_SESSION['club_edit_error'], $_SESSION['club_edit_success']);
                         name="confirm_club_name"
                         placeholder="Enter club name exactly"
                         required
+                        maxlength="60"
                     >
                 </div>
 

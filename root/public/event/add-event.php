@@ -72,12 +72,22 @@ unset($_SESSION['error']);
 
             <div class="auth-field">
                 <label for="event_name">Event Name</label>
-                <input type="text" id="event_name" name="event_name" required>
+                <input
+                    type="text"
+                    id="event_name"
+                    name="event_name"
+                    required
+                    maxlength="60"
+                >
             </div>
 
             <div class="auth-field">
                 <label for="event_description">Description</label>
-                <textarea id="event_description" name="event_description"></textarea>
+                <textarea
+                    id="event_description"
+                    name="event_description"
+                    maxlength="600"
+                ></textarea>
             </div>
 
             <div class="auth-field">

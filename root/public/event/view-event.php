@@ -209,10 +209,15 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                     <span class="event-badge event-badge-full">Event Full</span>
                                 <?php else: ?>
                                     <?php if ($isPaidEvent): ?>
-                                        <a class="event-primary-btn"
-                                           href="<?= PUBLIC_URL ?>event/pay-event.php?id=<?= $eventId ?>">
-                                            Pay &amp; Register
-                                        </a>
+                                        <!-- Paid events now go through event_handle_register first -->
+                                        <form method="post"
+                                              action="<?= PHP_URL ?>event_handle_register.php"
+                                              style="display:inline;">
+                                            <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                            <button class="event-primary-btn" type="submit">
+                                                Pay &amp; Register
+                                            </button>
+                                        </form>
                                     <?php else: ?>
                                         <form method="post"
                                               action="<?= PHP_URL ?>event_handle_register.php"

@@ -15,6 +15,12 @@
     font-family: "Cubao", sans-serif;
     font-weight: lighter;
     font-size: 2.4rem;
+
+    /* Prevent extremely long event names from breaking layout */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
 }
 
 .event-description {
@@ -81,6 +87,12 @@
 .event-main-text {
     flex: 1;
     min-width: 0;
+    max-width: 100%;
+
+    /* Make sure very long names/words wrap inside container */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .event-main-text h1 {
@@ -88,6 +100,12 @@
     font-weight: lighter;
     font-size: 2.3rem;
     margin-bottom: 6px;
+
+    /* Prevent long event names from pushing buttons off-screen */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
 }
 
 /* Slightly larger "Hosted by" meta */

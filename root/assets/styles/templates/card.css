@@ -13,6 +13,11 @@
     flex-direction: column;
     gap: 6px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    /* 💡 Make sure all text inside cards wraps and never overflows horizontally */
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 /* Dash cards: fixed-ish width for carousels */
@@ -42,6 +47,12 @@
     font-size: 1.15rem;
     color: var(--red);
     margin-bottom: 2px;
+
+    /* Extra safety: ensure long titles break nicely */
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    max-width: 100%;
 }
 
 .explore-card h3 a,
@@ -50,6 +61,8 @@
     text-decoration: none;
     color: var(--dark-blue);
     transition: color 0.2s;
+    /* allow wrapping on the link text itself */
+    white-space: normal;
 }
 
 .explore-card h3 a:visited,
@@ -79,7 +92,7 @@
 
 .explore-meta a,
 .dash-meta a,
-.profile-card-meta a
+.profile-card-meta a,
 .user-card-meta a {
     text-decoration: none;
     color: var(--dark-blue);
@@ -110,18 +123,30 @@
 
 .explore-card-meta,
 .dash-meta,
-.profile-card-meta
+.profile-card-meta,
 .user-card-meta {
     font-size: 0.85rem;
     color: var(--dark-blue);
     font-weight: 600;
+
+    /* Keep meta text from overflowing */
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
+/* Main body text inside cards */
 .explore-card-text,
 .dash-text,
-.profile-card-text {
+.profile-card-text,
+.explore-text,            /* used by club-card.php & event-card.php */
+.explore-meta,
+.explore-meta-small {
     font-size: 0.9rem;
     color: var(--dark-blue);
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 /* ==========================
