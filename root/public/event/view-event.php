@@ -11,7 +11,8 @@ require_once(MODELS_PATH . 'Membership.php');
 session_start();
 
 // Logged-in user (can be null)
-$userId = $_SESSION['user_id'] ?? null;
+$userId  = $_SESSION['user_id'] ?? null;
+$isAdmin = !empty($_SESSION['is_admin']);
 
 // Flash messages
 $errorMessage = $_SESSION['error'] ?? null;
@@ -30,17 +31,17 @@ $clubId    = null;
 $clubName  = '';
 $pageTitle = 'Event Not Found';
 
-if (!empty($_SESSION['is_admin'])) {
-    $event = $eventModel->findById($eventId); // admin sees everything
+// Admin sees everything; normal users only see approved events from active clubs
+if ($isAdmin) {
+    $event = $eventModel->findById($eventId);
 } else {
-    $event = $eventModel->findVisibleById($eventId); // users only see active clubs
+    $event = $eventModel->findVisibleById($eventId);
 }
-
 
 if ($event) {
     $pageTitle = $event['event_name'];
     $clubId    = (int)$event['club_id'];
-    $clubName  = $event['club_name'];
+    $clubName  = $event['club_name'] ?? '';
 }
 
 // Registration / role info
@@ -57,16 +58,17 @@ if ($event) {
     $capacity         = $event['capacity'] !== null ? (int)$event['capacity'] : null;
     $isPaidEvent      = ($event['event_fee'] ?? 0) > 0;
 
-    if ($userId) {
+    if ($userId && !$isAdmin) {
+        // Only relevant for normal users; admins don't register
         $isRegistered = $registrationModel->isRegistered($userId, $eventId);
+    }
 
-        // Membership & exec check (same logic as view-club)
-        if ($clubId) {
-            $membership = $membershipModel->getMembership($clubId, $userId);
-            if ($membership) {
-                $userRole = ($membership['role'] !== 'member') ? 'executive' : 'member';
-                $isExec   = ($userRole === 'executive');
-            }
+    // Membership & exec check (same logic as view-club) – applies to non-admin execs
+    if ($clubId && $userId) {
+        $membership = $membershipModel->getMembership($clubId, $userId);
+        if ($membership) {
+            $userRole = ($membership['role'] !== 'member') ? 'executive' : 'member';
+            $isExec   = ($userRole === 'executive');
         }
     }
 
@@ -77,7 +79,7 @@ if ($event) {
 // Load comments for this event (uses Comments table)
 $comments = $event ? $commentModel->getCommentsForEvent($eventId) : [];
 
-
+// Track recent events
 if (!isset($_SESSION['recent_events'])) {
     $_SESSION['recent_events'] = [];
 }
@@ -92,7 +94,6 @@ array_unshift($_SESSION['recent_events'], $eventId);
 
 // Limit to latest 10
 $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
-
 
 ?>
 <!DOCTYPE html>
@@ -113,7 +114,10 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
             <div class="club-section-header">
                 <h2>Event Not Found</h2>
             </div>
-            <p class="club-empty">The club hosting this event has been deactivated, or the event you are looking for does not exist.</p>
+            <p class="club-empty">
+                The club hosting this event may have been deactivated, the event is not approved yet,
+                or the event you are looking for does not exist.
+            </p>
         </section>
     <?php else: ?>
 
@@ -191,14 +195,48 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
 
                                 <?php if ($capacity !== null && $participantCount >= $capacity): ?>
                                     <span class="event-badge event-badge-full">Event Full</span>
-                                <?php elseif ($isRegistered): ?>
+                                <?php elseif (!$isAdmin && $isRegistered): ?>
                                     <span class="event-badge event-badge-registered">You are registered</span>
                                 <?php endif; ?>
                             </p>
+
+                            <?php if ($isAdmin): ?>
+                                <p class="event-meta-secondary">
+                                    <strong>Status:</strong> <?= htmlspecialchars(ucfirst($event['event_status'])); ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="event-actions">
-                            <?php if ($userId): ?>
+                            <?php if ($isAdmin): ?>
+
+                                <?php if ($event['event_status'] === 'pending'): ?>
+                                    <form method="post"
+                                          action="<?= PHP_URL ?>admin_handle_approve_event.php"
+                                          style="display:inline;">
+                                        <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                        <button class="event-primary-btn" type="submit">
+                                            Approve Event
+                                        </button>
+                                    </form>
+                                <?php elseif ($event['event_status'] === 'approved'): ?>
+                                    <form method="post"
+                                          action="<?= PHP_URL ?>admin_handle_unapprove_event.php"
+                                          style="display:inline;">
+                                        <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                        <button class="event-primary-btn" type="submit">
+                                            Unapprove Event
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
+
+                                <a class="event-secondary-btn"
+                                   href="<?= EVENT_URL ?>edit-event.php?id=<?= $eventId ?>">
+                                    Edit Event
+                                </a>
+
+                            <?php elseif ($userId): ?>
+
                                 <?php if ($isRegistered): ?>
                                     <form method="post"
                                           action="<?= PHP_URL ?>event_handle_unregister.php"
@@ -212,7 +250,6 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                     <span class="event-badge event-badge-full">Event Full</span>
                                 <?php else: ?>
                                     <?php if ($isPaidEvent): ?>
-                                        <!-- Paid events now go through event_handle_register first -->
                                         <form method="post"
                                               action="<?= PHP_URL ?>event_handle_register.php"
                                               style="display:inline;">
@@ -230,16 +267,17 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                         </form>
                                     <?php endif; ?>
                                 <?php endif; ?>
+
+                                <?php if ($isExec): ?>
+                                    <a class="event-secondary-btn"
+                                       href="<?= EVENT_URL ?>edit-event.php?id=<?= $eventId ?>">
+                                        Edit Event
+                                    </a>
+                                <?php endif; ?>
+
                             <?php else: ?>
                                 <a class="event-primary-btn" href="<?= PUBLIC_URL ?>login.php">
                                     Log in to register
-                                </a>
-                            <?php endif; ?>
-
-                            <?php if ($isExec): ?>
-                                <a class="event-secondary-btn"
-                                   href="<?= EVENT_URL ?>edit-event.php?id=<?= $eventId ?>">
-                                    Edit Event
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -367,7 +405,6 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                         </span>
                                     </div>
 
-                                    <!-- CHANGED: echo is now on the same line to avoid a leading blank line -->
                                     <p class="comment-body"><?= nl2br(htmlspecialchars($comment['comment_message'])); ?></p>
 
                                     <?php if ($canDelete): ?>

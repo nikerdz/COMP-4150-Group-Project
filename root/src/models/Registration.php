@@ -96,7 +96,7 @@ class Registration
 
     /* ---------------------------------------------------
        Get full event details for upcoming registered events
-       (moved logically out of Event.php)
+       Only approved events from active clubs
        --------------------------------------------------- */
     public function getUpcomingEventsForUser(int $userId, int $limit = 6): array
     {
@@ -109,7 +109,7 @@ class Registration
             JOIN Event e ON r.event_id = e.event_id
             JOIN Club c ON e.club_id = c.club_id
             WHERE r.user_id = :uid
-              AND e.event_status <> 'cancelled'
+              AND e.event_status = 'approved'
               AND c.club_status = 'active'
               AND (e.event_date >= NOW() OR e.event_date IS NULL)
             ORDER BY e.event_date ASC

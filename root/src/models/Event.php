@@ -13,7 +13,7 @@ class Event
     }
 
     /* --------------------------
-       Get one event by ID
+       Get one event by ID (admin can see everything)
        -------------------------- */
     public function findById(int $eventId): ?array
     {
@@ -31,8 +31,9 @@ class Event
     }
 
     /* --------------------------
-       Search events with filters
-       NOTE: $includeInactiveClubs = true will NOT filter by c.club_status
+       Search events with filters (public / user-facing)
+       - By default returns ONLY approved events
+       - Hides events from inactive clubs
        -------------------------- */
     public function searchEvents(
         ?string $search,
@@ -40,7 +41,8 @@ class Event
         ?string $condition,
         int $limit = 20,
         int $offset = 0,
-        bool $includeInactiveClubs = false
+        string $statusFilter = 'approved',   // 'approved' | 'pending' | 'cancelled' | 'any'
+        bool $includeInactiveClubs = false   // usually false for users, true for admin tools
     ): array {
         $sql = "
             SELECT
@@ -51,10 +53,28 @@ class Event
             JOIN Club c ON e.club_id = c.club_id
             LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
             LEFT JOIN Category cat ON ct.category_id = cat.category_id
-            WHERE e.event_status <> 'cancelled'
+            WHERE 1=1
         ";
 
-        // Only restrict by active clubs when we are NOT explicitly including inactive ones
+        // --------------------
+        // Status filter
+        // --------------------
+        if ($statusFilter === 'approved') {
+            $sql .= " AND e.event_status = 'approved'";
+        } elseif ($statusFilter === 'pending') {
+            $sql .= " AND e.event_status = 'pending'";
+        } elseif ($statusFilter === 'cancelled') {
+            $sql .= " AND e.event_status = 'cancelled'";
+        } elseif ($statusFilter === 'any') {
+            // show all statuses, no extra WHERE on event_status
+        } else {
+            // Fallback: approved-only
+            $sql .= " AND e.event_status = 'approved'";
+        }
+
+        // --------------------
+        // Club visibility
+        // --------------------
         if (!$includeInactiveClubs) {
             $sql .= " AND c.club_status = 'active'";
         }
@@ -64,12 +84,12 @@ class Event
         // --------------------
         if (!empty($search)) {
             $sql .= "
-            AND (
-                e.event_name        LIKE :search_event_name
-                OR e.event_description LIKE :search_event_desc
-                OR c.club_name      LIKE :search_club_name
-            )
-        ";
+                AND (
+                    e.event_name        LIKE :search_event_name
+                    OR e.event_description LIKE :search_event_desc
+                    OR c.club_name      LIKE :search_club_name
+                )
+            ";
         }
 
         if (!empty($categoryId)) {
@@ -81,10 +101,10 @@ class Event
         }
 
         $sql .= "
-        GROUP BY e.event_id
-        ORDER BY e.event_date ASC
-        LIMIT :limit OFFSET :offset
-    ";
+            GROUP BY e.event_id
+            ORDER BY e.event_date ASC
+            LIMIT :limit OFFSET :offset
+        ";
 
         $stmt = $this->pdo->prepare($sql);
 
@@ -115,19 +135,59 @@ class Event
     }
 
     /* --------------------------
+       Admin search for Manage Events page
+       (shows pending/approved depending on filter)
+       -------------------------- */
+    public function searchEventsAdmin(string $search = '', string $status = 'approved'): array
+    {
+        $sql = "
+            SELECT
+                e.*,
+                c.club_name
+            FROM Event e
+            JOIN Club c ON e.club_id = c.club_id
+            WHERE 1=1
+        ";
+
+        $params = [];
+
+        if (in_array($status, ['pending', 'approved', 'cancelled'], true)) {
+            $sql .= " AND e.event_status = :status";
+            $params[':status'] = $status;
+        }
+
+        if ($search !== '') {
+            $sql .= " AND (
+                e.event_name        LIKE :q
+                OR e.event_description LIKE :q
+                OR c.club_name      LIKE :q
+            )";
+            $params[':q'] = '%' . $search . '%';
+        }
+
+        $sql .= " ORDER BY e.event_date ASC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /* --------------------------
        Create a new event
+       (defaults to event_status = 'pending' from DB)
        -------------------------- */
     public function createEvent(array $data): bool
     {
         $stmt = $this->pdo->prepare("
-        INSERT INTO Event (
-            club_id, event_name, event_description, event_location, 
-            event_date, capacity, event_condition, event_fee
-        ) VALUES (
-            :club_id, :event_name, :event_description, :event_location, 
-            :event_date, :capacity, :event_condition, :event_fee
-        )
-    ");
+            INSERT INTO Event (
+                club_id, event_name, event_description, event_location, 
+                event_date, capacity, event_condition, event_fee
+            ) VALUES (
+                :club_id, :event_name, :event_description, :event_location, 
+                :event_date, :capacity, :event_condition, :event_fee
+            )
+        ");
 
         return $stmt->execute([
             ':club_id'          => $data['club_id'],
@@ -171,6 +231,34 @@ class Event
         ]);
     }
 
+    /* --------------------------
+       Update only the event_status
+       Used by admin approve/unapprove handlers
+       -------------------------- */
+    public function updateStatus(int $eventId, string $status): bool
+    {
+        $allowed = ['pending', 'approved', 'cancelled'];
+        if (!in_array($status, $allowed, true)) {
+            return false;
+        }
+
+        $stmt = $this->pdo->prepare("
+            UPDATE Event
+            SET event_status = :status
+            WHERE event_id = :id
+        ");
+
+        return $stmt->execute([
+            ':status' => $status,
+            ':id'     => $eventId
+        ]);
+    }
+
+    /* --------------------------
+       Visible event for normal users:
+       - Club must be active
+       - Event must be approved
+       -------------------------- */
     public function findVisibleById(int $eventId): ?array
     {
         $stmt = $this->pdo->prepare("
@@ -178,7 +266,8 @@ class Event
             FROM Event e
             JOIN Club c ON e.club_id = c.club_id
             WHERE e.event_id = :id
-            AND c.club_status = 'active'
+              AND c.club_status = 'active'
+              AND e.event_status = 'approved'
         ");
         $stmt->execute([':id' => $eventId]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
