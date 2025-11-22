@@ -78,7 +78,7 @@ unset($_SESSION['profile_error']);
             </p>
         <?php endif; ?>
 
-        <form action="<?php echo PHP_URL; ?>profile_handle_update.php"
+        <form action="<?php echo PHP_URL; ?>profile_handle_edit.php"
               method="POST"
               class="auth-form profile-edit-form">
 
