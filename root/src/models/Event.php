@@ -41,16 +41,17 @@ class Event
         int $offset = 0
     ): array {
         $sql = "
-        SELECT
-            e.*,
-            c.club_name,
-            GROUP_CONCAT(DISTINCT cat.category_name) AS categories
-        FROM Event e
-        JOIN Club c ON e.club_id = c.club_id
-        LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
-        LEFT JOIN Category cat ON ct.category_id = cat.category_id
-        WHERE e.event_status <> 'cancelled'
-    ";
+            SELECT
+                e.*,
+                c.club_name,
+                GROUP_CONCAT(DISTINCT cat.category_name) AS categories
+            FROM Event e
+            JOIN Club c ON e.club_id = c.club_id
+            LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
+            LEFT JOIN Category cat ON ct.category_id = cat.category_id
+            WHERE e.event_status <> 'cancelled'
+            AND c.club_status = 'active'
+        ";
 
         // --------------------
         // Dynamic filters
@@ -163,4 +164,20 @@ class Event
             ':event_id'          => $eventId,
         ]);
     }
+
+    public function findVisibleById(int $eventId): ?array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT e.*, c.club_name
+            FROM Event e
+            JOIN Club c ON e.club_id = c.club_id
+            WHERE e.event_id = :id
+            AND c.club_status = 'active'
+        ");
+        $stmt->execute([':id' => $eventId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ?: null;
+    }
+
 }

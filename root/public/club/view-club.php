@@ -20,7 +20,15 @@ $clubModel       = new Club();
 $membershipModel = new Membership();
 $eventModel      = new Event();
 
-$club = $clubModel->findById($clubId);
+$isAdmin = !empty($_SESSION['is_admin']);
+
+// Admins can see all clubs (even inactive),
+// regular users only see active ones.
+if ($isAdmin) {
+    $club = $clubModel->findById($clubId);
+} else {
+    $club = $clubModel->findVisibleById($clubId);
+}
 
 if (!$club) {
     echo "Club not found.";
@@ -174,20 +182,53 @@ $_SESSION['recent_clubs'] = array_slice($_SESSION['recent_clubs'], 0, 10);
                     </div>
 
                     <div class="club-actions">
+
+                    <!-- If admin → show Activate/Deactivate instead of member buttons -->
+                    <?php if (!empty($_SESSION['is_admin'])): ?>
+
+                        <p class="profile-status-pill 
+                            <?= $club['club_status'] === 'active' ? 'status-active' : 'status-inactive' ?>">
+                            Club Status: <?= ucfirst($club['club_status']) ?>
+                        </p>
+
+                        <?php if ($club['club_status'] === 'active'): ?>
+                            <form method="post" action="<?= PHP_URL ?>admin_handle_deactivate_club.php">
+                                <input type="hidden" name="club_id" value="<?= $clubId ?>">
+                                <button class="club-edit-btn">
+                                    Deactivate Club
+                                </button>
+                            </form>
+                        <?php else: ?>
+                            <form method="post" action="<?= PHP_URL ?>admin_handle_activate_club.php">
+                                <input type="hidden" name="club_id" value="<?= $clubId ?>">
+                                <button class="club-edit-btn">
+                                    Activate Club
+                                </button>
+                            </form>
+                        <?php endif; ?>
+
+                    <?php else: ?>
+
+                        <!-- Normal user logic -->
                         <?php if ($userRole === 'executive'): ?>
                             <a class="club-edit-btn" href="<?= CLUB_URL ?>edit-club.php?id=<?= $clubId ?>">Edit Club</a>
+
                         <?php elseif ($userRole === 'member'): ?>
                             <form method="post" action="<?= PHP_URL ?>club_handle_leave.php" style="display:inline;">
                                 <input type="hidden" name="club_id" value="<?= $clubId ?>">
                                 <button class="club-edit-save" type="submit">Leave Club</button>
                             </form>
+
                         <?php else: ?>
                             <form method="post" action="<?= PHP_URL ?>club_handle_join.php" style="display:inline;">
                                 <input type="hidden" name="club_id" value="<?= $clubId ?>">
                                 <button class="club-edit-save" type="submit">Join Club</button>
                             </form>
                         <?php endif; ?>
-                    </div>
+
+                    <?php endif; ?>
+                </div>
+
                 </div>
             </div>
         </div>

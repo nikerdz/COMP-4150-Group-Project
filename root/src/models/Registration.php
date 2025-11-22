@@ -110,6 +110,7 @@ class Registration
             JOIN Club c ON e.club_id = c.club_id
             WHERE r.user_id = :uid
               AND e.event_status <> 'cancelled'
+              AND c.club_status = 'active'
               AND (e.event_date >= NOW() OR e.event_date IS NULL)
             ORDER BY e.event_date ASC
             LIMIT :limit

@@ -653,6 +653,11 @@
     color: #c20d0d;
 }
 
+.status-inactive {
+    background: #ffe3e3;
+    color: #c20d0d;
+}
+
 
 /* ==========================
    Responsive

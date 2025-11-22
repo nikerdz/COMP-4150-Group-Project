@@ -167,15 +167,14 @@ $recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
             </div>
 
              <div class="profile-actions">
-
-                <p class="profile-status-pill 
-                    <?= $user['user_status'] === 'active' ? 'status-active' : 'status-suspended' ?>">
-                    User Status:
-                    <?= ucfirst($user['user_status']) ?>
-                </p>
-
                     <!-- SHOW ONLY IF ADMIN -->
                     <?php if (!empty($_SESSION['is_admin'])): ?>
+
+                        <p class="profile-status-pill 
+                            <?= $user['user_status'] === 'active' ? 'status-active' : 'status-suspended' ?>">
+                            User Status:
+                            <?= ucfirst($user['user_status']) ?>
+                        </p>
 
                         <?php if ($user['user_status'] === 'active'): ?>
                             <form action="<?= PHP_URL ?>admin_handle_suspend_user.php" method="POST">

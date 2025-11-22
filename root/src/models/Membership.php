@@ -100,14 +100,16 @@ class Membership
                 ON m.club_id = c.club_id
             LEFT JOIN Executive e
                 ON m.user_id = e.user_id 
-               AND m.club_id = e.club_id
+            AND m.club_id = e.club_id
             WHERE m.user_id = :uid
+            AND c.club_status = 'active'
             ORDER BY role_priority ASC, c.club_name ASC
         ");
 
         $stmt->execute([':uid' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     /* --------------------------
        Get a user's membership in a club

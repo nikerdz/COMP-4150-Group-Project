@@ -30,9 +30,12 @@ $clubId    = null;
 $clubName  = '';
 $pageTitle = 'Event Not Found';
 
-if ($eventId > 0) {
-    $event = $eventModel->findById($eventId);
+if (!empty($_SESSION['is_admin'])) {
+    $event = $eventModel->findById($eventId); // admin sees everything
+} else {
+    $event = $eventModel->findVisibleById($eventId); // users only see active clubs
 }
+
 
 if ($event) {
     $pageTitle = $event['event_name'];
@@ -110,7 +113,7 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
             <div class="club-section-header">
                 <h2>Event Not Found</h2>
             </div>
-            <p class="club-empty">The event you are looking for does not exist.</p>
+            <p class="club-empty">The club hosting this event has been deactivated, or the event you are looking for does not exist.</p>
         </section>
     <?php else: ?>
 

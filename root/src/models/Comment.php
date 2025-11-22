@@ -36,6 +36,8 @@ class Comment
        -------------------------- */
     public function getCommentsForEvent(int $eventId): array
     {
+        $isAdmin = !empty($_SESSION['is_admin']);
+
         $sql = "
             SELECT
                 c.comment_id,
@@ -46,15 +48,23 @@ class Comment
                 CONCAT(u.first_name, ' ', u.last_name) AS user_name
             FROM Comments c
             JOIN User u ON c.user_id = u.user_id
+            JOIN Event e ON c.event_id = e.event_id
+            JOIN Club cl ON e.club_id = cl.club_id
             WHERE c.event_id = :eid
-            ORDER BY c.comment_date DESC
         ";
+
+        if (!$isAdmin) {
+            $sql .= " AND cl.club_status = 'active' ";
+        }
+
+        $sql .= " ORDER BY c.comment_date DESC ";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':eid' => $eventId]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     /* --------------------------
        Get a single comment
@@ -111,6 +121,8 @@ class Comment
    -------------------------- */
     public function getCommentsForUser(int $userId, int $limit = 6): array
     {
+        $isAdmin = !empty($_SESSION['is_admin']);
+
         $sql = "
             SELECT 
                 c.comment_id,
@@ -120,7 +132,16 @@ class Comment
                 e.event_name
             FROM Comments c
             JOIN Event e ON c.event_id = e.event_id
+            JOIN Club cl ON e.club_id = cl.club_id
             WHERE c.user_id = :uid
+        ";
+
+        // If NOT admin → hide comments from inactive clubs
+        if (!$isAdmin) {
+            $sql .= " AND cl.club_status = 'active' ";
+        }
+
+        $sql .= "
             ORDER BY c.comment_date DESC
             LIMIT :lim
         ";
@@ -132,5 +153,6 @@ class Comment
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
 }

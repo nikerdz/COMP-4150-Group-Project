@@ -162,7 +162,13 @@ foreach ($userEvents as $ev) {
             <?php endif; ?>
         <?php else: ?>
             <p class="user-events-empty">
-                <?= $isSelf ? "You have no upcoming events." : "$displayName has no upcoming events." ?>
+                <?php if ($isSelf): ?>
+                    You’re not registered for any events yet.
+                    <a href="<?= USER_URL ?>explore.php?view=events">Browse events on Explore</a>
+                    to find something that interests you.
+                <?php else: ?>
+                    <?= $displayName ?> is not registered for any events.
+                <?php endif; ?>
             </p>
         <?php endif; ?>
     </div>

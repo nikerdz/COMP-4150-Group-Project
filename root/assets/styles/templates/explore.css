@@ -250,6 +250,7 @@
 .explore-empty-text {
     font-size: 0.95rem;
     color: var(--dark-blue);
+    text-align: center;
 }
 
 /* ==========================
