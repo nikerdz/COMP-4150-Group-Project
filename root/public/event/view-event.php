@@ -79,7 +79,9 @@ if ($event) {
 // Load comments for this event (uses Comments table)
 $comments = $event ? $commentModel->getCommentsForEvent($eventId) : [];
 
-// Track recent events
+// ------------------------------------
+// Track recent events (legacy per-type)
+// ------------------------------------
 if (!isset($_SESSION['recent_events'])) {
     $_SESSION['recent_events'] = [];
 }
@@ -94,6 +96,33 @@ array_unshift($_SESSION['recent_events'], $eventId);
 
 // Limit to latest 10
 $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
+
+// ------------------------------------
+// Unified recent items (all types)
+// ------------------------------------
+if (!isset($_SESSION['recent_items']) || !is_array($_SESSION['recent_items'])) {
+    $_SESSION['recent_items'] = [];
+}
+
+// Remove existing entry for this event
+$_SESSION['recent_items'] = array_values(array_filter(
+    $_SESSION['recent_items'],
+    function ($item) use ($eventId) {
+        if (!is_array($item) || !isset($item['type'], $item['id'])) {
+            return true;
+        }
+        return !($item['type'] === 'event' && (int)$item['id'] === $eventId);
+    }
+));
+
+// Add newest to the front
+array_unshift($_SESSION['recent_items'], [
+    'type' => 'event',
+    'id'   => $eventId,
+]);
+
+// Limit unified list to latest 10
+$_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
 
 ?>
 <!DOCTYPE html>
@@ -199,6 +228,12 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                     <span class="event-badge event-badge-registered">You are registered</span>
                                 <?php endif; ?>
                             </p>
+
+                            <?php if ($isAdmin): ?>
+                                <p class="event-meta-secondary">
+                                    <strong>Status:</strong> <?= htmlspecialchars(ucfirst($event['event_status'])); ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="event-actions">
