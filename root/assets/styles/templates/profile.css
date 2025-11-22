@@ -232,6 +232,14 @@
     gap: 12px;
 }
 
+.profile-section-header-with-cta h2{
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 1.9rem;
+    color: var(--red);
+    margin-bottom: 4px;
+}
+
 .profile-section-header-main {
     display: flex;
     flex-direction: column;

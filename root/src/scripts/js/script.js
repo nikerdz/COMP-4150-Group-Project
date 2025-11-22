@@ -295,4 +295,31 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
 });
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+        const list = document.getElementById("commentsList");
+        const btn = document.getElementById("loadMoreComments");
+
+        if (!list || !btn) return;
+
+        btn.addEventListener("click", function () {
+            const hidden = list.querySelectorAll(".is-hidden");
+            let shown = 0;
+
+            hidden.forEach(item => {
+                if (shown < 3) {
+                    item.classList.remove("is-hidden");
+                    shown++;
+                }
+            });
+
+            // Hide button if done
+            if (list.querySelectorAll(".is-hidden").length === 0) {
+                btn.style.display = "none";
+            }
+        });
+
+    });

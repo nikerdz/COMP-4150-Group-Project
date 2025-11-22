@@ -105,4 +105,32 @@ class Comment
 
         return $stmt->rowCount() > 0;
     }
+
+    /* --------------------------
+   Get recent comments by user
+   -------------------------- */
+    public function getCommentsForUser(int $userId, int $limit = 6): array
+    {
+        $sql = "
+            SELECT 
+                c.comment_id,
+                c.comment_message,
+                c.comment_date,
+                c.event_id,
+                e.event_name
+            FROM Comments c
+            JOIN Event e ON c.event_id = e.event_id
+            WHERE c.user_id = :uid
+            ORDER BY c.comment_date DESC
+            LIMIT :lim
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':uid', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

@@ -6,6 +6,7 @@ require_once(MODELS_PATH . 'Membership.php');
 require_once(MODELS_PATH . 'Registration.php');
 require_once(MODELS_PATH . 'Club.php');
 require_once(MODELS_PATH . 'Event.php');
+require_once(MODELS_PATH . 'Comment.php');
 
 session_start();
 
@@ -90,6 +91,9 @@ if ($viewUserId !== $_SESSION['user_id']) {
     $_SESSION['recent_users'] = array_slice($_SESSION['recent_users'], 0, 10);
 }
 
+$commentModel = new Comment();
+$recentComments = $commentModel->getCommentsForUser($targetUserId, 5);
+
 ?>
 
 <!DOCTYPE html>
@@ -116,77 +120,127 @@ if ($viewUserId !== $_SESSION['user_id']) {
 <?php include_once(LAYOUT_PATH . 'header.php'); ?>
 
 <main>
-<!-- =============== PROFILE HERO =============== -->
-<section class="profile-hero">
-    <div class="profile-hero-inner">
+    <!-- =============== PROFILE HERO =============== -->
+    <section class="profile-hero">
+        <div class="profile-hero-inner">
 
-        <div class="profile-avatar">
-            <span><?= $initial ?></span>
+            <div class="profile-avatar">
+                <span><?= $initial ?></span>
+            </div>
+
+            <div class="profile-main-info">
+                <h1><?= $fullName ?></h1>
+
+                <p class="profile-meta-secondary">
+                    <?= $email ?>
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =============== USER CLUBS =============== -->
+    <section class="profile-section">
+        <div class="profile-section-header-with-cta">
+            <h2><?= $firstName ?>'s Clubs</h2>
+
+            <?php if ($hasMoreClubs): ?>
+                <a class="profile-section-cta" href="<?= CLUB_URL ?>user-clubs.php?id=<?= $targetUserId ?>">
+                    View All
+                </a>
+            <?php endif; ?>
         </div>
 
-        <div class="profile-main-info">
-            <h1><?= $fullName ?></h1>
-
-            <p class="profile-meta-secondary">
-                <?= $email ?>
-            </p>
-        </div>
-
-    </div>
-</section>
-
-<!-- =============== USER CLUBS =============== -->
-<section class="profile-section">
-    <div class="profile-section-header-with-cta">
-        <h2><?= $firstName ?>'s Clubs</h2>
-
-        <?php if ($hasMoreClubs): ?>
-            <a class="profile-section-cta" href="<?= CLUB_URL ?>user-clubs.php?id=<?= $targetUserId ?>">
-                View All
-            </a>
+        <?php if (!empty($displayClubs)): ?>
+            <div class="profile-grid">
+                <?php foreach ($displayClubs as $club): ?>
+                    <?php
+                        $cardContext = 'explore';
+                        $hiddenClass = '';
+                        include LAYOUT_PATH . 'club-card.php';
+                    ?>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="profile-empty">This user is not in any clubs.</p>
         <?php endif; ?>
-    </div>
+    </section>
 
-    <?php if (!empty($displayClubs)): ?>
-        <div class="profile-grid">
-            <?php foreach ($displayClubs as $club): ?>
-                <?php
-                    $cardContext = 'explore';
-                    $hiddenClass = '';
-                    include LAYOUT_PATH . 'club-card.php';
-                ?>
-            <?php endforeach; ?>
+    <!-- =============== USER EVENTS =============== -->
+    <section class="profile-section">
+        <div class="profile-section-header-with-cta">
+            <h2><?= $firstName ?>'s Upcoming Events</h2>
+
+            <?php if ($hasMoreEvents): ?>
+                <a class="profile-section-cta" href="<?= EVENT_URL ?>user-events.php?id=<?= $targetUserId ?>">
+                    View All
+                </a>
+            <?php endif; ?>
         </div>
-    <?php else: ?>
-        <p class="profile-empty">This user is not in any clubs.</p>
-    <?php endif; ?>
-</section>
 
-<!-- =============== USER EVENTS =============== -->
-<section class="profile-section">
-    <div class="profile-section-header-with-cta">
-        <h2><?= $firstName ?>'s Upcoming Events</h2>
-
-        <?php if ($hasMoreEvents): ?>
-            <a class="profile-section-cta" href="<?= EVENT_URL ?>user-events.php?id=<?= $targetUserId ?>">
-                View All
-            </a>
+        <?php if (!empty($displayEvents)): ?>
+            <div class="profile-grid">
+                <?php foreach ($displayEvents as $event): ?>
+                    <?php
+                        $cardContext = 'explore';
+                        include LAYOUT_PATH . 'event-card.php';
+                    ?>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="profile-empty">This user is not registered for any events.</p>
         <?php endif; ?>
-    </div>
+    </section>
 
-    <?php if (!empty($displayEvents)): ?>
-        <div class="profile-grid">
-            <?php foreach ($displayEvents as $event): ?>
-                <?php
-                    $cardContext = 'explore';
-                    include LAYOUT_PATH . 'event-card.php';
-                ?>
-            <?php endforeach; ?>
+    <section class="profile-section">
+        <div class="profile-section-header-main">
+            <h2>Recent Comments</h2>
         </div>
-    <?php else: ?>
-        <p class="profile-empty">This user is not registered for any events.</p>
-    <?php endif; ?>
-</section>
+
+        <?php if (!empty($recentComments)): ?>
+            <ul class="comments-list" id="commentsList">
+                <?php foreach ($recentComments as $i => $c): ?>
+                    <li class="comment-card <?= $i >= 3 ? 'is-hidden' : '' ?>">
+
+                        <div class="comment-header">
+                            <span class="comment-author-link">
+                                <?= htmlspecialchars($fullName) ?>
+                            </span>
+
+                            <div class="comment-header-right">
+                                <a class="comment-event-pill"
+                                href="<?= PUBLIC_URL ?>event/view-event.php?id=<?= $c['event_id'] ?>">
+                                    <?= htmlspecialchars($c['event_name']) ?>
+                                </a>
+
+                                <span class="comment-date-pill">
+                                    <?= date('M d, Y · g:i A', strtotime($c['comment_date'])) ?>
+                                </span>
+                            </div>
+                        </div>
+
+                        <p class="comment-body">
+                            <?= nl2br(htmlspecialchars($c['comment_message'])) ?>
+                        </p>
+
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+
+            <?php if (count($recentComments) > 3): ?>
+                <div class="profile-section-more">
+                    <button class="profile-more-btn" id="loadMoreComments">
+                        Load More Comments
+                    </button>
+                </div>
+            <?php endif; ?>
+
+        <?php else: ?>
+            <p class="profile-empty">This user hasn’t written any comments yet.</p>
+        <?php endif; ?>
+    </section>
+
+
 
 </main>
 

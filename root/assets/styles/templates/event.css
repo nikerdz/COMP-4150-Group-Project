@@ -286,7 +286,7 @@
 }
 
 .registration-role-admin {
-    background: #8e24aa;
+    background: var(--red);
 }
 
 /* ==========================

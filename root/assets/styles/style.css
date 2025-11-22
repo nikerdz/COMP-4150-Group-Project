@@ -22,7 +22,9 @@
 @import url("templates/edit-event.css");
 
 
-
+.is-hidden {
+    display: none !important;
+}
 
 /* ==========================
    Font Styles
