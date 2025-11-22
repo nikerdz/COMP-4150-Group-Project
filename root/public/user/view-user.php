@@ -61,15 +61,15 @@ $fullName  = trim("$firstName $lastName");
 $email     = htmlspecialchars($user['user_email']);
 
 // Clubs & events they belong to
-$userClubs = $membershipModel->getClubsForUser($targetUserId);
+$userClubs  = $membershipModel->getClubsForUser($targetUserId);
 $userEvents = $registrationModel->getUpcomingEventsForUser($targetUserId, 6);
 
 // Limit display items
-$MAX_ITEMS = 3;
-$displayClubs = array_slice($userClubs, 0, $MAX_ITEMS);
+$MAX_ITEMS     = 3;
+$displayClubs  = array_slice($userClubs, 0, $MAX_ITEMS);
 $displayEvents = array_slice($userEvents, 0, $MAX_ITEMS);
 
-$hasMoreClubs = count($userClubs) > $MAX_ITEMS;
+$hasMoreClubs  = count($userClubs) > $MAX_ITEMS;
 $hasMoreEvents = count($userEvents) > $MAX_ITEMS;
 
 // Avatar initial
@@ -91,11 +91,10 @@ if ($viewUserId !== $_SESSION['user_id']) {
     $_SESSION['recent_users'] = array_slice($_SESSION['recent_users'], 0, 10);
 }
 
-$commentModel = new Comment();
-$recentComments = $commentModel->getCommentsForUser($targetUserId, 5);
+$commentModel    = new Comment();
+$recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,7 +106,7 @@ $recentComments = $commentModel->getCommentsForUser($targetUserId, 5);
     <meta property="og:description" content="Join ClubHub and explore clubs, events, and connect with fellow students on campus.">
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
     <meta property="og:url" content="https://khan661.myweb.cs.uwindsor.ca/COMP-4150-Group-Project/root/public/">
-    <meta property="og:type" content="website"> <!-- Enhance link previews when shared on Facebook, LinkedIn, and other platforms -->
+    <meta property="og:type" content="website">
 
     <title>ClubHub | <?= $fullName ?></title>
 
@@ -192,6 +191,7 @@ $recentComments = $commentModel->getCommentsForUser($targetUserId, 5);
         <?php endif; ?>
     </section>
 
+    <!-- =============== RECENT COMMENTS =============== -->
     <section class="profile-section">
         <div class="profile-section-header-main">
             <h2>Recent Comments</h2>
@@ -209,7 +209,7 @@ $recentComments = $commentModel->getCommentsForUser($targetUserId, 5);
 
                             <div class="comment-header-right">
                                 <a class="comment-event-pill"
-                                href="<?= PUBLIC_URL ?>event/view-event.php?id=<?= $c['event_id'] ?>">
+                                   href="<?= PUBLIC_URL ?>event/view-event.php?id=<?= $c['event_id'] ?>">
                                     <?= htmlspecialchars($c['event_name']) ?>
                                 </a>
 
@@ -219,9 +219,8 @@ $recentComments = $commentModel->getCommentsForUser($targetUserId, 5);
                             </div>
                         </div>
 
-                        <p class="comment-body">
-                            <?= nl2br(htmlspecialchars($c['comment_message'])) ?>
-                        </p>
+                        <!-- SAME-LINE ECHO TO AVOID BLANK FIRST LINE -->
+                        <p class="comment-body"><?= nl2br(htmlspecialchars($c['comment_message'])) ?></p>
 
                     </li>
                 <?php endforeach; ?>
@@ -239,8 +238,6 @@ $recentComments = $commentModel->getCommentsForUser($targetUserId, 5);
             <p class="profile-empty">This user hasn’t written any comments yet.</p>
         <?php endif; ?>
     </section>
-
-
 
 </main>
 

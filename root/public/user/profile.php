@@ -19,10 +19,10 @@ if (!isset($_SESSION['user_id'])) {
 
 $userId = (int)$_SESSION['user_id'];
 
-$userModel        = new User();
-$clubModel        = new Club();
-$eventModel       = new Event();
-$membershipModel  = new Membership();
+$userModel         = new User();
+$clubModel         = new Club();
+$eventModel        = new Event();
+$membershipModel   = new Membership();
 $registrationModel = new Registration();
 
 // Get user from DB
@@ -88,8 +88,9 @@ unset($_SESSION['profile_success']);
 // Interests
 $interestNames = $userModel->getInterestNames($userId);
 
-$commentModel = new Comment();
-$recentComments = $commentModel->getCommentsForUser($userId, 5);
+$commentModel    = new Comment();
+$recentComments  = $commentModel->getCommentsForUser($userId, 5);
+$isSelf          = true; // you are viewing your own profile
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -180,7 +181,7 @@ $recentComments = $commentModel->getCommentsForUser($userId, 5);
     </section>
 
     <!-- ==============================
-         YOUR CLUBS (club-card.php)
+         YOUR CLUBS
     ============================== -->
     <section class="profile-section">
         <div class="profile-section-header-with-cta">
@@ -200,9 +201,8 @@ $recentComments = $commentModel->getCommentsForUser($userId, 5);
             <div class="profile-grid">
                 <?php foreach ($displayClubs as $club): ?>
                     <?php
-                        // Render using shared club card component
-                        $cardContext = 'explore';   // use explore-style cards
-                        $hiddenClass = '';          // no hidden class on profile
+                        $cardContext = 'explore';
+                        $hiddenClass = '';
                         include LAYOUT_PATH . 'club-card.php';
                     ?>
                 <?php endforeach; ?>
@@ -226,7 +226,7 @@ $recentComments = $commentModel->getCommentsForUser($userId, 5);
     </section>
 
     <!-- ==============================
-         Registered EVENTS (event-card.php)
+         REGISTERED EVENTS
     ============================== -->
     <section class="profile-section">
         <div class="profile-section-header-with-cta">
@@ -246,8 +246,7 @@ $recentComments = $commentModel->getCommentsForUser($userId, 5);
             <div class="profile-grid">
                 <?php foreach ($displayEvents as $event): ?>
                     <?php
-                        // Render using shared event card component
-                        $cardContext = 'explore';   // use explore-style cards
+                        $cardContext = 'explore';
                         $hiddenClass = '';
                         include LAYOUT_PATH . 'event-card.php';
                     ?>
@@ -271,62 +270,55 @@ $recentComments = $commentModel->getCommentsForUser($userId, 5);
         <?php endif; ?>
     </section>
 
+    <!-- ==============================
+         RECENT COMMENTS
+    ============================== -->
     <section class="profile-section">
         <div class="profile-section-header-main">
             <h2>Recent Comments</h2>
         </div>
 
         <?php if (!empty($recentComments)): ?>
-            <ul class="comments-list">
-                <?php if (!empty($recentComments)): ?>
-                    <ul class="comments-list" id="commentsList">
-                        <?php foreach ($recentComments as $i => $c): ?>
-                            <li class="comment-card <?= $i >= 3 ? 'is-hidden' : '' ?>">
+            <ul class="comments-list" id="commentsList">
+                <?php foreach ($recentComments as $i => $c): ?>
+                    <li class="comment-card <?= $i >= 3 ? 'is-hidden' : '' ?>">
 
-                                <div class="comment-header">
-                                    <span class="comment-author-link">
-                                        <?= $isSelf ?? false ? "You" : htmlspecialchars($fullName) ?>
-                                    </span>
+                        <div class="comment-header">
+                            <span class="comment-author-link">
+                                <?= $isSelf ? "You" : htmlspecialchars($fullName) ?>
+                            </span>
 
-                                    <div class="comment-header-right">
-                                        <a class="comment-event-pill"
-                                        href="<?= PUBLIC_URL ?>event/view-event.php?id=<?= $c['event_id'] ?>">
-                                            <?= htmlspecialchars($c['event_name']) ?>
-                                        </a>
+                            <div class="comment-header-right">
+                                <a class="comment-event-pill"
+                                   href="<?= PUBLIC_URL ?>event/view-event.php?id=<?= $c['event_id'] ?>">
+                                    <?= htmlspecialchars($c['event_name']) ?>
+                                </a>
 
-                                        <span class="comment-date-pill">
-                                            <?= date('M d, Y · g:i A', strtotime($c['comment_date'])) ?>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <p class="comment-body">
-                                    <?= nl2br(htmlspecialchars($c['comment_message'])) ?>
-                                </p>
-
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-
-                    <?php if (count($recentComments) > 3): ?>
-                        <div class="profile-section-more">
-                            <button class="profile-more-btn" id="loadMoreComments">
-                                Load More Comments
-                            </button>
+                                <span class="comment-date-pill">
+                                    <?= date('M d, Y · g:i A', strtotime($c['comment_date'])) ?>
+                                </span>
+                            </div>
                         </div>
-                    <?php endif; ?>
 
-                <?php else: ?>
-                    <p class="profile-empty">No comments yet.</p>
-                <?php endif; ?>
+                        <!-- SAME-LINE ECHO LIKE view-event.php -->
+                        <p class="comment-body"><?= nl2br(htmlspecialchars($c['comment_message'])) ?></p>
 
+                    </li>
+                <?php endforeach; ?>
             </ul>
+
+            <?php if (count($recentComments) > 3): ?>
+                <div class="profile-section-more">
+                    <button class="profile-more-btn" id="loadMoreComments">
+                        Load More Comments
+                    </button>
+                </div>
+            <?php endif; ?>
 
         <?php else: ?>
             <p class="profile-empty">You haven’t written any comments yet.</p>
         <?php endif; ?>
     </section>
-
 
 </main>
 
