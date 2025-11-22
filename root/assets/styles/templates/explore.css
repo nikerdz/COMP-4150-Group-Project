@@ -253,6 +253,14 @@
     text-align: center;
 }
 
+.dashboard-carousel-track .explore-empty-text {
+    width: 100%;
+    text-align: center;
+    display: block;
+    padding: 40px 0;
+}
+
+
 /* ==========================
    Responsive (old block)
 ========================== */
