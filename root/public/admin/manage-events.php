@@ -134,16 +134,6 @@ $VISIBLE = 12;
                             <span>Approved</span>
                         </label>
 
-                        <label class="admin-users-status-option">
-                            <input
-                                type="radio"
-                                name="status"
-                                value="cancelled"
-                                <?php if ($status === 'cancelled') echo 'checked'; ?>
-                            >
-                            <span>Cancelled</span>
-                        </label>
-
                     </div>
                 </div>
 
