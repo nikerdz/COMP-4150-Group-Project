@@ -7,6 +7,7 @@ require_once(MODELS_PATH . 'Club.php');
 require_once(MODELS_PATH . 'Event.php');
 require_once(MODELS_PATH . 'Membership.php');
 require_once(MODELS_PATH . 'Registration.php');
+require_once(MODELS_PATH . 'Comment.php');
 
 session_start();
 
@@ -77,7 +78,7 @@ $displayClubs  = array_slice($userClubs,      0, $MAX_PROFILE_ITEMS);
 $hasMoreEvents = $eventCount > $MAX_PROFILE_ITEMS;
 $hasMoreClubs  = $clubCount  > $MAX_PROFILE_ITEMS;
 
-// ✅ Success message from profile_handle_update.php (session flash)
+// Success message from profile_handle_update.php (session flash)
 $profileSuccess = $_SESSION['profile_success'] ?? null;
 if ($profileSuccess !== null) {
     $profileSuccess = htmlspecialchars($profileSuccess, ENT_QUOTES, 'UTF-8');
@@ -86,6 +87,9 @@ unset($_SESSION['profile_success']);
 
 // Interests
 $interestNames = $userModel->getInterestNames($userId);
+
+$commentModel = new Comment();
+$recentComments = $commentModel->getCommentsForUser($userId, 5);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -266,6 +270,63 @@ $interestNames = $userModel->getInterestNames($userId);
             </p>
         <?php endif; ?>
     </section>
+
+    <section class="profile-section">
+        <div class="profile-section-header-main">
+            <h2>Recent Comments</h2>
+        </div>
+
+        <?php if (!empty($recentComments)): ?>
+            <ul class="comments-list">
+                <?php if (!empty($recentComments)): ?>
+                    <ul class="comments-list" id="commentsList">
+                        <?php foreach ($recentComments as $i => $c): ?>
+                            <li class="comment-card <?= $i >= 3 ? 'is-hidden' : '' ?>">
+
+                                <div class="comment-header">
+                                    <span class="comment-author-link">
+                                        <?= $isSelf ?? false ? "You" : htmlspecialchars($fullName) ?>
+                                    </span>
+
+                                    <div class="comment-header-right">
+                                        <a class="comment-event-pill"
+                                        href="<?= PUBLIC_URL ?>event/view-event.php?id=<?= $c['event_id'] ?>">
+                                            <?= htmlspecialchars($c['event_name']) ?>
+                                        </a>
+
+                                        <span class="comment-date-pill">
+                                            <?= date('M d, Y · g:i A', strtotime($c['comment_date'])) ?>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <p class="comment-body">
+                                    <?= nl2br(htmlspecialchars($c['comment_message'])) ?>
+                                </p>
+
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                    <?php if (count($recentComments) > 3): ?>
+                        <div class="profile-section-more">
+                            <button class="profile-more-btn" id="loadMoreComments">
+                                Load More Comments
+                            </button>
+                        </div>
+                    <?php endif; ?>
+
+                <?php else: ?>
+                    <p class="profile-empty">No comments yet.</p>
+                <?php endif; ?>
+
+            </ul>
+
+        <?php else: ?>
+            <p class="profile-empty">You haven’t written any comments yet.</p>
+        <?php endif; ?>
+    </section>
+
 
 </main>
 

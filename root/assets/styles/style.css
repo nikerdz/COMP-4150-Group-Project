@@ -20,7 +20,9 @@
 @import url('templates/add-event.css');
 @import url("templates/comments.css");
 
-
+.is-hidden {
+    display: none !important;
+}
 
 /* ==========================
    Font Styles
