@@ -298,8 +298,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+// ==========================
+// Comments – "Load more" (3 at a time)
+// ==========================
 document.addEventListener("DOMContentLoaded", function () {
-
     const list = document.getElementById("commentsList");
     const btn = document.getElementById("loadMoreComments");
 
@@ -324,25 +326,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+// ==========================
+// Admin – Manage Users & Clubs
+// (each click shows ~2 rows = 6 cards)
+// ==========================
 document.addEventListener("DOMContentLoaded", () => {
-    const grid = document.getElementById("usersGrid");
-    const btn  = document.getElementById("loadMoreUsers");
+    // --- Manage Users ---
+    const usersGrid  = document.getElementById("adminUsersGrid");
+    const usersBtn   = document.getElementById("adminUsersLoadMore");
+    const usersToggle = document.getElementById("adminUsersFilterToggle");
+    const usersPanel  = document.getElementById("adminUsersFilterPanel");
 
-    if (!grid || !btn) return;
+    if (usersToggle && usersPanel) {
+        usersToggle.addEventListener("click", () => {
+            usersPanel.classList.toggle("is-open");
+        });
+    }
 
-    btn.addEventListener("click", () => {
-        const hidden = grid.querySelectorAll(".explore-card.is-hidden");
-        let shown = 0;
+    if (usersGrid && usersBtn) {
+        const CARDS_PER_CLICK = 6;
 
-        hidden.forEach(card => {
-            if (shown < 12) {
-                card.classList.remove("is-hidden");
-                shown++;
+        usersBtn.addEventListener("click", () => {
+            const hidden = usersGrid.querySelectorAll(".admin-users-card-hidden");
+            let shown = 0;
+
+            hidden.forEach(card => {
+                if (shown < CARDS_PER_CLICK) {
+                    card.classList.remove("admin-users-card-hidden");
+                    shown++;
+                }
+            });
+
+            if (!usersGrid.querySelector(".admin-users-card-hidden")) {
+                usersBtn.style.display = "none";
             }
         });
+    }
 
-        if (grid.querySelectorAll(".is-hidden").length === 0) {
-            btn.style.display = "none";
-        }
-    });
-});
+    // --- Manage Clubs ---
+    const clubsGrid  = document.getElementById("adminClubsGrid");
+    const clubsBtn   = document.getElementById("adminClubsLoadMore");
+    const clubsToggle = document.getElementById("adminClubsFilterToggle");
+    const clubsPanel  = document.getElementById("adminClubsFilterPanel");
+
+    if (clubsToggle && clubsPanel) {
+        clubsToggle.addEventListener("click", () => {
+            clubsPanel.classList.toggle("is-open");
+        });
+    }
+
+    if (clubsGrid && clubsBtn) {
+        const CARDS_PER_CLICK_CLUBS = 6;
+
+        clubsBtn.addEventListener("click", () => {
+            const hidden = clubsGrid.querySelectorAll(".admin-clubs-card-hidden");
+            let shown = 0;
+
+            hidden.forEach(card => {
+                if (shown < CARDS_PER_CLICK_CLUBS) {
+                    card.classList.remove("admin-clubs-card-hidden");
+                    shown++;
+                }
+            });
+
+            if (!clubsGrid.querySelector(".admin-clubs-card-hidden")) {
+                clubsBtn.style.display = "none";
+            }
+        });
+    }
+}
+
+);

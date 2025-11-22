@@ -1,6 +1,5 @@
 /* ==========================
    Admin – Manage Users Page
-   (kept separate from explore)
 ========================== */
 
 /* Hero */
@@ -245,7 +244,7 @@
 }
 
 /* ==========================
-   Responsive
+   Responsive – Users
 ========================== */
 
 @media (max-width: 900px) {
@@ -271,6 +270,283 @@
     }
 
     .admin-users-hero-inner h1 {
+        font-size: 2rem;
+    }
+}
+
+/* =======================================================
+   Admin – Manage Clubs Page
+   (shares file but uses its own .admin-clubs-* classes)
+======================================================= */
+
+/* Hero */
+
+.admin-clubs-hero {
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    color: var(--red);
+    padding: 40px 24px;
+    border-radius: 15px;
+    max-width: 1075px;
+    margin: 10px auto 20px auto;
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 10px var(--cream), 0 0 20px var(--cream);
+}
+
+.admin-clubs-hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.admin-clubs-hero-inner h1 {
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    font-size: 2.4rem;
+    margin-bottom: 8px;
+}
+
+.admin-clubs-hero-inner p {
+    font-family: "JosefinSans", sans-serif;
+    font-size: 1.02rem;
+    color: var(--dark-blue);
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+/* ==========================
+   Filters + Search – Clubs
+========================== */
+
+.admin-clubs-filters-section {
+    max-width: 1075px;
+    margin: 0 auto 20px auto;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.admin-clubs-filters-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-clubs-search-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.admin-clubs-search-input {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 2px solid var(--dark-blue);
+    font-size: 1rem;
+    color: var(--dark-blue);
+    background: #ffffff;
+}
+
+.admin-clubs-search-input::placeholder {
+    color: rgba(28,52,141,0.55);
+}
+
+.admin-clubs-search-btn,
+.admin-clubs-filter-toggle,
+.admin-clubs-apply-btn {
+    background: var(--red);
+    color: var(--cream);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-clubs-search-btn:hover,
+.admin-clubs-filter-toggle:hover,
+.admin-clubs-apply-btn:hover {
+    background: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+/* Collapsible status filter panel – Clubs */
+
+.admin-clubs-filter-panel {
+    margin-top: 10px;
+    display: none;          /* JS adds .is-open */
+    width: 100%;
+    box-sizing: border-box;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.admin-clubs-filter-panel.is-open {
+    display: flex;
+}
+
+.admin-clubs-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.admin-clubs-filter-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+/* Status radio buttons styled as pills – Clubs */
+
+.admin-clubs-status-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.admin-clubs-status-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 2px solid var(--dark-blue);
+    background: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    cursor: pointer;
+    user-select: none;
+}
+
+.admin-clubs-status-option input[type="radio"] {
+    accent-color: var(--red);
+    cursor: pointer;
+}
+
+.admin-clubs-status-option span {
+    pointer-events: none;
+}
+
+/* Apply / reset actions – Clubs */
+
+.admin-clubs-filter-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 130px;
+}
+
+.admin-clubs-reset-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border-radius: 10px;
+    border: 2px solid var(--dark-blue);
+    background: #ffffff;
+    color: var(--dark-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.2s ease, color 0.2s ease,
+                box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.admin-clubs-reset-link:hover {
+    background: var(--dark-blue);
+    color: var(--cream);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    transform: translateY(-1px);
+}
+
+/* ==========================
+   Results grid – Clubs
+========================== */
+
+.admin-clubs-results-section {
+    max-width: 1075px;
+    margin: 0 auto 40px auto;
+}
+
+.admin-clubs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* Hide extra cards until "Load More" is clicked */
+.admin-clubs-grid .admin-clubs-card-hidden {
+    display: none;
+}
+
+.admin-clubs-empty {
+    font-size: 0.95rem;
+    color: var(--dark-blue);
+}
+
+/* Load more button – Clubs */
+
+.admin-clubs-load-more-wrapper {
+    text-align: center;
+    margin-top: 18px;
+}
+
+.admin-clubs-load-more {
+    background: var(--red);
+    color: var(--cream);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-clubs-load-more:hover {
+    background: var(--dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
+
+/* ==========================
+   Responsive – Clubs
+========================== */
+
+@media (max-width: 900px) {
+    .admin-clubs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-clubs-filter-panel {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .admin-clubs-filter-actions {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-clubs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-clubs-hero-inner h1 {
         font-size: 2rem;
     }
 }

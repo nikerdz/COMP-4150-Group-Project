@@ -44,9 +44,9 @@ $VISIBLE = 12;
     <meta property="og:description" content="Join ClubHub and explore clubs, events, and connect with fellow students on campus.">
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
     <meta property="og:url" content="https://khan661.myweb.cs.uwindsor.ca/COMP-4150-Group-Project/root/public/">
-    <meta property="og:type" content="website"> <!-- Enhance link previews when shared on Facebook, LinkedIn, and other platforms -->
+    <meta property="og:type" content="website">
 
-    <title>ClubHub | </title>
+    <title>ClubHub Admin | Manage Clubs</title>
 
     <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?php echo time(); ?>">
@@ -59,63 +59,103 @@ $VISIBLE = 12;
 <main>
 
     <!-- Hero -->
-    <section class="explore-hero">
-        <div class="explore-hero-inner">
+    <section class="admin-clubs-hero">
+        <div class="admin-clubs-hero-inner">
             <h1>Manage Clubs</h1>
             <p>Search, browse, and manage campus clubs.</p>
         </div>
     </section>
 
-    <!-- Filters -->
-    <section class="explore-filters-section">
-        <form method="GET" class="explore-filters-form">
+    <!-- Search + Filters -->
+    <section class="admin-clubs-filters-section">
+        <form method="GET" class="admin-clubs-filters-form">
 
             <!-- Search Row -->
-            <div class="explore-search-row">
+            <div class="admin-clubs-search-row">
                 <input
                     type="text"
                     name="q"
-                    class="explore-search-input"
+                    class="admin-clubs-search-input"
                     placeholder="Search clubs (e.g. 'Chess Club', 'Sports')"
-                    value="<?= htmlspecialchars($search) ?>"
+                    value="<?php echo htmlspecialchars($search); ?>"
                 >
-                <button class="explore-search-btn">Search</button>
+                <button class="admin-clubs-search-btn" type="submit">
+                    Search
+                </button>
+
+                <button
+                    type="button"
+                    class="admin-clubs-filter-toggle"
+                    id="adminClubsFilterToggle"
+                >
+                    Filters
+                </button>
             </div>
 
-            <!-- Status Tabs -->
-            <div class="manage-tabs">
-                <a href="?status=active&q=<?= urlencode($search) ?>"
-                   class="manage-tab <?= $status === 'active' ? 'active' : '' ?>">
-                    Active Clubs
-                </a>
+            <!-- Collapsible status filter panel -->
+            <div class="admin-clubs-filter-panel" id="adminClubsFilterPanel">
+                <div class="admin-clubs-filter-group">
+                    <span class="admin-clubs-filter-label">Club Status</span>
 
-                <a href="?status=inactive&q=<?= urlencode($search) ?>"
-                   class="manage-tab <?= $status === 'inactive' ? 'active' : '' ?>">
-                    Inactive Clubs
-                </a>
+                    <div class="admin-clubs-status-options">
+                        <label class="admin-clubs-status-option">
+                            <input
+                                type="radio"
+                                name="status"
+                                value="active"
+                                <?php if ($status === 'active') echo 'checked'; ?>
+                            >
+                            <span>Active</span>
+                        </label>
+
+                        <label class="admin-clubs-status-option">
+                            <input
+                                type="radio"
+                                name="status"
+                                value="inactive"
+                                <?php if ($status === 'inactive') echo 'checked'; ?>
+                            >
+                            <span>Inactive</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="admin-clubs-filter-actions">
+                    <button type="submit" class="admin-clubs-apply-btn">
+                        Apply
+                    </button>
+                    <a
+                        href="<?php echo PUBLIC_URL; ?>admin/manage-clubs.php"
+                        class="admin-clubs-reset-link"
+                    >
+                        Reset
+                    </a>
+                </div>
             </div>
 
         </form>
     </section>
 
     <!-- Clubs Grid -->
-    <section class="explore-results-section">
+    <section class="admin-clubs-results-section">
         <?php if ($totalClubs === 0): ?>
-            <p class="explore-empty">No clubs found.</p>
+            <p class="admin-clubs-empty">No clubs found.</p>
         <?php else: ?>
-            <div class="explore-grid" id="clubsGrid">
+            <div class="admin-clubs-grid" id="adminClubsGrid">
                 <?php foreach ($clubs as $i => $club): ?>
                     <?php
-                        $hiddenClass = $i >= $VISIBLE ? 'is-hidden' : '';
-                        $cardContext = 'explore'; // use existing layout
+                        $hiddenClass  = $i >= $VISIBLE ? 'admin-clubs-card-hidden' : '';
+                        $cardContext  = 'explore'; // reuse explore-style card layout
                         include LAYOUT_PATH . 'club-card.php';
                     ?>
                 <?php endforeach; ?>
             </div>
 
             <?php if ($totalClubs > $VISIBLE): ?>
-                <div class="explore-load-more-wrapper">
-                    <button id="loadMoreClubs" class="explore-load-more">Load More</button>
+                <div class="admin-clubs-load-more-wrapper">
+                    <button id="adminClubsLoadMore" class="admin-clubs-load-more">
+                        Load More
+                    </button>
                 </div>
             <?php endif; ?>
 

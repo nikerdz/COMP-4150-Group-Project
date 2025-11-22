@@ -58,7 +58,7 @@ $VISIBLE = 12;
 
 <main>
 
-    <!-- Hero (separate styling from explore) -->
+    <!-- Hero -->
     <section class="admin-users-hero">
         <div class="admin-users-hero-inner">
             <h1>Manage Users</h1>
@@ -143,7 +143,7 @@ $VISIBLE = 12;
             <div class="admin-users-grid" id="adminUsersGrid">
                 <?php foreach ($users as $i => $user): ?>
                     <?php
-                        // hide everything after the first $VISIBLE users
+                        // hide beyond the first $VISIBLE
                         $hiddenClass = $i >= $VISIBLE ? 'admin-users-card-hidden' : '';
                         include LAYOUT_PATH . 'user-card.php';
                     ?>
@@ -167,38 +167,6 @@ $VISIBLE = 12;
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
-
-<!-- Page-specific JS so it doesn't share behaviour with explore.php -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const filterToggle = document.getElementById('adminUsersFilterToggle');
-    const filterPanel  = document.getElementById('adminUsersFilterPanel');
-
-    if (filterToggle && filterPanel) {
-        filterToggle.addEventListener('click', function () {
-            filterPanel.classList.toggle('is-open');
-        });
-    }
-
-    const loadMoreBtn = document.getElementById('adminUsersLoadMore');
-    const grid        = document.getElementById('adminUsersGrid');
-
-    if (loadMoreBtn && grid) {
-        loadMoreBtn.addEventListener('click', function () {
-            const hiddenCards = grid.querySelectorAll('.admin-users-card-hidden');
-            const batchSize   = 12;
-
-            for (let i = 0; i < hiddenCards.length && i < batchSize; i++) {
-                hiddenCards[i].classList.remove('admin-users-card-hidden');
-            }
-
-            if (grid.querySelectorAll('.admin-users-card-hidden').length === 0) {
-                loadMoreBtn.style.display = 'none';
-            }
-        });
-    }
-});
-</script>
 
 </body>
 </html>
