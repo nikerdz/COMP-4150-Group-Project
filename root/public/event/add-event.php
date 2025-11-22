@@ -64,8 +64,8 @@ unset($_SESSION['error']);
     <div class="add-event-card">
         <h1>Add Event</h1>
         <p class="add-event-subtitle">
-            Create a new event for <strong><?= htmlspecialchars($club['club_name']) ?></strong>.
-            Only club executives can add events.
+            Create a new event for your club: <strong><?= htmlspecialchars($club['club_name']) ?></strong>. <br> 
+            After creation, a ClubHub Admin must approve your event before it becomes available for registration.
         </p>
 
         <?php if ($error): ?>

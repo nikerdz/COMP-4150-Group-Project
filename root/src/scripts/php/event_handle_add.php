@@ -48,7 +48,7 @@ $eventFee         = isset($_POST['event_fee']) ? (float)$_POST['event_fee'] : 0.
 
 if (empty($eventName) || empty($eventDate)) {
     $_SESSION['error'] = "Event name and date are required.";
-    // ✅ Correct path back to Add Event page
+    // Correct path back to Add Event page
     header("Location: " . PUBLIC_URL . "event/add-event.php?club_id={$clubId}");
     exit;
 }
@@ -67,15 +67,15 @@ $data = [
 
 // Insert event
 if ($eventModel->createEvent($data)) {
-    // ✅ Use toast message for view-club.php ONLY
-    $_SESSION['toast_message'] = "Event '{$eventName}' created successfully!";
+    // Use toast message for view-club.php ONLY
+    $_SESSION['toast_message'] = "Event '{$eventName}' created successfully, pending Admin approval!";
     $_SESSION['toast_type']    = 'success';
 
     header("Location: " . PUBLIC_URL . "club/view-club.php?id={$clubId}");
     exit;
 } else {
     $_SESSION['error'] = "Failed to create event. The event name might already exist.";
-    // ✅ Correct path back to Add Event page on error
+    // Correct path back to Add Event page on error
     header("Location: " . PUBLIC_URL . "event/add-event.php?club_id={$clubId}");
     exit;
 }
