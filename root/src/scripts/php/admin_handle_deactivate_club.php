@@ -15,8 +15,21 @@ if (!isset($_POST['club_id'])) {
 
 $clubId = (int)$_POST['club_id'];
 
-$pdo->prepare("UPDATE Club SET club_status = 'inactive' WHERE club_id = ?")
-    ->execute([$clubId]);
+if ($clubId <= 0) {
+    $_SESSION['toast_message'] = 'Invalid club.';
+    header("Location: " . PUBLIC_URL . "admin/manage-clubs.php");
+    exit();
+}
+
+// Deactivate club
+$stmt = $pdo->prepare("UPDATE Club SET club_status = 'inactive' WHERE club_id = ?");
+$ok   = $stmt->execute([$clubId]);
+
+if ($ok) {
+    $_SESSION['toast_message'] = 'Club deactivated successfully.';
+} else {
+    $_SESSION['toast_message'] = 'Failed to deactivate club.';
+}
 
 header("Location: " . CLUB_URL . "view-club.php?id=" . $clubId);
-exit;
+exit();

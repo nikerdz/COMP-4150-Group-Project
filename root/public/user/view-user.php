@@ -166,34 +166,34 @@ $recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
                 <?php endif; ?>
             </div>
 
-             <div class="profile-actions">
-                    <!-- SHOW ONLY IF ADMIN -->
-                    <?php if (!empty($_SESSION['is_admin'])): ?>
+            <div class="profile-actions">
+                <!-- SHOW ONLY IF ADMIN -->
+                <?php if (!empty($_SESSION['is_admin'])): ?>
 
-                        <p class="profile-status-pill 
-                            <?= $user['user_status'] === 'active' ? 'status-active' : 'status-suspended' ?>">
-                            User Status:
-                            <?= ucfirst($user['user_status']) ?>
-                        </p>
+                    <p class="profile-status-pill 
+                        <?= $user['user_status'] === 'active' ? 'status-active' : 'status-suspended' ?>">
+                        User Status:
+                        <?= ucfirst($user['user_status']) ?>
+                    </p>
 
-                        <?php if ($user['user_status'] === 'active'): ?>
-                            <form action="<?= PHP_URL ?>admin_handle_suspend_user.php" method="POST">
-                                <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
-                                <button class="profile-edit-btn">
-                                    Suspend User
-                                </button>
-                            </form>
-                        <?php else: ?>
-                            <form action="<?= PHP_URL ?>admin_handle_activate_user.php" method="POST">
-                                <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
-                                <button class="profile-edit-btn">
-                                    Activate User
-                                </button>
-                            </form>
-                        <?php endif; ?>
-
+                    <?php if ($user['user_status'] === 'active'): ?>
+                        <form action="<?= PHP_URL ?>admin_handle_suspend_user.php" method="POST">
+                            <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
+                            <button class="profile-edit-btn">
+                                Suspend User
+                            </button>
+                        </form>
+                    <?php else: ?>
+                        <form action="<?= PHP_URL ?>admin_handle_activate_user.php" method="POST">
+                            <input type="hidden" name="user_id" value="<?= $targetUserId ?>">
+                            <button class="profile-edit-btn">
+                                Activate User
+                            </button>
+                        </form>
                     <?php endif; ?>
-                </div>
+
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
@@ -299,6 +299,13 @@ $recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
     </section>
 
 </main>
+
+<?php if (!empty($_SESSION['toast_message'])): ?>
+    <div class="auth-toast auth-toast-success" id="userToast">
+        <?= htmlspecialchars($_SESSION['toast_message']); ?>
+    </div>
+    <?php unset($_SESSION['toast_message'], $_SESSION['toast_type']); ?>
+<?php endif; ?>
 
 <?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
