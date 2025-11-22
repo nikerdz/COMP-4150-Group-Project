@@ -78,4 +78,11 @@ if (!empty($userId)) {
         Access: <?php echo htmlspecialchars(prettyCondition($club['club_condition'] ?? null)); ?>
     </p>
 
+    <?php if (!empty($_SESSION['is_admin'])): ?>
+        <span class="profile-status-pill status-<?php echo htmlspecialchars($club['club_status']); ?>">
+            <?php echo ucfirst($club['club_status']); ?>
+        </span>
+    <?php endif; ?>
+
+
 </article>

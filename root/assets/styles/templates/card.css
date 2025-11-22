@@ -356,9 +356,11 @@
 
 /* Color variants */
 .status-approved {
-    background: #2e8b57; /* green */
+    background: #d4f7d4;
+    color: #106e0c;
 }
 
 .status-pending {
-    background: #d4a017; /* gold */
+    background: #f5ec9a;
+    color: #d4a017; /* gold */
 }

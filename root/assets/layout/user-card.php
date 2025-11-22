@@ -73,4 +73,10 @@ $selfLabel = ($loggedInUserId && $loggedInUserId == $user['user_id']) ? 'You' : 
             Joined <?= date('M d, Y', strtotime($user['join_date'])) ?>
         </p>
     <?php endif; ?>
+
+    <?php if (!empty($_SESSION['is_admin'])): ?>
+        <span class="profile-status-pill status-<?php echo htmlspecialchars($user['user_status']); ?>">
+            <?php echo ucfirst($user['user_status']); ?>
+        </span>
+    <?php endif; ?>
 </article>

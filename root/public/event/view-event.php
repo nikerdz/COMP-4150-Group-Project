@@ -210,6 +210,12 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                         <div class="event-actions">
                             <?php if ($isAdmin): ?>
 
+                                <?php if (!empty($event['event_status'])): ?>
+                                    <span class="explore-pill explore-pill-status status-<?php echo htmlspecialchars($event['event_status']); ?>"> Event Status:
+                                        <?php echo ucfirst($event['event_status']); ?>
+                                    </span>
+                                <?php endif; ?>
+
                                 <?php if ($event['event_status'] === 'pending'): ?>
                                     <form method="post"
                                           action="<?= PHP_URL ?>admin_handle_approve_event.php"
@@ -229,11 +235,6 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                         </button>
                                     </form>
                                 <?php endif; ?>
-
-                                <a class="event-secondary-btn"
-                                   href="<?= EVENT_URL ?>edit-event.php?id=<?= $eventId ?>">
-                                    Edit Event
-                                </a>
 
                             <?php elseif ($userId): ?>
 
