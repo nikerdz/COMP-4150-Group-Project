@@ -176,7 +176,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
     <meta property="og:url" content="<?php echo CLUB_URL; ?>user-clubs.php">
     <meta property="og:type" content="website">
-    
+
     <title>ClubHub | <?= htmlspecialchars($club['club_name']) ?></title>
 
     <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
@@ -273,7 +273,6 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                         <?php endif; ?>
 
                     <?php else: ?>
-
                         <!-- Normal user logic -->
                         <?php if ($userRole === 'executive'): ?>
                             <a class="club-edit-btn" href="<?= CLUB_URL ?>edit-club.php?id=<?= $clubId ?>">Edit Club</a>
@@ -287,7 +286,12 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                         <?php else: ?>
                             <form method="post" action="<?= PHP_URL ?>club_handle_join.php" style="display:inline;">
                                 <input type="hidden" name="club_id" value="<?= $clubId ?>">
-                                <button class="club-edit-save" type="submit">Join Club</button>
+                                
+                                <?php if(!isset($_SESSION['user_id'])): ?>
+                                    <button class="club-edit-save" type="submit"> Login to Join this Club </button>
+                                <?php else: ?>
+                                    <button class="club-edit-save" type="submit"> Join Club </button>
+                                <?php endif; ?>
                             </form>
                         <?php endif; ?>
 
