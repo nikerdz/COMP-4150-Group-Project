@@ -138,7 +138,7 @@ class Event
        Admin search for Manage Events page
        (shows pending/approved depending on filter)
        -------------------------- */
-    public function searchEventsAdmin(string $search = '', string $status = 'approved'): array
+    public function searchEventsAdmin(string $search = '', string $status = 'all'): array
     {
         $sql = "
             SELECT
@@ -151,16 +151,18 @@ class Event
 
         $params = [];
 
-        if (in_array($status, ['pending', 'approved', 'cancelled'], true)) {
+        // Only apply filter if admin selected a specific status
+        if ($status !== 'all') {
             $sql .= " AND e.event_status = :status";
             $params[':status'] = $status;
         }
 
+        // Apply search filter
         if ($search !== '') {
             $sql .= " AND (
-                e.event_name        LIKE :q
+                e.event_name LIKE :q
                 OR e.event_description LIKE :q
-                OR c.club_name      LIKE :q
+                OR c.club_name LIKE :q
             )";
             $params[':q'] = '%' . $search . '%';
         }
@@ -172,6 +174,7 @@ class Event
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     /* --------------------------
        Create a new event

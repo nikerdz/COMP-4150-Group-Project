@@ -250,20 +250,26 @@ class Club
         }
     }
 
-    public function searchClubsAdmin(string $search = '', string $status = 'active'): array
+    public function searchClubsAdmin(string $search = '', string $status = 'all'): array
     {
         $sql = "
             SELECT *
             FROM Club
-            WHERE club_status = :status
+            WHERE 1=1
         ";
 
-        $params = [':status' => $status];
+        $params = [];
 
+        // Only apply the status filter if user selected active/inactive
+        if ($status !== 'all') {
+            $sql .= " AND club_status = :status";
+            $params[':status'] = $status;
+        }
+
+        // Search filter
         if ($search !== '') {
-            // use distinct placeholders so PDO doesn't complain
             $sql .= " AND (
-                club_name        LIKE :q1 OR
+                club_name LIKE :q1 OR
                 club_description LIKE :q2
             )";
 
@@ -279,6 +285,7 @@ class Club
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function findVisibleById(int $clubId): ?array
     {

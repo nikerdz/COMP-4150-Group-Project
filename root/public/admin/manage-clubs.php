@@ -17,10 +17,10 @@ $clubModel = new Club();
 // Filters
 // -----------------------------
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
-$status = isset($_GET['status']) ? $_GET['status'] : 'active';   // active | inactive
+$status = isset($_GET['status']) ? $_GET['status'] : 'all';
 
-if (!in_array($status, ['active', 'inactive'], true)) {
-    $status = 'active';
+if (!in_array($status, ['active', 'inactive', 'all'], true)) {
+    $status = 'all';
 }
 
 // -----------------------------
@@ -96,6 +96,17 @@ $VISIBLE = 12;
             <div class="admin-clubs-filter-panel" id="adminClubsFilterPanel">
                 <div class="admin-clubs-filter-group">
                     <span class="admin-clubs-filter-label">Club Status</span>
+
+                    <label class="admin-clubs-status-option">
+                        <input
+                            type="radio"
+                            name="status"
+                            value="all"
+                            <?php if ($status === 'all') echo 'checked'; ?>
+                        >
+                        <span>All</span>
+                    </label>
+
 
                     <div class="admin-clubs-status-options">
                         <label class="admin-clubs-status-option">

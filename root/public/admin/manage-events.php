@@ -18,10 +18,9 @@ $eventModel = new Event();
 // Filters
 // -----------------------------
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
-$status = isset($_GET['status']) ? $_GET['status'] : 'pending';
-// allowed: pending | approved | cancelled
-if (!in_array($status, ['pending', 'approved', 'cancelled'], true)) {
-    $status = 'pending';
+$status = isset($_GET['status']) ? $_GET['status'] : 'all';
+if (!in_array($status, ['pending', 'approved', 'cancelled', 'all'], true)) {
+    $status = 'all';
 }
 
 // -----------------------------
@@ -104,6 +103,16 @@ $VISIBLE = 12;
                     <span class="admin-users-filter-label">Event Status</span>
 
                     <div class="admin-users-status-options">
+
+                        <label class="admin-users-status-option">
+                            <input
+                                type="radio"
+                                name="status"
+                                value="all"
+                                <?php if ($status === 'all') echo 'checked'; ?>
+                            >
+                            <span>All</span>
+                        </label>
 
                         <label class="admin-users-status-option">
                             <input

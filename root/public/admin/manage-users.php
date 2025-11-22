@@ -17,10 +17,10 @@ $userModel = new User();
 // Filters
 // -----------------------------
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
-$status = isset($_GET['status']) ? $_GET['status'] : 'active';  // active | suspended
+$status = isset($_GET['status']) ? $_GET['status'] : 'all';
 
-if (!in_array($status, ['active', 'suspended'], true)) {
-    $status = 'active';
+if (!in_array($status, ['active', 'suspended', 'all'], true)) {
+    $status = 'all';
 }
 
 // -----------------------------
@@ -97,6 +97,17 @@ $VISIBLE = 12;
                 <div class="admin-users-filter-group">
                     <span class="admin-users-filter-label">User Status</span>
                     <div class="admin-users-status-options">
+
+                        <label class="admin-users-status-option">
+                            <input
+                                type="radio"
+                                name="status"
+                                value="all"
+                                <?php if ($status === 'all') echo 'checked'; ?>
+                            >
+                            <span>All</span>
+                        </label>
+
                         <label class="admin-users-status-option">
                             <input
                                 type="radio"

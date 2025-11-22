@@ -179,15 +179,15 @@ class User
         return $this->pdo->query("SELECT * FROM User")->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function searchUsers(string $search = '', string $status = 'active'): array
+    public function searchUsers(string $search = '', string $status = 'all'): array
     {
-        $sql = "
-            SELECT *
-            FROM User
-            WHERE user_status = :status
-        ";
+        $sql = "SELECT * FROM User WHERE 1=1";
+        $params = [];
 
-        $params = [':status' => $status];
+        if ($status !== 'all') {
+            $sql .= " AND user_status = :status";
+            $params[':status'] = $status;
+        }
 
         if ($search !== '') {
             // use distinct placeholders so PDO doesn't complain
