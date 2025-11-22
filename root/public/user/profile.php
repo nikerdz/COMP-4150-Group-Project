@@ -182,6 +182,7 @@ $isSelf          = true; // you are viewing your own profile
         </div>
     </section>
 
+    <?php if (empty($_SESSION['is_admin'])): ?>
     <!-- ==============================
          YOUR CLUBS
     ============================== -->
@@ -271,6 +272,7 @@ $isSelf          = true; // you are viewing your own profile
             </p>
         <?php endif; ?>
     </section>
+    <?php endif; ?>
 
     <!-- ==============================
          RECENT COMMENTS

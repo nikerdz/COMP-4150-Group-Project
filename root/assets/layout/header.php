@@ -46,6 +46,9 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <?php if (!empty($_SESSION['is_admin'])): ?>
                 <!-- Admin Sidebar -->
                 <li><a href="<?php echo ADMIN_URL; ?>dashboard.php">DASHBOARD</a></li>
+                <li><a href="<?php echo ADMIN_URL; ?>manage-events.php">MANAGE EVENTS</a></li>
+                <li><a href="<?php echo ADMIN_URL; ?>manage-clubs.php">MANAGE CLUBS</a></li>
+                <li><a href="<?php echo ADMIN_URL; ?>manage-users.php">MANAGE USERS</a></li>
                 <li><a href="<?php echo USER_URL; ?>profile.php">PROFILE</a></li>
                 <li><a href="<?php echo USER_URL; ?>settings.php">SETTINGS</a></li>
                 <li><a href="<?php echo PHP_URL; ?>auth_handle_logout.php">LOGOUT</a></li>
@@ -54,6 +57,8 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                 <!-- Regular User Sidebar -->
                 <li><a href="<?php echo USER_URL; ?>dashboard.php">DASHBOARD</a></li>
                 <li><a href="<?php echo USER_URL; ?>explore.php">EXPLORE</a></li>
+                <li><a href="<?php echo CLUB_URL; ?>user-clubs.php">MY CLUBS</a></li>
+                <li><a href="<?php echo EVENT_URL; ?>user-events.php">MY EVENTS</a></li>
                 <li><a href="<?php echo USER_URL; ?>profile.php">PROFILE</a></li>
                 <li><a href="<?php echo USER_URL; ?>settings.php">SETTINGS</a></li>
                 <li><a href="<?php echo PHP_URL; ?>auth_handle_logout.php">LOGOUT</a></li>
