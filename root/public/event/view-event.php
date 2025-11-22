@@ -199,12 +199,6 @@ $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
                                     <span class="event-badge event-badge-registered">You are registered</span>
                                 <?php endif; ?>
                             </p>
-
-                            <?php if ($isAdmin): ?>
-                                <p class="event-meta-secondary">
-                                    <strong>Status:</strong> <?= htmlspecialchars(ucfirst($event['event_status'])); ?>
-                                </p>
-                            <?php endif; ?>
                         </div>
 
                         <div class="event-actions">
