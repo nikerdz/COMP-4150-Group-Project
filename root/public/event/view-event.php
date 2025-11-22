@@ -269,7 +269,7 @@ $comments = $event ? $commentModel->getCommentsForEvent($eventId) : [];
                             ?>
                             <div class="registration-pill">
                                 <span class="registration-name">
-                                    <a href="<?= PUBLIC_URL ?>user/view-user.php?id=<?= $regUser['user_id'] ?>">
+                                    <a href="<?= PUBLIC_URL ?>user/view-user.php?id=<?= (int)$regUser['user_id'] ?>">
                                         <?= htmlspecialchars($regUser['first_name'] . ' ' . $regUser['last_name']); ?>
                                     </a>
                                 </span>
@@ -310,7 +310,7 @@ $comments = $event ? $commentModel->getCommentsForEvent($eventId) : [];
                         </button>
                     </form>
                 <?php else: ?>
-                    <p class="club-empty">
+                    <p class="club-empty event-comments-login">
                         <a href="<?= PUBLIC_URL ?>login.php">Log in</a> to post a comment.
                     </p>
                 <?php endif; ?>
@@ -318,36 +318,46 @@ $comments = $event ? $commentModel->getCommentsForEvent($eventId) : [];
                 <?php if (!empty($comments)): ?>
                     <ul class="comments-list">
                         <?php foreach ($comments as $comment): ?>
+                            <?php
+                            $commentUserId = (int)$comment['user_id'];
+                            $canDelete = $userId && (
+                                (int)$userId === $commentUserId || $isExec
+                            );
+                            ?>
                             <li class="comment-item">
-                                <div class="comment-header">
-                                    <span class="comment-author">
-                                        <?= htmlspecialchars($comment['user_name']); ?>
-                                    </span>
-                                    <span class="comment-date-pill">
-                                        <?php
-                                        $cts = strtotime($comment['comment_date']);
-                                        echo $cts
-                                            ? date('M d, Y · g:i A', $cts)
-                                            : htmlspecialchars($comment['comment_date']);
-                                        ?>
-                                    </span>
-                                </div>
+                                <div class="comment-card">
+                                    <div class="comment-header">
+                                        <a class="comment-author-link"
+                                           href="<?= PUBLIC_URL ?>user/view-user.php?id=<?= $commentUserId ?>">
+                                            <?= htmlspecialchars($comment['user_name']); ?>
+                                        </a>
+                                        <span class="comment-date-pill">
+                                            <?php
+                                            $cts = strtotime($comment['comment_date']);
+                                            echo $cts
+                                                ? date('M d, Y · g:i A', $cts)
+                                                : htmlspecialchars($comment['comment_date']);
+                                            ?>
+                                        </span>
+                                    </div>
 
-                                <div class="comment-bubble">
-                                    <p class="comment-body">
-                                        <?= nl2br(htmlspecialchars($comment['comment_message'])); ?>
-                                    </p>
+                                    <!-- CHANGED: echo is now on the same line to avoid a leading blank line -->
+                                    <p class="comment-body"><?= nl2br(htmlspecialchars($comment['comment_message'])); ?></p>
 
-                                    <?php if ($userId && (int)$comment['user_id'] === (int)$userId): ?>
-                                        <form method="post"
-                                              action="<?= PHP_URL ?>comment_handle_delete.php"
-                                              class="comment-delete-form">
-                                            <input type="hidden" name="comment_id" value="<?= (int)$comment['comment_id']; ?>">
-                                            <input type="hidden" name="event_id" value="<?= $eventId; ?>">
-                                            <button type="submit" class="comment-delete-btn">
-                                                Delete
-                                            </button>
-                                        </form>
+                                    <?php if ($canDelete): ?>
+                                        <div class="comment-footer">
+                                            <form method="post"
+                                                  action="<?= PHP_URL ?>comment_handle_delete.php"
+                                                  class="comment-delete-form">
+                                                <input type="hidden" name="comment_id"
+                                                       value="<?= (int)$comment['comment_id']; ?>">
+                                                <input type="hidden" name="event_id"
+                                                       value="<?= $eventId; ?>">
+                                                <button type="submit" class="comment-delete-btn">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
                             </li>

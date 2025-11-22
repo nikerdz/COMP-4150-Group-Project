@@ -57,7 +57,38 @@ class Comment
     }
 
     /* --------------------------
-       Delete a comment (only by owner)
+       Get a single comment
+       -------------------------- */
+    public function getCommentById(int $commentId): ?array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT *
+            FROM Comments
+            WHERE comment_id = :cid
+            LIMIT 1
+        ");
+        $stmt->execute([':cid' => $commentId]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
+    }
+
+    /* --------------------------
+       Delete by comment id
+       -------------------------- */
+    public function deleteById(int $commentId): bool
+    {
+        $stmt = $this->pdo->prepare("
+            DELETE FROM Comments
+            WHERE comment_id = :cid
+        ");
+        $stmt->execute([':cid' => $commentId]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    /* --------------------------
+       Delete only by owner
        -------------------------- */
     public function deleteComment(int $commentId, int $userId): bool
     {

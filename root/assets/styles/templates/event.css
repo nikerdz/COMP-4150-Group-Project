@@ -238,6 +238,18 @@
     font-size: 0.9rem;
 }
 
+/* clickable registration names */
+.registration-name a {
+    text-decoration: none;
+    color: var(--dark-blue);
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.registration-name a:hover {
+    color: var(--red);
+}
+
 .registration-role {
     font-size: 0.75rem;
     font-weight: 700;
@@ -257,127 +269,6 @@
 
 .registration-role-admin {
     background: #8e24aa;
-}
-
-/* ==========================
-   Comments / Discussion
-========================== */
-
-.event-comments {
-    margin-top: 8px;
-}
-
-/* form row: textarea + button on the right */
-.comment-form {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    margin-bottom: 18px;
-}
-
-.comment-form textarea {
-    flex: 1;
-    min-height: 80px;
-    max-height: 180px;         /* limit how tall */
-    resize: vertical;
-    overflow-y: auto;
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: 2px solid var(--dark-blue);
-    font-size: 0.95rem;
-    font-family: inherit;
-    color: var(--dark-blue);
-    box-sizing: border-box;
-}
-
-.comment-form textarea:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(28,52,141,0.25);
-}
-
-.comment-submit-btn {
-    white-space: nowrap;
-}
-
-/* list of comments */
-.comments-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.comment-item {
-    background: transparent;
-}
-
-/* top row: name + date pill */
-.comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-}
-
-.comment-author {
-    font-weight: 700;
-    color: var(--dark-blue);
-    font-size: 0.95rem;
-}
-
-.comment-date-pill {
-    font-size: 0.8rem;
-    background: var(--light-blue);
-    color: var(--dark-blue);
-    border-radius: 999px;
-    padding: 3px 10px;
-}
-
-/* bubble containing text (and delete button, if own comment) */
-.comment-bubble {
-    background: var(--cream);
-    border-radius: 12px;
-    padding: 10px 14px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-}
-
-.comment-body {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--dark-blue);
-    white-space: pre-wrap;
-}
-
-.comment-delete-form {
-    margin-left: auto;
-}
-
-.comment-delete-btn {
-    background: transparent;
-    border-radius: 999px;
-    border: 1px solid var(--red);
-    color: var(--red);
-    padding: 4px 10px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        background 0.15s ease,
-        color 0.15s ease,
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-}
-
-.comment-delete-btn:hover {
-    background: var(--red);
-    color: var(--cream);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.16);
 }
 
 /* ==========================
@@ -407,17 +298,5 @@
 
     .event-actions {
         align-items: flex-start;
-    }
-}
-
-@media (max-width: 600px) {
-    .comment-bubble {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .comment-delete-form {
-        margin-left: 0;
-        margin-top: 6px;
     }
 }

@@ -1,0 +1,169 @@
+/* ==========================
+   Event Comments Styles
+   (used on view-event.php)
+========================== */
+
+.event-comments {
+    margin-top: 8px;
+}
+
+/* form row: textarea + button */
+.comment-form {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+}
+
+.comment-form textarea {
+    flex: 1;
+    min-height: 80px;
+    max-height: 180px;
+    resize: vertical;
+    overflow-y: auto;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 2px solid var(--dark-blue);
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--dark-blue);
+    box-sizing: border-box;
+}
+
+.comment-form textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(28,52,141,0.25);
+}
+
+.comment-submit-btn {
+    white-space: nowrap;
+}
+
+/* login prompt link inside comments */
+.event-comments-login a {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--dark-blue);
+    transition: color 0.2s ease;
+}
+
+.event-comments-login a:hover {
+    color: var(--red);
+    text-decoration: none;
+}
+
+/* comments list */
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comment-item {
+    background: transparent;
+}
+
+/* card container for each comment */
+.comment-card {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 10px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* header row: author + date */
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+/* clickable author link */
+.comment-author-link {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--dark-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.comment-author-link:hover {
+    color: var(--red);
+    text-decoration: none;
+}
+
+/* small date pill */
+.comment-date-pill {
+    font-size: 0.8rem;
+    background: var(--light-blue);
+    color: var(--dark-blue);
+    border-radius: 999px;
+    padding: 3px 10px;
+}
+
+/* body text */
+.comment-body {
+    margin: 4px 0 0 0;
+    font-size: 0.9rem;
+    color: var(--dark-blue);
+    white-space: pre-wrap;
+}
+
+/* footer containing delete button (if shown) */
+.comment-footer {
+    margin-top: 8px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* delete button styled as small pill */
+.comment-delete-form {
+    margin: 0;
+}
+
+.comment-delete-btn {
+    background: transparent;
+    border-radius: 999px;
+    border: 1px solid var(--red);
+    color: var(--red);
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.comment-delete-btn:hover {
+    background: var(--red);
+    color: var(--cream);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.16);
+}
+
+/* ==========================
+   Responsive tweaks
+========================== */
+
+@media (max-width: 600px) {
+    .comment-card {
+        padding: 10px 12px;
+    }
+
+    .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .comment-footer {
+        justify-content: flex-start;
+    }
+}
