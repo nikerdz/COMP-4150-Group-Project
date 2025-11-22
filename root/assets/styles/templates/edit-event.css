@@ -1,0 +1,109 @@
+/* ==========================
+   Event Edit Page Styles
+   (similar to club edit)
+========================== */
+
+.event-edit-section {
+    max-width: 800px;
+    margin-top: 15px;
+}
+
+/* Messages on edit page */
+.event-message {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.event-message-error {
+    background: rgba(217, 83, 79, 0.12);
+    color: #d9534f;
+    border: 1px solid rgba(217, 83, 79, 0.35);
+}
+
+.event-message-success {
+    background: rgba(40, 167, 69, 0.12);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.35);
+}
+
+/* Make the edit form feel similar to auth/club forms */
+.event-edit-form {
+    margin-top: 4px;
+}
+
+/* Actions row (cancel + save) */
+.event-edit-actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+/* Normalize both buttons so they line up perfectly */
+.event-edit-actions .event-edit-cancel,
+.event-edit-actions .event-edit-save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* Cancel button styling */
+.event-edit-cancel {
+    text-decoration: none;
+    color: var(--dark-blue);
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.event-edit-cancel:hover {
+    background: #ffffff;
+    border-color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* Save button */
+.event-edit-save {
+    background-color: var(--red);
+    border: var(--red);
+    color: var(--cream);
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.event-edit-save:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    transition: 0.3s ease;
+}
+
+/* Optional: keep textarea styling consistent */
+.event-edit-section .auth-field textarea {
+    color: var(--dark-blue);
+    padding: 10px;
+    border: 2px solid var(--dark-blue);
+    border-radius: 10px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}

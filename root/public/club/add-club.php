@@ -76,6 +76,7 @@ $clubCondition   = $oldInput['club_condition']   ?? 'none';
                             id="club_name"
                             name="club_name"
                             required
+                            maxlength="60"
                             value="<?php echo htmlspecialchars($clubName, ENT_QUOTES, 'UTF-8'); ?>"
                             placeholder="e.g. AI &amp; Machine Learning Club"
                         >
@@ -122,6 +123,7 @@ $clubCondition   = $oldInput['club_condition']   ?? 'none';
                             id="club_description"
                             name="club_description"
                             rows="4"
+                            maxlength="600"
                             style="padding:10px 12px;border:2px solid var(--dark-blue);border-radius:10px;font-size:1rem;color:var(--dark-blue);box-sizing:border-box;"
                             placeholder="Tell students what your club is about, what you do, and how often you meet."
                         ><?php echo htmlspecialchars($clubDescription, ENT_QUOTES, 'UTF-8'); ?></textarea>
