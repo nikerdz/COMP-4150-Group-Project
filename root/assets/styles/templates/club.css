@@ -760,3 +760,10 @@
 .club-delete-button:hover {
     background: #b71c1c;
 }
+
+/* Executive role badge */
+.member-role-exec {
+    background: var(--red);
+    color: var(--cream);
+    font-weight: 700;
+}
