@@ -1,13 +1,4 @@
 <?php
-/**
- * Expects $event associative array with keys:
- * - event_id, event_name, club_name, event_date, event_location, event_description, event_condition
- *
- * Optional:
- * - $cardContext: 'explore' (default) or 'dashboard'
- * - $hiddenClass: extra CSS class string (e.g. 'is-hidden'), optional
- */
-
 // Defaults so we don't get "undefined variable" notices
 $cardContext = $cardContext ?? 'explore';
 $hiddenClass = $hiddenClass ?? '';
@@ -21,7 +12,6 @@ if (!empty($hiddenClass)) {
     $classes .= ' ' . $hiddenClass;
 }
 
-// Club helper vars
 $clubName = $event['club_name'] ?? '';
 $clubId   = isset($event['club_id']) ? (int)$event['club_id'] : null;
 ?>

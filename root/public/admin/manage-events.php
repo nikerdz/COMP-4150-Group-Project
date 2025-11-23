@@ -154,9 +154,9 @@ $VISIBLE = 12;
         </form>
     </section>
 
-    <!-- =========================
+    <!-- ======================
          GRID
-    ========================== -->
+    ======================= -->
     <section class="admin-users-results-section">
         <?php if ($totalEvents === 0): ?>
             <p class="admin-users-empty">No events found.</p>

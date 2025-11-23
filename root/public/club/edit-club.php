@@ -187,9 +187,9 @@ unset($_SESSION['club_edit_error'], $_SESSION['club_edit_success']);
             </div>
         </form>
 
-        <!-- ===========================
+        <!-- ========================
             Delete Club Section
-        =========================== -->
+        ======================== -->
         <div class="club-delete-section">
             <h3>Delete Club</h3>
             <p class="club-delete-warning">

@@ -1,13 +1,4 @@
 <?php
-/**
- * notif-card.php
- * Expects $notif associative array:
- *  - notification_id
- *  - notification_message
- *  - notification_type
- *  - notification_timestamp
- *  - event_id
- */
 
 $notifId   = (int)$notif['notification_id'];
 $msg       = htmlspecialchars($notif['notification_message']);

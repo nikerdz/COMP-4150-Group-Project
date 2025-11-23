@@ -27,9 +27,9 @@
     display: none !important;
 }
 
-/* ==========================
+/* =======================
    Font Styles
-========================== */
+======================= */
 
 @font-face {
   font-family: JosefinSans;
@@ -107,7 +107,7 @@ main {
         visibility 0.25s ease;
 }
 
-/* When visible (JS adds this class) */
+/* When visible */
 .scroll-top-btn.visible {
     opacity: 1;
     visibility: visible;
@@ -121,7 +121,7 @@ main {
     display: block;
 }
 
-/* Hover effect (only when visible) */
+/* Hover effect*/
 .scroll-top-btn.visible:hover {
     transform: translateY(-2px) scale(1.05);
 }

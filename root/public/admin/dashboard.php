@@ -31,7 +31,7 @@ $totalEvents  = count($eventModel->searchEvents(null, null, 'any', 9999, 0));
 $totalPaid    = $paymentModel->countCompletedPayments();
 $totalRevenue = $paymentModel->getTotalRevenue();
 
-// For CSS bars: relative widths (counts only)
+// For CSS bars: relative widths
 $countsForBars = [
     'users'  => $totalUsers,
     'clubs'  => $totalClubs,
@@ -50,7 +50,7 @@ foreach ($countsForBars as $key => $val) {
 }
 
 // =============================
-// RECENTLY VIEWED (COMBINED)
+// RECENTLY VIEWED
 // =============================
 $recentCombined = [];
 

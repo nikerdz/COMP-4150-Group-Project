@@ -66,7 +66,7 @@ if (!empty($event['event_date'])) {
 
 // Flash messages
 $eventError   = $_SESSION['event_edit_error']   ?? null;
-$eventSuccess = $_SESSION['event_edit_success'] ?? null; // not set yet, but here for future use
+$eventSuccess = $_SESSION['event_edit_success'] ?? null;
 
 // Clear flash
 unset($_SESSION['event_edit_error'], $_SESSION['event_edit_success']);

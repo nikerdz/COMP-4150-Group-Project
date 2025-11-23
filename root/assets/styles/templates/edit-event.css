@@ -96,7 +96,6 @@
     transition: 0.3s ease;
 }
 
-/* Optional: keep textarea styling consistent */
 .event-edit-section .auth-field textarea {
     color: var(--dark-blue);
     padding: 10px;

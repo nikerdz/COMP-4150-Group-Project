@@ -133,7 +133,7 @@ foreach ($userEvents as $ev) {
         </p>
     </div>
 
-    <!-- Tabs -->
+    <!-- Tabs --> 
     <div class="event-tabs">
         <button class="event-tab active" data-tab="upcoming">Upcoming</button>
         <button class="event-tab" data-tab="past">Past</button>

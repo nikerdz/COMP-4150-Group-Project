@@ -14,13 +14,13 @@
     gap: 6px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-    /* 💡 Make sure all text inside cards wraps and never overflows horizontally */
+    /* Make sure all text inside cards wraps and never overflows horizontally */
     word-wrap: break-word;
     overflow-wrap: anywhere;
     word-break: break-word;
 }
 
-/* Dash cards: fixed-ish width for carousels */
+/* Dash cards: fixed width for carousels */
 .dash-card {
     flex: 0 0 auto;
     min-width: 260px;
@@ -48,7 +48,7 @@
     color: var(--red);
     margin-bottom: 2px;
 
-    /* Extra safety: ensure long titles break nicely */
+    /* ensure long titles break nicely */
     word-wrap: break-word;
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -139,7 +139,7 @@
 .explore-card-text,
 .dash-text,
 .profile-card-text,
-.explore-text,            /* used by club-card.php & event-card.php */
+.explore-text,
 .explore-meta,
 .explore-meta-small {
     font-size: 0.9rem;
@@ -198,7 +198,6 @@
     color: var(--cream);
 }
 
-/* Optional special case for profile free tag */
 .profile-card-tag-free {
     background: var(--dark-blue);
 }
@@ -243,14 +242,13 @@
 .explore-pill-row {
     display: flex;
     align-items: center;
-    gap: 8px; /* space between Club + Role */
+    gap: 8px;
 }
 
 
 
 /* ==========================
    Profile page – card grid
-   (keep cards from stretching)
 ========================== */
 
 .profile-grid {
@@ -268,7 +266,7 @@
     max-width: 280px;
 }
 
-/* Medium screens – allow a bit more flexibility */
+/* Medium screens */
 @media (max-width: 900px) {
     .profile-grid .explore-card,
     .profile-grid .dash-card,
@@ -292,10 +290,9 @@
     }
 }
 
-/* ==========================
+/* ================================
    Dashboard – dash card sizing
-   (carousel behaviour)
-========================== */
+================================ */
 
 @media (max-width: 900px) {
     .dash-card {
@@ -313,15 +310,14 @@
 }
 
 
-/* ==========================
+/* ======================
    Club – cards grid
-   (used on view-club, etc.)
-========================== */
+=======================*/
 
 .club-cards-grid,
 .club-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns on desktop */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
 }
 
@@ -362,5 +358,5 @@
 
 .status-pending {
     background: #f5ec9a;
-    color: #d4a017; /* gold */
+    color: #d4a017;
 }

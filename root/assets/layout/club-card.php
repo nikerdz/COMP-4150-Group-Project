@@ -1,13 +1,4 @@
 <?php
-/**
- * Expects $club associative array with keys:
- * - club_id, club_name, club_description, categories, club_condition
- *
- * Optional:
- * - $cardContext: 'explore' (default) or 'dashboard'
- * - $hiddenClass: extra CSS class string (e.g. 'is-hidden'), optional
- */
-
 // Defaults so we don't get "undefined variable" notices
 $cardContext = $cardContext ?? 'explore';
 $hiddenClass = $hiddenClass ?? '';
@@ -21,7 +12,7 @@ if (!empty($hiddenClass)) {
     $classes .= ' ' . $hiddenClass;
 }
 
-// Safely start session if not already started (prevents warnings)
+// Safely start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -38,7 +29,6 @@ if (!empty($userId)) {
     $membership = $membershipModel->getMembership($club['club_id'], $userId);
 
     if ($membership) {
-        // exec = anything not 'member'
         $userRole = ($membership['role'] !== 'member') ? 'executive' : 'member';
     }
 }

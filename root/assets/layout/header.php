@@ -139,5 +139,5 @@ if (isset($_SESSION['user_id'])) {
 </div>
 
 
-<!-- Sidebar overlay (click outside to close) -->
+<!-- Sidebar overlay -->
 <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>

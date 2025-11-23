@@ -110,7 +110,7 @@
     gap: 18px;
 }
 
-/* Hide cards marked as is-hidden (for "Load more" logic) */
+/* Hide cards marked as is-hidden */
 .user-clubs-grid .is-hidden {
     display: none;
 }

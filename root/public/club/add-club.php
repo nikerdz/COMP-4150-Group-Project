@@ -18,7 +18,7 @@ $oldInput = $_SESSION['add_club_old']    ?? [];
 // Clear flash after reading
 unset($_SESSION['add_club_errors'], $_SESSION['add_club_old']);
 
-// Form field values (sticky)
+// Form field values
 $clubName        = $oldInput['club_name']        ?? '';
 $clubEmail       = $oldInput['club_email']       ?? '';
 $clubDescription = $oldInput['club_description'] ?? '';

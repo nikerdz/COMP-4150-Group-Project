@@ -9,7 +9,7 @@ VALUES
 ('Shameer', 'Sheikh', 'shameer.sheikh@uwindsor.ca', 'pw2', 'active', 'student', 'M', 'Engineering', 'undergraduate', 3),
 
 ('Emily', 'Tran', 'emily.tran@uwindsor.ca', 'pw3', 'active', 'student', 'F', 'Engineering', 'undergraduate', 2),
-('Daniel', 'Lee', 'daniel.lee@uwindsor.ca', 'pw4', 'active', 'student', 'M', 'Science', 'undergraduate', 1), -- CS → Science
+('Daniel', 'Lee', 'daniel.lee@uwindsor.ca', 'pw4', 'active', 'student', 'M', 'Science', 'undergraduate', 1),
 ('Sophia', 'Martinez', 'sophia.martinez@uwindsor.ca', 'pw5', 'active', 'student', 'F', 'Odette School of Business', 'graduate', 3),
 ('Noah', 'Singh', 'noah.singh@uwindsor.ca', 'pw6', 'active', 'student', 'M', 'Science', 'undergraduate', 4),
 ('Ava', 'Patel', 'ava.patel@uwindsor.ca', 'pw7', 'active', 'student', 'F', 'Arts, Humanities, & Social Sciences', 'undergraduate', 2),
@@ -29,7 +29,7 @@ VALUES
 ('Aiden', 'Park', 'aiden.park@uwindsor.ca', 'pw20', 'active', 'student', 'M', 'Engineering', 'graduate', 3),
 
 ('Layla', 'Morgan', 'layla.morgan@uwindsor.ca', 'pw21', 'active', 'student', 'F', 'Odette School of Business', 'undergraduate', 2),
-('Gabriel', 'White', 'gabriel.white@uwindsor.ca', 'pw22', 'active', 'student', 'M', 'Science', 'undergraduate', 1), -- CS → Science
+('Gabriel', 'White', 'gabriel.white@uwindsor.ca', 'pw22', 'active', 'student', 'M', 'Science', 'undergraduate', 1),
 ('Hannah', 'Baker', 'hannah.baker@uwindsor.ca', 'pw23', 'active', 'student', 'F', 'Science', 'undergraduate', 4),
 ('Leo', 'Nguyen', 'leo.nguyen@uwindsor.ca', 'pw24', 'active', 'student', 'M', 'Engineering', 'undergraduate', 2),
 ('Mira', 'Alami', 'mira.alami@uwindsor.ca', 'pw25', 'active', 'student', 'F', 'Arts, Humanities, & Social Sciences', 'undergraduate', 1),
@@ -37,7 +37,7 @@ VALUES
 ('Selena', 'Kouris', 'selena.kouris@uwindsor.ca', 'pw27', 'active', 'student', 'F', 'Odette School of Business', 'undergraduate', 4),
 ('Jayden', 'Frost', 'jayden.frost@uwindsor.ca', 'pw28', 'active', 'student', 'M', 'Science', 'graduate', 2),
 ('Amira', 'Rahman', 'amira.rahman@uwindsor.ca', 'pw29', 'active', 'student', 'F', 'Engineering', 'undergraduate', 1),
-('Marcus', 'James', 'marcus.james@uwindsor.ca', 'pw30', 'active', 'student', 'M', 'Science', 'undergraduate', 3),
+('Marcus', 'James', 'marcus.james@uwindsor.ca', 'pw30', 'active', 'student', 'M', 'Science', 'undergraduate', 3);
 
 
 -- ==========================
@@ -351,103 +351,103 @@ INSERT INTO Club_Tags VALUES (25, 1), (25, 9);
 -- ==========================
 
 -- 1 Computer Science Society
-INSERT INTO Membership VALUES 
+INSERT INTO Membership (user_id, club_id) VALUES 
 (1,1),(4,1),(10,1),(14,1),(20,1),(22,1),(30,1),(28,1),(24,1);
 
 -- 2 Muslim Student Association
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (1,2),(5,2),(7,2),(12,2),(15,2),(17,2),(19,2),(25,2);
 
 -- 3 Women in Engineering
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (3,3),(10,3),(20,3),(24,3),(29,3),(1,3),(21,3),(13,3);
 
 -- 4 Science Society
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (1,4),(6,4),(9,4),(13,4),(14,4),(16,4),(23,4),(28,4),(30,4);
 
 -- 5 Punjabi Students Association
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (1,5),(5,5),(7,5),(8,5),(12,5),(17,5),(25,5),(29,5),(21,5);
 
 -- 6 Odette Commerce Society
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (5,6),(11,6),(21,6),(27,6),(3,6),(12,6),(19,6),(1,6);
 
 -- 7 Psychology Student Association
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (7,7),(9,7),(13,7),(17,7),(19,7),(23,7),(25,7),(28,7);
 
 -- 8 Caribbean & African Organization of Students
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (5,8),(8,8),(11,8),(12,8),(17,8),(21,8),(25,8),(27,8),(30,8);
 
 -- 9 Women in Computer Science
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (1,9),(3,9),(4,9),(14,9),(17,9),(21,9),(25,9),(29,9);
 
 -- 10 Engineering Society
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (2,10),(3,10),(10,10),(20,10),(24,10),(14,10),(29,10),(30,10);
 
 -- 11 Black Student-Athlete Alliance
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (6,11),(8,11),(9,11),(12,11),(17,11),(18,11),(26,11),(30,11);
 
 -- 12 Filipino Student Association
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (5,12),(7,12),(8,12),(11,12),(17,12),(21,12),(25,12),(1,12);
 
 -- 13 Tennis Club
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (6,13),(9,13),(10,13),(18,13),(20,13),(24,13),(26,13),(27,13),(30,13);
 
 -- 14 Formula Electric
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (2,14),(3,14),(10,14),(14,14),(20,14),(24,14),(29,14),(1,14);
 
 -- 15 Run Club
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (6,15),(9,15),(10,15),(18,15),(20,15),(24,15),(26,15),(30,15);
 
 -- 16 Pre-Medical Society
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (6,16),(9,16),(13,16),(15,16),(18,16),(23,16),(28,16),(30,16);
 
 -- 17 South-East Asian Student Association
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (5,17),(7,17),(8,17),(17,17),(21,17),(25,17),(29,17),(12,17);
 
 -- 18 Women in Leadership
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (5,18),(7,18),(11,18),(15,18),(17,18),(21,18),(25,18),(27,18);
 
 -- 19 Board Game Club
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (1,19),(4,19),(7,19),(8,19),(14,19),(17,19),(21,19),(25,19),(30,19);
 
 -- 20 UWin Cybersecurity Club
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (4,20),(10,20),(14,20),(20,20),(22,20),(24,20),(28,20),(30,20);
 
 -- 21 Aqua Aid
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (7,21),(9,21),(11,21),(12,21),(15,21),(19,21),(25,21),(27,21);
 
 -- 22 Christian Student Gathering
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (5,22),(7,22),(11,22),(12,22),(17,22),(19,22),(21,22),(25,22);
 
 -- 23 Model UN Windsor
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (5,23),(8,23),(11,23),(12,23),(17,23),(19,23),(25,23),(27,23),(30,23);
 
 -- 24 Undergraduate Chemistry Club
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (1,24),(6,24),(13,24),(14,24),(16,24),(23,24),(28,24),(30,24);
 
 -- 25 Bhangra & Giddha Club
-INSERT INTO Membership VALUES
+INSERT INTO Membership (user_id, club_id) VALUES
 (5,25),(7,25),(8,25),(17,25),(21,25),(25,25),(29,25),(30,25);
 
 
@@ -542,152 +542,152 @@ INSERT INTO Executive VALUES (29, 25, 'executive');
 
 
 -- -------------------------
--- Events - Active Clubs
+-- Events - Active Clubs (IDs 1–30)
 -- -------------------------
 
--- Club 1 — Computer Science Society
+-- Club 1 — Computer Science Society (events 1, 2, 3)
 INSERT INTO Event VALUES
 (1, 1, 'Fall Coding Jam 2024',
  'A collaborative coding event where students pair up to solve algorithmic challenges. Participants work through timed puzzles and receive feedback from upper-year mentors.',
  'Essex Hall', '2024-10-12 14:00:00', 80, 'approved', 'none', TRUE, 0.00),
 
-(1, 1, 'Winter Hack Night',
+(2, 1, 'Winter Hack Night',
  'A casual evening hackathon focused on building small web and mobile prototypes. Students can drop in, form teams, and work on mini-projects with snacks and mentor support.',
  'Advanced Computing and Innovation Hub', '2025-12-06 18:00:00', 100, 'approved', 'none', TRUE, 0.00),
 
-(1, 1, 'January Peer-Tutoring Kickoff',
+(3, 1, 'January Peer-Tutoring Kickoff',
  'An event introducing the CS Society’s winter tutoring program, where mentors explain how to join study groups and book help sessions. The session includes short demonstrations of debugging workflows.',
  'Leddy Library', '2026-01-15 17:00:00', 60, 'pending', 'none', TRUE, 0.00);
 
--- Club 3 — Women in Engineering
+-- Club 3 — Women in Engineering (events 4, 5, 6)
 INSERT INTO Event VALUES
-(3, 3, 'Women in STEM Meet-and-Greet',
+(4, 3, 'Women in STEM Meet-and-Greet',
  'A networking mixer that brings together women from engineering and science programs. Attendees connect over refreshments and discuss mentorship opportunities.',
  'Ed Lumley Centre for Engineering Innovation', '2025-03-20 16:00:00', 60, 'approved', 'women_only', TRUE, 0.00),
 
-(3, 3, 'December Industry Mentorship Night',
+(5, 3, 'December Industry Mentorship Night',
  'Local women engineers from industry will speak about career pathways, internships, and navigating the workplace. Students can meet mentors and sign up for shadowing opportunities.',
  'CEI 1100', '2025-12-08 18:00:00', 75, 'approved', 'women_only', TRUE, 0.00),
 
-(3, 3, 'Engineering Wellness Workshop',
+(6, 3, 'Engineering Wellness Workshop',
  'A guided workshop focused on mental wellness and stress management during exam season. Alumni share strategies for balancing academics with personal wellbeing.',
  'Human Kinetics Building', '2026-01-10 14:00:00', 50, 'pending', 'women_only', TRUE, 0.00);
 
--- Club 4 — Science Society
+-- Club 4 — Science Society (events 7, 8, 9)
 INSERT INTO Event VALUES
-(4, 4, 'Science Student Welcome Social',
+(7, 4, 'Science Student Welcome Social',
  'A social kickoff where new and returning science students connect with peers and faculty. The event includes games, Q&A sessions, and light refreshments.',
  'CAW Student Centre', '2024-09-07 13:00:00', 120, 'approved', 'undergrad_only', TRUE, 0.00),
 
-(4, 4, 'End-of-Semester Study Hangout',
+(8, 4, 'End-of-Semester Study Hangout',
  'A relaxed group study afternoon offering collaborative spaces, snacks, and support from Science Society volunteers. Ideal for students finishing fall semester assignments.',
  'Leddy Library', '2025-12-05 12:00:00', 90, 'approved', 'none', TRUE, 0.00),
 
-(4, 4, 'January Research Opportunities Expo',
+(9, 4, 'January Research Opportunities Expo',
  'Faculty members and undergraduate researchers present winter research openings. Students can explore labs, ask questions, and learn how to join active research teams.',
  'Essex Centre of Research (CORe)', '2026-01-20 14:00:00', 120, 'pending', 'undergrad_only', TRUE, 0.00);
 
--- Club 5 — Punjabi Students Association
+-- Club 5 — Punjabi Students Association (events 10, 11, 12)
 INSERT INTO Event VALUES
-(5, 5, 'PSA Culture Night 2024',
+(10, 5, 'PSA Culture Night 2024',
  'A lively celebration featuring music, cultural activities, and performances from PSA members. Guests enjoy food and a warm, welcoming atmosphere.',
  'CAW Student Centre', '2024-11-18 19:00:00', 150, 'approved', 'none', TRUE, 5.00),
 
-(5, 5, 'December Bhangra Workshop',
+(11, 5, 'December Bhangra Workshop',
  'An energetic dance workshop open to all experience levels. Instructors teach foundational Bhangra steps while sharing the cultural history behind the art.',
  'Jackman Dramatic Arts Centre', '2025-12-09 17:00:00', 80, 'approved', 'none', TRUE, 0.00),
 
-(5, 5, 'January Cultural Mixer',
+(12, 5, 'January Cultural Mixer',
  'A meet-and-mingle session where students connect over music, tea, and conversation. PSA executives introduce winter plans and invite volunteers to join committees.',
  'Vanier Hall', '2026-01-18 18:00:00', 100, 'pending', 'none', TRUE, 0.00);
 
--- Club 6 — Odette Commerce Society
+-- Club 6 — Odette Commerce Society (events 13, 14, 15)
 INSERT INTO Event VALUES
-(6, 6, 'Fall Networking Mixer 2024',
+(13, 6, 'Fall Networking Mixer 2024',
  'Business students meet with Odette alumni to discuss co-op opportunities and career paths. The event features short talks and one-on-one conversation tables.',
  'Odette School of Business', '2024-10-22 17:00:00', 120, 'approved', 'none', TRUE, 0.00),
 
-(6, 6, 'December Resume Review Night',
+(14, 6, 'December Resume Review Night',
  'Peer mentors and Odette alumni review resumes and offer personalized feedback. Students are encouraged to bring printed copies for live editing and career tips.',
  'Odette School of Business', '2025-12-11 18:00:00', 90, 'approved', 'none', TRUE, 0.00),
 
-(6, 6, 'January Case Competition Prep Session',
+(15, 6, 'January Case Competition Prep Session',
  'A workshop introducing case analysis techniques used in business competitions. Attendees learn frameworks, strategies, and how to approach real case prompts.',
  'Odette School of Business', '2026-01-17 14:00:00', 80, 'pending', 'none', TRUE, 0.00);
 
--- Club 7 — Psychology Student Association
+-- Club 7 — Psychology Student Association (events 16, 17, 18)
 INSERT INTO Event VALUES
-(7, 7, 'Cognitive Science Guest Talk',
+(16, 7, 'Cognitive Science Guest Talk',
  'A visiting researcher from Toronto presents new findings on cognitive bias and human reasoning. Students participate in a Q&A and casual discussion afterward.',
  'Erie Hall', '2025-02-16 16:00:00', 100, 'approved', 'none', TRUE, 0.00),
 
-(7, 7, 'December Exam Wellness Session',
+(17, 7, 'December Exam Wellness Session',
  'A calming workshop offering tips for stress reduction, mindfulness, and preparing the brain for memory-heavy exams. Includes guided breathing and optional journaling activities.',
  'Dillon Hall', '2025-12-04 15:00:00', 60, 'approved', 'none', TRUE, 0.00),
 
-(7, 7, 'January Psych Research Poster Showcase',
+(18, 7, 'January Psych Research Poster Showcase',
  'Undergraduate researchers display posters and discuss their projects with attendees. A great opportunity for students interested in joining labs for the winter semester.',
  'Toldo Health Education Centre', '2026-01-14 12:00:00', 80, 'pending', 'undergrad_only', TRUE, 0.00);
 
--- Club 10 — Engineering Society
+-- Club 10 — Engineering Society (events 19, 20, 21)
 INSERT INTO Event VALUES
-(10, 10, 'Frosh Week Engineering Bash',
+(19, 10, 'Frosh Week Engineering Bash',
  'A long-running tradition welcoming first-year engineering students with games and team challenges. Upper-year mentors help newcomers feel at home in the faculty.',
  'CEI Courtyard', '2024-09-04 13:00:00', 200, 'approved', 'first_year_only', TRUE, 0.00),
 
-(10, 10, 'December Design Build Challenge',
+(20, 10, 'December Design Build Challenge',
  'Teams design and test small mechanical builds using provided materials. The challenge focuses on teamwork, problem-solving, and creativity under time pressure.',
  'Ed Lumley Centre for Engineering Innovation', '2025-12-10 16:00:00', 120, 'approved', 'none', TRUE, 0.00),
 
-(10, 10, 'January Industry Panel Night',
+(21, 10, 'January Industry Panel Night',
  'Industry professionals from multiple engineering fields share insights on job expectations, career planning, and networking strategies for new graduates.',
  'CEI 1101', '2026-01-21 18:00:00', 90, 'pending', 'none', TRUE, 0.00);
 
--- Club 13 — Tennis Club
+-- Club 13 — Tennis Club (events 22, 23, 24)
 INSERT INTO Event VALUES
-(13, 13, 'Fall Open Court 2024',
+(22, 13, 'Fall Open Court 2024',
  'An open-court session where players of all skill levels meet to hit rallies and learn basic technique. Racquets are provided for new members.',
  'St. Denis Centre', '2024-09-28 11:00:00', 60, 'approved', 'none', TRUE, 0.00),
 
-(13, 13, 'December Indoor Match Day',
+(23, 13, 'December Indoor Match Day',
  'A friendly indoor match day to keep players active through exam season. Matches are grouped by skill level so everyone can participate comfortably.',
  'Toldo Lancer Centre', '2025-12-07 13:00:00', 40, 'approved', 'none', TRUE, 0.00),
 
-(13, 13, 'January Skills Development Clinic',
+(24, 13, 'January Skills Development Clinic',
  'A guided clinic featuring drills that target footwork, serve improvements, and rally consistency. Perfect for players looking to refine their technique.',
  'Toldo Lancer Centre', '2026-01-19 14:00:00', 40, 'pending', 'none', TRUE, 0.00);
 
--- Club 16 — Pre-Medical Society
+-- Club 16 — Pre-Medical Society (events 25, 26, 27)
 INSERT INTO Event VALUES
-(16, 16, 'MCAT Strategy Session 2024',
+(25, 16, 'MCAT Strategy Session 2024',
  'Upper-year students share tips for MCAT preparation, study timelines, and recommended resources. Attendees receive sample study schedules and flashcard sets.',
  'Toldo Health Education Centre', '2024-11-02 15:00:00', 100, 'approved', 'undergrad_only', TRUE, 0.00),
 
-(16, 16, 'December Winter Med-School Panel',
+(26, 16, 'December Winter Med-School Panel',
  'Medical students and alumni discuss their experiences applying to medical school, writing personal statements, and preparing for interviews. Includes an open Q&A.',
  'Toldo Health Education Centre', '2025-12-12 17:00:00', 120, 'approved', 'undergrad_only', TRUE, 0.00),
 
-(16, 16, 'January Clinical Simulation Workshop',
+(27, 16, 'January Clinical Simulation Workshop',
  'Participants rotate through simulation stations practicing vitals, patient communication, and clinical reasoning. Limited spots ensure hands-on engagement.',
  'Dr. Murray O’Neil Medical Education Centre', '2026-01-22 13:00:00', 50, 'pending', 'undergrad_only', TRUE, 15.00);
 
--- Club 20 — UWin Cybersecurity Club
+-- Club 20 — UWin Cybersecurity Club (events 28, 29, 30)
 INSERT INTO Event VALUES
-(20, 20, 'Intro to Ethical Hacking 2025',
+(28, 20, 'Intro to Ethical Hacking 2025',
  'A hands-on workshop introducing students to common penetration testing tools and techniques. Participants experiment in a safe virtual lab environment.',
  'Advanced Computing and Innovation Hub', '2025-03-05 14:00:00', 80, 'approved', 'none', TRUE, 0.00),
 
-(20, 20, 'December Capture-the-Flag Scrimmage',
+(29, 20, 'December Capture-the-Flag Scrimmage',
  'Teams compete in a beginner-friendly cybersecurity challenge featuring puzzles in cryptography, forensics, and network security. No prior experience required.',
  'Essex Hall', '2025-12-13 16:00:00', 60, 'approved', 'none', TRUE, 0.00),
 
-(20, 20, 'January Malware Analysis Lab',
+(30, 20, 'January Malware Analysis Lab',
  'An advanced workshop where students learn the basics of analyzing benign malware samples in an isolated environment. Safety protocols are reviewed thoroughly.',
  'Advanced Computing and Innovation Hub', '2026-01-24 11:00:00', 40, 'pending', 'none', TRUE, 0.00);
 
 
 -- -------------------------
--- Events - Less Active Clubs
+-- Events - Less Active Clubs (IDs 31–50)
 -- -------------------------
 
 INSERT INTO Event VALUES
@@ -790,6 +790,7 @@ INSERT INTO Event VALUES
 -- -------------------------
 -- Registration
 -- -------------------------
+
 -- Event 1 — Fall Coding Jam 2024 (Club 1)
 INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (1,1,'2024-09-25 15:00:00'),
@@ -806,7 +807,7 @@ INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (3,1,'2024-10-10 11:00:00');
 
 -- Event 2 — Winter Hack Night (Club 1)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (14,2,'2025-11-28 16:10:00'),
 (1,2,'2025-11-30 14:00:00'),
 (10,2,'2025-12-01 17:20:00'),
@@ -816,7 +817,7 @@ INSERT INTO Registration VALUES
 (3,2,'2025-12-05 15:00:00');
 
 -- Event 4 — Women in STEM Meet-and-Greet (Club 3)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (3,4,'2025-03-01 13:30:00'),
 (17,4,'2025-03-03 16:10:00'),
 (21,4,'2025-03-04 14:00:00'),
@@ -825,7 +826,7 @@ INSERT INTO Registration VALUES
 (25,4,'2025-03-09 11:50:00');
 
 -- Event 5 — December Industry Mentorship Night (Club 3)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (3,5,'2025-11-29 16:00:00'),
 (17,5,'2025-12-01 14:30:00'),
 (21,5,'2025-12-02 18:40:00'),
@@ -833,7 +834,7 @@ INSERT INTO Registration VALUES
 (29,5,'2025-12-04 17:45:00');
 
 -- Event 7 — Science Student Welcome Social (Club 4)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (1,7,'2024-08-29 14:10:00'),
 (6,7,'2024-08-30 13:00:00'),
 (9,7,'2024-09-01 17:00:00'),
@@ -847,7 +848,7 @@ INSERT INTO Registration VALUES
 (20,7,'2024-09-06 11:20:00');
 
 -- Event 8 — End-of-Semester Study Hangout (Club 4)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (1,8,'2025-11-27 15:10:00'),
 (6,8,'2025-11-28 16:00:00'),
 (13,8,'2025-11-29 13:20:00'),
@@ -856,7 +857,7 @@ INSERT INTO Registration VALUES
 (23,8,'2025-12-02 12:30:00');
 
 -- Event 10 — PSA Culture Night 2024 (Club 5)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (1,10,'2024-10-10 14:00:00'),
 (5,10,'2024-10-11 17:00:00'),
 (7,10,'2024-10-12 18:00:00'),
@@ -872,7 +873,7 @@ INSERT INTO Registration VALUES
 (14,10,'2024-10-17 14:45:00');
 
 -- Event 11 — December Bhangra Workshop (Club 5)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (5,11,'2025-11-28 16:40:00'),
 (7,11,'2025-11-29 17:50:00'),
 (25,11,'2025-11-30 15:00:00'),
@@ -882,7 +883,7 @@ INSERT INTO Registration VALUES
 (17,11,'2025-12-03 14:20:00');
 
 -- Event 13 — Fall Networking Mixer 2024 (Club 6)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (5,13,'2024-10-05 14:00:00'),
 (11,13,'2024-10-06 16:00:00'),
 (21,13,'2024-10-07 17:10:00'),
@@ -895,7 +896,7 @@ INSERT INTO Registration VALUES
 (6,13,'2024-10-11 11:30:00');
 
 -- Event 14 — Resume Review Night (Club 6)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (5,14,'2025-11-28 14:00:00'),
 (11,14,'2025-11-29 16:20:00'),
 (21,14,'2025-11-30 12:10:00'),
@@ -904,7 +905,7 @@ INSERT INTO Registration VALUES
 (1,14,'2025-12-03 17:40:00');
 
 -- Event 16 — Cognitive Science Guest Talk (Club 7)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (7,16,'2025-02-01 14:10:00'),
 (9,16,'2025-02-02 15:00:00'),
 (13,16,'2025-02-03 16:50:00'),
@@ -913,7 +914,7 @@ INSERT INTO Registration VALUES
 (23,16,'2025-02-06 17:10:00');
 
 -- Event 17 — December Exam Wellness Session (Club 7)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (7,17,'2025-11-27 17:20:00'),
 (9,17,'2025-11-29 13:50:00'),
 (17,17,'2025-12-01 14:40:00'),
@@ -921,7 +922,7 @@ INSERT INTO Registration VALUES
 (25,17,'2025-12-03 12:30:00');
 
 -- Event 19 — Frosh Week Engineering Bash (Club 10)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (2,19,'2024-08-20 11:10:00'),
 (3,19,'2024-08-21 12:00:00'),
 (10,19,'2024-08-22 13:20:00'),
@@ -936,7 +937,7 @@ INSERT INTO Registration VALUES
 (30,19,'2024-08-28 14:00:00');
 
 -- Event 20 — December Design Build Challenge (Club 10)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (2,20,'2025-11-27 14:40:00'),
 (3,20,'2025-11-29 16:10:00'),
 (10,20,'2025-12-01 12:50:00'),
@@ -945,7 +946,7 @@ INSERT INTO Registration VALUES
 (29,20,'2025-12-04 17:20:00');
 
 -- Event 22 — Fall Open Court (Club 13)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (6,22,'2024-09-20 11:10:00'),
 (9,22,'2024-09-21 12:40:00'),
 (10,22,'2024-09-22 10:30:00'),
@@ -956,7 +957,7 @@ INSERT INTO Registration VALUES
 (27,22,'2024-09-27 13:40:00');
 
 -- Event 23 — December Indoor Match Day (Club 13)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (6,23,'2025-11-29 13:00:00'),
 (9,23,'2025-11-30 11:50:00'),
 (18,23,'2025-12-01 17:20:00'),
@@ -964,7 +965,7 @@ INSERT INTO Registration VALUES
 (30,23,'2025-12-03 13:10:00');
 
 -- Event 25 — MCAT Strategy Session 2024 (Club 16)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (6,25,'2024-10-20 13:00:00'),
 (9,25,'2024-10-21 11:30:00'),
 (13,25,'2024-10-22 14:50:00'),
@@ -979,7 +980,7 @@ INSERT INTO Registration VALUES
 (20,25,'2024-10-28 12:00:00');
 
 -- Event 26 — December Winter Med-School Panel (Club 16)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (6,26,'2025-11-28 15:20:00'),
 (9,26,'2025-11-29 16:40:00'),
 (13,26,'2025-11-30 12:10:00'),
@@ -989,7 +990,7 @@ INSERT INTO Registration VALUES
 (30,26,'2025-12-04 17:15:00');
 
 -- Event 28 — Intro to Ethical Hacking 2025 (Club 20)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (4,28,'2025-02-20 14:10:00'),
 (10,28,'2025-02-21 13:50:00'),
 (14,28,'2025-02-22 15:40:00'),
@@ -999,7 +1000,7 @@ INSERT INTO Registration VALUES
 (30,28,'2025-02-26 17:10:00');
 
 -- Event 29 — December Capture-the-Flag Scrimmage (Club 20)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (4,29,'2025-11-29 12:00:00'),
 (10,29,'2025-11-30 15:10:00'),
 (14,29,'2025-12-01 17:45:00'),
@@ -1012,7 +1013,7 @@ INSERT INTO Registration VALUES
 (1,29,'2025-12-04 15:25:00');
 
 -- Event 31 — MSA Welcome Dinner 2025 (Club 2)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (1,31,'2025-09-05 13:20:00'),
 (7,31,'2025-09-06 14:10:00'),
 (12,31,'2025-09-07 15:40:00'),
@@ -1021,15 +1022,15 @@ INSERT INTO Registration VALUES
 (29,31,'2025-09-10 13:40:00');
 
 -- Event 32 — December Prayer & Reflection Night (Club 2)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (1,32,'2025-11-29 12:50:00'),
 (7,32,'2025-11-30 13:10:00'),
 (12,32,'2025-12-01 14:40:00'),
 (17,32,'2025-12-02 16:10:00'),
 (25,32,'2025-12-03 15:20:00');
 
---Event 33 — CAOS Fall Social 2024 (Club 8)
-INSERT INTO Registration VALUES
+-- Event 33 — CAOS Fall Social 2024 (Club 8)
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (8,33,'2024-10-20 13:20:00'),
 (12,33,'2024-10-21 14:10:00'),
 (17,33,'2024-10-22 15:40:00'),
@@ -1042,7 +1043,7 @@ INSERT INTO Registration VALUES
 (28,33,'2024-10-27 13:40:00');
 
 -- Event 34 — December Holiday Games Night (Club 8)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (8,34,'2025-11-29 13:10:00'),
 (12,34,'2025-11-30 14:20:00'),
 (17,34,'2025-12-01 15:45:00'),
@@ -1050,7 +1051,7 @@ INSERT INTO Registration VALUES
 (21,34,'2025-12-03 13:10:00');
 
 -- Event 35 — WiCS Mentorship Kickoff 2025 (Club 9)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (3,35,'2025-04-20 15:00:00'),
 (9,35,'2025-04-21 16:20:00'),
 (14,35,'2025-04-22 12:40:00'),
@@ -1060,7 +1061,7 @@ INSERT INTO Registration VALUES
 (29,35,'2025-04-26 18:00:00');
 
 -- Event 36 — January Tech Career Prep (Club 9)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (3,36,'2025-12-15 14:00:00'),
 (9,36,'2025-12-16 15:20:00'),
 (17,36,'2025-12-17 16:40:00'),
@@ -1068,7 +1069,7 @@ INSERT INTO Registration VALUES
 (29,36,'2025-12-19 14:30:00');
 
 -- Event 37 — Fitness & Wellness Seminar (Club 11)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (11,37,'2025-02-25 12:30:00'),
 (18,37,'2025-02-26 14:00:00'),
 (23,37,'2025-02-27 15:20:00'),
@@ -1077,7 +1078,7 @@ INSERT INTO Registration VALUES
 (3,37,'2025-03-02 13:30:00');
 
 -- Event 38 — January Community Sport Day (Club 11)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (11,38,'2025-12-15 12:50:00'),
 (18,38,'2025-12-16 14:10:00'),
 (23,38,'2025-12-17 16:30:00'),
@@ -1085,7 +1086,7 @@ INSERT INTO Registration VALUES
 (3,38,'2025-12-19 13:40:00');
 
 -- Event 39 — Women’s Leadership Panel 2025 (Club 18)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (7,39,'2025-03-20 15:00:00'),
 (17,39,'2025-03-21 14:10:00'),
 (21,39,'2025-03-22 12:40:00'),
@@ -1094,7 +1095,7 @@ INSERT INTO Registration VALUES
 (25,39,'2025-03-25 14:20:00');
 
 -- Event 40 — December Goal-Setting Workshop (Club 18)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (7,40,'2025-11-30 12:20:00'),
 (17,40,'2025-12-01 14:10:00'),
 (21,40,'2025-12-02 16:00:00'),
@@ -1102,7 +1103,7 @@ INSERT INTO Registration VALUES
 (25,40,'2025-12-04 17:40:00');
 
 -- Event 41 — Filipino Heritage Night 2024 (Club 12)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (8,41,'2024-10-03 14:20:00'),
 (12,41,'2024-10-04 16:10:00'),
 (17,41,'2024-10-05 15:40:00'),
@@ -1112,13 +1113,13 @@ INSERT INTO Registration VALUES
 (21,41,'2024-10-08 12:40:00');
 
 -- Event 42 — Intro to EV Systems Workshop (Club 14)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (20,42,'2025-02-10 13:10:00'),
 (24,42,'2025-02-11 14:00:00'),
 (10,42,'2025-02-12 15:10:00');
 
 -- Event 43 — Fall Community Run 2025 (Club 15)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (9,43,'2025-09-05 09:10:00'),
 (18,43,'2025-09-06 10:00:00'),
 (26,43,'2025-09-07 11:30:00'),
@@ -1127,7 +1128,7 @@ INSERT INTO Registration VALUES
 (20,43,'2025-09-10 14:10:00');
 
 -- Event 44 — SEASA Cultural Mixer 2024 (Club 17)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (5,44,'2024-10-30 15:00:00'),
 (7,44,'2024-10-31 16:20:00'),
 (12,44,'2024-11-01 14:50:00'),
@@ -1135,13 +1136,13 @@ INSERT INTO Registration VALUES
 (25,44,'2024-11-03 11:40:00');
 
 -- Event 45 — Board Game Night 2025 (Club 19)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (1,45,'2025-01-20 14:00:00'),
 (9,45,'2025-01-21 15:10:00'),
 (17,45,'2025-01-22 16:40:00');
 
 -- Event 46 — Water Drive Volunteer Day (Club 21)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (6,46,'2025-04-20 11:30:00'),
 (19,46,'2025-04-21 12:40:00'),
 (21,46,'2025-04-22 15:10:00'),
@@ -1149,13 +1150,13 @@ INSERT INTO Registration VALUES
 (29,46,'2025-04-24 16:30:00');
 
 -- Event 47 — Worship & Fellowship Night (Club 22)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (11,47,'2025-03-01 15:20:00'),
 (19,47,'2025-03-02 13:40:00'),
 (25,47,'2025-03-03 14:50:00');
 
 -- Event 48 — MUN Debate Practice 2025 (Club 23)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (8,48,'2025-09-20 15:00:00'),
 (17,48,'2025-09-21 16:30:00'),
 (21,48,'2025-09-22 12:20:00'),
@@ -1163,7 +1164,7 @@ INSERT INTO Registration VALUES
 (25,48,'2025-09-24 16:10:00');
 
 -- Event 49 — Intro to Lab Skills Workshop (Club 24)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (6,49,'2025-09-01 13:40:00'),
 (9,49,'2025-09-02 11:00:00'),
 (13,49,'2025-09-03 14:10:00'),
@@ -1172,7 +1173,7 @@ INSERT INTO Registration VALUES
 (30,49,'2025-09-06 16:40:00');
 
 -- Event 50 — Fall Dance Workshop 2024 (Club 25)
-INSERT INTO Registration VALUES
+INSERT INTO Registration (user_id, event_id, registration_date) VALUES
 (5,50,'2024-10-01 13:00:00'),
 (7,50,'2024-10-02 14:20:00'),
 (12,50,'2024-10-03 16:10:00'),
@@ -1180,46 +1181,49 @@ INSERT INTO Registration VALUES
 (21,50,'2024-10-05 13:50:00'),
 (29,50,'2024-10-06 15:10:00');
 
+
+
 -- -------------------------
 -- Payment
 -- -------------------------
--- Event 10 — $5 fee
-INSERT INTO Payment (registration_id, payment_status, payment_method, payment_date, amount) VALUES
-(56, 'completed', 'credit_card', '2024-10-10 15:00:00', 5.00),
-(57, 'completed', 'credit_card', '2024-10-11 18:00:00', 5.00),
-(58, 'completed', 'credit_card', '2024-10-12 19:00:00', 5.00),
-(59, 'completed', 'credit_card', '2024-10-12 17:50:00', 5.00),
-(60, 'completed', 'credit_card', '2024-10-13 12:20:00', 5.00),
-(61, 'completed', 'credit_card', '2024-10-13 15:30:00', 5.00),
-(62, 'completed', 'credit_card', '2024-10-14 16:40:00', 5.00),
-(63, 'completed', 'credit_card', '2024-10-15 14:10:00', 5.00),
-(64, 'completed', 'credit_card', '2024-10-15 13:00:00', 5.00),
-(65, 'completed', 'credit_card', '2024-10-16 17:00:00', 5.00),
-(66, 'completed', 'credit_card', '2024-10-16 18:40:00', 5.00),
-(67, 'completed', 'credit_card', '2024-10-17 14:30:00', 5.00),
-(68, 'completed', 'credit_card', '2024-10-17 15:45:00', 5.00);
 
--- Event 31 — $3 fee
+-- Event 10 — $5 fee (registrations 48–60)
 INSERT INTO Payment (registration_id, payment_status, payment_method, payment_date, amount) VALUES
-(181, 'completed', 'credit_card', '2025-09-05 14:20:00', 3.00),
-(182, 'completed', 'credit_card', '2025-09-06 15:10:00', 3.00),
-(183, 'completed', 'credit_card', '2025-09-07 16:40:00', 3.00),
-(184, 'completed', 'credit_card', '2025-09-08 17:30:00', 3.00),
-(185, 'completed', 'credit_card', '2025-09-09 13:50:00', 3.00),
-(186, 'completed', 'credit_card', '2025-09-10 14:40:00', 3.00);
+(48, 'completed', 'credit_card', '2024-10-10 15:00:00', 5.00),
+(49, 'completed', 'credit_card', '2024-10-11 18:00:00', 5.00),
+(50, 'completed', 'credit_card', '2024-10-12 19:00:00', 5.00),
+(51, 'completed', 'credit_card', '2024-10-12 17:50:00', 5.00),
+(52, 'completed', 'credit_card', '2024-10-13 12:20:00', 5.00),
+(53, 'completed', 'credit_card', '2024-10-13 15:30:00', 5.00),
+(54, 'completed', 'credit_card', '2024-10-14 16:40:00', 5.00),
+(55, 'completed', 'credit_card', '2024-10-15 14:10:00', 5.00),
+(56, 'completed', 'credit_card', '2024-10-15 13:00:00', 5.00),
+(57, 'completed', 'credit_card', '2024-10-16 17:00:00', 5.00),
+(58, 'completed', 'credit_card', '2024-10-16 18:40:00', 5.00),
+(59, 'completed', 'credit_card', '2024-10-17 14:30:00', 5.00),
+(60, 'completed', 'credit_card', '2024-10-17 15:45:00', 5.00);
 
--- Event 33 — $2 fee
+-- Event 31 — $3 fee (registrations 162–167)
 INSERT INTO Payment (registration_id, payment_status, payment_method, payment_date, amount) VALUES
-(192, 'completed', 'credit_card', '2024-10-20 14:20:00', 2.00),
-(193, 'completed', 'credit_card', '2024-10-21 15:10:00', 2.00),
-(194, 'completed', 'credit_card', '2024-10-22 16:40:00', 2.00),
-(195, 'completed', 'credit_card', '2024-10-23 13:10:00', 2.00),
-(196, 'completed', 'credit_card', '2024-10-23 17:00:00', 2.00),
-(197, 'completed', 'credit_card', '2024-10-24 18:15:00', 2.00),
-(198, 'completed', 'credit_card', '2024-10-25 12:30:00', 2.00),
-(199, 'completed', 'credit_card', '2024-10-25 15:20:00', 2.00),
-(200, 'completed', 'credit_card', '2024-10-26 16:50:00', 2.00),
-(201, 'completed', 'credit_card', '2024-10-27 14:40:00', 2.00);
+(162, 'completed', 'credit_card', '2025-09-05 14:20:00', 3.00),
+(163, 'completed', 'credit_card', '2025-09-06 15:10:00', 3.00),
+(164, 'completed', 'credit_card', '2025-09-07 16:40:00', 3.00),
+(165, 'completed', 'credit_card', '2025-09-08 17:30:00', 3.00),
+(166, 'completed', 'credit_card', '2025-09-09 13:50:00', 3.00),
+(167, 'completed', 'credit_card', '2025-09-10 14:40:00', 3.00);
+
+-- Event 33 — $2 fee (registrations 173–182)
+INSERT INTO Payment (registration_id, payment_status, payment_method, payment_date, amount) VALUES
+(173, 'completed', 'credit_card', '2024-10-20 14:20:00', 2.00),
+(174, 'completed', 'credit_card', '2024-10-21 15:10:00', 2.00),
+(175, 'completed', 'credit_card', '2024-10-22 16:40:00', 2.00),
+(176, 'completed', 'credit_card', '2024-10-23 13:10:00', 2.00),
+(177, 'completed', 'credit_card', '2024-10-23 17:00:00', 2.00),
+(178, 'completed', 'credit_card', '2024-10-24 18:15:00', 2.00),
+(179, 'completed', 'credit_card', '2024-10-25 12:30:00', 2.00),
+(180, 'completed', 'credit_card', '2024-10-25 15:20:00', 2.00),
+(181, 'completed', 'credit_card', '2024-10-26 16:50:00', 2.00),
+(182, 'completed', 'credit_card', '2024-10-27 14:40:00', 2.00);
 
 
 -- ===============================

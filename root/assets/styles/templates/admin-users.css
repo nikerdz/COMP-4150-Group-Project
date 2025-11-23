@@ -103,7 +103,7 @@
 
 .admin-users-filter-panel {
     margin-top: 10px;
-    display: none;          /* JS adds .is-open */
+    display: none;
     width: 100%;
     box-sizing: border-box;
     align-items: flex-start;
@@ -274,12 +274,9 @@
     }
 }
 
-/* =======================================================
+/* ==============================
    Admin – Manage Clubs Page
-   (shares file but uses its own .admin-clubs-* classes)
-======================================================= */
-
-/* Hero */
+============================== */
 
 .admin-clubs-hero {
     background: linear-gradient(to bottom, var(--cream), var(--light-blue));
@@ -380,7 +377,7 @@
 
 .admin-clubs-filter-panel {
     margin-top: 10px;
-    display: none;          /* JS adds .is-open */
+    display: none;
     width: 100%;
     box-sizing: border-box;
     align-items: flex-start;

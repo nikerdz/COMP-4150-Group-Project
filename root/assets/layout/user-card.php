@@ -1,12 +1,4 @@
 <?php
-/**
- * Expects $user associative array with keys:
- * - user_id, first_name, last_name, faculty, level_of_study, year_of_study, gender, join_date
- *
- * Optional:
- * - $cardContext: 'explore' (default) or 'dashboard'
- * - $hiddenClass: CSS class string (e.g. 'is-hidden')
- */
 
 $cardContext = $cardContext ?? 'explore';
 $hiddenClass = $hiddenClass ?? '';
