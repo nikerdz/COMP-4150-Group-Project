@@ -132,6 +132,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClubHub | <?= htmlspecialchars($pageTitle) ?></title>
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?= time(); ?>">
+    <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
 </head>
 <body>
 
