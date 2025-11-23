@@ -95,6 +95,8 @@ $recentCombined = array_slice($recentCombined, 0, 10);
     <title>ClubHub Admin | Dashboard</title>
     <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?php echo time(); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -179,46 +181,104 @@ $recentCombined = array_slice($recentCombined, 0, 10);
         </section>
     <?php endif; ?>
 
-      <!-- Admin Stats -->
+    <!-- Admin Stats -->
     <section class="dashboard-section">
         <div class="dashboard-section-header">
-            <h2>Platform Overview</h2>
-            <p>Your system statistics at a glance.</p>
+            <h2 style="color: var(--dark-blue);">Platform Overview</h2>
+            <p style="color: var(--dark-blue); opacity: .7;">
+                Your system statistics at a glance.
+            </p>
         </div>
 
         <div class="stats-grid">
+
             <div class="stat-card">
+                <img src="<?php echo IMG_URL; ?>icons/users.png" class="stat-icon">
                 <h3><?php echo $totalUsers; ?></h3>
                 <p>Total Users</p>
             </div>
 
             <div class="stat-card">
+                <img src="<?php echo IMG_URL; ?>icons/clubs.png" class="stat-icon">
                 <h3><?php echo $totalClubs; ?></h3>
                 <p>Total Clubs</p>
             </div>
 
             <div class="stat-card">
+                <img src="<?php echo IMG_URL; ?>icons/events.png" class="stat-icon">
                 <h3><?php echo $totalEvents; ?></h3>
                 <p>Total Events</p>
             </div>
 
             <div class="stat-card">
+                <img src="<?php echo IMG_URL; ?>icons/payment.png" class="stat-icon">
                 <h3><?php echo $totalPaid; ?></h3>
                 <p>Completed Payments</p>
             </div>
 
             <div class="stat-card">
+                <img src="<?php echo IMG_URL; ?>icons/money.png" class="stat-icon">
                 <h3>$<?php echo number_format($totalRevenue, 2); ?></h3>
                 <p>Total Revenue</p>
             </div>
+
         </div>
+
+        <br>
+            <!-- Analytics (Chart.js) -->
+        <section class="analytics-section">
+            <h2>Analytics Snapshot</h2>
+            <p style="color: var(--dark-blue); opacity:.7;">Visual breakdown of platform activity</p>
+
+            <canvas id="platformChart" height="120"></canvas>
+        </section>
     </section>
+
 
 </main>
 
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
+
+<script>
+const ctx = document.getElementById('platformChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Users', 'Clubs', 'Events', 'Completed Payments', 'Revenue'],
+        datasets: [{
+            label: 'Platform Stats',
+            data: [
+                <?php echo $totalUsers; ?>,
+                <?php echo $totalClubs; ?>,
+                <?php echo $totalEvents; ?>,
+                <?php echo $totalPaid; ?>,
+                <?php echo $totalRevenue; ?>
+            ],
+            backgroundColor: [
+                '#1c348d',
+                '#f76c6c',
+                '#1c348d',
+                '#f76c6c',
+                '#1c348d'
+            ],
+            borderRadius: 14
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+</script>
+
 
 </body>
 </html>

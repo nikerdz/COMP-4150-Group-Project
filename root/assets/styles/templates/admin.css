@@ -23,3 +23,68 @@
     background: var(--red);
     color: var(--cream);
 }
+
+/* ==========================
+   STATS CARDS + ANALYTICS
+========================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.stat-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    transition: transform .25s ease, box-shadow .25s ease;
+    border: 2px solid var(--light-blue);
+}
+
+.stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 26px rgba(0,0,0,0.12);
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    opacity: 0.9;
+    margin-bottom: 0.75rem;
+}
+
+.stat-card h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--dark-blue);
+    margin: 0;
+}
+
+.stat-card p {
+    color: var(--dark-blue);
+    opacity: 0.7;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+}
+
+/* Chart section */
+.analytics-section {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: var(--cream);
+    border-radius: 18px;
+    border: 2px solid var(--light-blue);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+}
+
+.analytics-section h2 {
+    color: var(--dark-blue) !important;
+}
+
+#platformChart {
+    margin-top: 2rem;
+}
