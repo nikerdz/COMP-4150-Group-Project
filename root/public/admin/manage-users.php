@@ -50,7 +50,7 @@ $VISIBLE = 12;
 
     <title>ClubHub Admin | Manage Users</title>
 
-    <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon.png">
+    <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?php echo time(); ?>">
 </head>
 
