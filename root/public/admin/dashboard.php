@@ -24,12 +24,30 @@ $eventModel   = new Event();
 $regModel     = new Registration();
 $paymentModel = new Payment();
 
-// Stats (you can refine these)
-$totalUsers     = count($userModel->getAllUsers());
-$totalClubs     = count($clubModel->searchClubs(null, null, 'any', 9999, 0));
-$totalEvents    = count($eventModel->searchEvents(null, null, 'any', 9999, 0));
-$totalPaid      = $paymentModel->countCompletedPayments();
-$totalRevenue   = $paymentModel->getTotalRevenue();
+// Stats
+$totalUsers   = count($userModel->getAllUsers());
+$totalClubs   = count($clubModel->searchClubs(null, null, 'any', 9999, 0));
+$totalEvents  = count($eventModel->searchEvents(null, null, 'any', 9999, 0));
+$totalPaid    = $paymentModel->countCompletedPayments();
+$totalRevenue = $paymentModel->getTotalRevenue();
+
+// For CSS bars: relative widths (counts only)
+$countsForBars = [
+    'users'  => $totalUsers,
+    'clubs'  => $totalClubs,
+    'events' => $totalEvents,
+    'paid'   => $totalPaid
+];
+
+$maxCount = max($countsForBars);
+if ($maxCount <= 0) {
+    $maxCount = 1;
+}
+
+$barPercents = [];
+foreach ($countsForBars as $key => $val) {
+    $barPercents[$key] = (int)round(($val / $maxCount) * 100);
+}
 
 // =============================
 // RECENTLY VIEWED (COMBINED)
@@ -75,11 +93,9 @@ if (!empty($_SESSION['recent_items']) && is_array($_SESSION['recent_items'])) {
     }
 }
 
-// Already stored newest-first; just in case, cap at 10
+// Newest-first already; just cap at 10
 $recentCombined = array_slice($recentCombined, 0, 10);
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,8 +111,6 @@ $recentCombined = array_slice($recentCombined, 0, 10);
     <title>ClubHub Admin | Dashboard</title>
     <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>favicon-32x32.png">
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?php echo time(); ?>">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
@@ -110,7 +124,8 @@ $recentCombined = array_slice($recentCombined, 0, 10);
         <div class="dashboard-hero-inner">
             <h1>Welcome back, <?php echo $firstName; ?></h1>
             <p>
-                Welcome to the admin dashboard.<br> Use the quick links below to manage clubs, events, and users.
+                Welcome to the admin dashboard.<br>
+                Use the quick links below to manage clubs, events, and users.
             </p>
         </div>
     </section>
@@ -121,11 +136,11 @@ $recentCombined = array_slice($recentCombined, 0, 10);
 
             <?php 
             $quickLinks = [
-                ['url' => ADMIN_URL . 'manage-clubs.php',   'img' => 'btn/club.png',       'label' => 'Manage Clubs'],
-                ['url' => ADMIN_URL . 'manage-events.php', 'img' => 'btn/event.png',      'label' => 'Manage Events'],
-                ['url' => ADMIN_URL . 'manage-users.php',  'img' => 'btn/people.png',     'label' => 'Manage Users'],
-                ['url' => USER_URL . 'profile.php',        'img' => 'btn/profile.png',    'label' => 'My Profile'],
-                ['url' => USER_URL . 'settings.php',       'img' => 'btn/settings.png',   'label' => 'Settings'],
+                ['url' => ADMIN_URL . 'manage-clubs.php',  'img' => 'btn/club.png',    'label' => 'Manage Clubs'],
+                ['url' => ADMIN_URL . 'manage-events.php', 'img' => 'btn/event.png',   'label' => 'Manage Events'],
+                ['url' => ADMIN_URL . 'manage-users.php',  'img' => 'btn/people.png',  'label' => 'Manage Users'],
+                ['url' => USER_URL . 'profile.php',        'img' => 'btn/profile.png', 'label' => 'My Profile'],
+                ['url' => USER_URL . 'settings.php',       'img' => 'btn/settings.png','label' => 'Settings'],
             ];
             foreach ($quickLinks as $link): ?>
                 <div class="dashboard-quicklink">
@@ -141,7 +156,6 @@ $recentCombined = array_slice($recentCombined, 0, 10);
 
     <?php if (!empty($recentCombined)): ?>
         <section class="dashboard-section">
-
             <div class="dashboard-section-header">
                 <h2>Recently Viewed</h2>
                 <p>Your most recent clubs, events, and profiles</p>
@@ -152,7 +166,6 @@ $recentCombined = array_slice($recentCombined, 0, 10);
 
                 <div class="dash-track-wrapper">
                     <div class="dashboard-carousel-track">
-                        
                         <?php foreach ($recentCombined as $item): ?>
                             <?php
                                 $cardContext = 'dashboard';
@@ -161,18 +174,15 @@ $recentCombined = array_slice($recentCombined, 0, 10);
                                 if ($item['type'] === 'club') {
                                     $club = $item['data'];
                                     include LAYOUT_PATH . 'club-card.php';
-                                } 
-                                elseif ($item['type'] === 'event') {
+                                } elseif ($item['type'] === 'event') {
                                     $event = $item['data'];
                                     include LAYOUT_PATH . 'event-card.php';
-                                } 
-                                elseif ($item['type'] === 'user') {
+                                } elseif ($item['type'] === 'user') {
                                     $user = $item['data'];
                                     include LAYOUT_PATH . 'user-card.php';
                                 }
                             ?>
                         <?php endforeach; ?>
-
                     </div>
                 </div>
 
@@ -181,104 +191,94 @@ $recentCombined = array_slice($recentCombined, 0, 10);
         </section>
     <?php endif; ?>
 
-    <!-- Admin Stats -->
+    <!-- Platform Overview -->
     <section class="dashboard-section">
         <div class="dashboard-section-header">
-            <h2 style="color: var(--dark-blue);">Platform Overview</h2>
-            <p style="color: var(--dark-blue); opacity: .7;">
-                Your system statistics at a glance.
+            <h2 style="color: var(--red);">Platform Overview</h2>
+            <p style="color: var(--dark-blue);">
+                Key stats and a quick snapshot of activity.
             </p>
         </div>
 
-        <div class="stats-grid">
+        <div class="admin-overview-grid">
 
-            <div class="stat-card">
-                <img src="<?php echo IMG_URL; ?>icons/users.png" class="stat-icon">
-                <h3><?php echo $totalUsers; ?></h3>
-                <p>Total Users</p>
+            <!-- Stat cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3><?php echo $totalUsers; ?></h3>
+                    <p>Total Users</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3><?php echo $totalClubs; ?></h3>
+                    <p>Total Clubs</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3><?php echo $totalEvents; ?></h3>
+                    <p>Total Events</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>$<?php echo number_format($totalRevenue, 2); ?></h3>
+                    <p>Total Revenue</p>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <img src="<?php echo IMG_URL; ?>icons/clubs.png" class="stat-icon">
-                <h3><?php echo $totalClubs; ?></h3>
-                <p>Total Clubs</p>
-            </div>
+            <!-- Simple bar “graph” -->
+            <div class="analytics-card">
+                <h3>Activity Snapshot</h3>
+                <p>Each bar is scaled relative to the highest value.</p>
 
-            <div class="stat-card">
-                <img src="<?php echo IMG_URL; ?>icons/events.png" class="stat-icon">
-                <h3><?php echo $totalEvents; ?></h3>
-                <p>Total Events</p>
-            </div>
+                <div class="analytics-bars">
 
-            <div class="stat-card">
-                <img src="<?php echo IMG_URL; ?>icons/payment.png" class="stat-icon">
-                <h3><?php echo $totalPaid; ?></h3>
-                <p>Completed Payments</p>
-            </div>
+                    <div class="analytics-bar-row">
+                        <span class="analytics-bar-label">Users</span>
+                        <div class="analytics-bar-track">
+                            <div class="analytics-bar-fill"
+                                 style="width: <?php echo $barPercents['users']; ?>%;"></div>
+                        </div>
+                        <span class="analytics-bar-value"><?php echo $totalUsers; ?></span>
+                    </div>
 
-            <div class="stat-card">
-                <img src="<?php echo IMG_URL; ?>icons/money.png" class="stat-icon">
-                <h3>$<?php echo number_format($totalRevenue, 2); ?></h3>
-                <p>Total Revenue</p>
+                    <div class="analytics-bar-row">
+                        <span class="analytics-bar-label">Clubs</span>
+                        <div class="analytics-bar-track">
+                            <div class="analytics-bar-fill"
+                                 style="width: <?php echo $barPercents['clubs']; ?>%;"></div>
+                        </div>
+                        <span class="analytics-bar-value"><?php echo $totalClubs; ?></span>
+                    </div>
+
+                    <div class="analytics-bar-row">
+                        <span class="analytics-bar-label">Events</span>
+                        <div class="analytics-bar-track">
+                            <div class="analytics-bar-fill"
+                                 style="width: <?php echo $barPercents['events']; ?>%;"></div>
+                        </div>
+                        <span class="analytics-bar-value"><?php echo $totalEvents; ?></span>
+                    </div>
+
+                    <div class="analytics-bar-row">
+                        <span class="analytics-bar-label">Payments</span>
+                        <div class="analytics-bar-track">
+                            <div class="analytics-bar-fill"
+                                 style="width: <?php echo $barPercents['paid']; ?>%;"></div>
+                        </div>
+                        <span class="analytics-bar-value"><?php echo $totalPaid; ?></span>
+                    </div>
+
+                </div>
             </div>
 
         </div>
-
-        <br>
-            <!-- Analytics (Chart.js) -->
-        <section class="analytics-section">
-            <h2>Analytics Snapshot</h2>
-            <p style="color: var(--dark-blue); opacity:.7;">Visual breakdown of platform activity</p>
-
-            <canvas id="platformChart" height="120"></canvas>
-        </section>
     </section>
-
 
 </main>
 
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
-
-<script>
-const ctx = document.getElementById('platformChart').getContext('2d');
-
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Users', 'Clubs', 'Events', 'Completed Payments', 'Revenue'],
-        datasets: [{
-            label: 'Platform Stats',
-            data: [
-                <?php echo $totalUsers; ?>,
-                <?php echo $totalClubs; ?>,
-                <?php echo $totalEvents; ?>,
-                <?php echo $totalPaid; ?>,
-                <?php echo $totalRevenue; ?>
-            ],
-            backgroundColor: [
-                '#1c348d',
-                '#f76c6c',
-                '#1c348d',
-                '#f76c6c',
-                '#1c348d'
-            ],
-            borderRadius: 14
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { display: false }
-        },
-        scales: {
-            y: { beginAtZero: true }
-        }
-    }
-});
-</script>
-
 
 </body>
 </html>

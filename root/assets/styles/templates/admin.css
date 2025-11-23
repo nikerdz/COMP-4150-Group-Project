@@ -25,66 +25,132 @@
 }
 
 /* ==========================
-   STATS CARDS + ANALYTICS
+   Platform Overview Layout
+========================== */
+
+.admin-overview-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+    gap: 1.75rem;
+    margin-top: 1.75rem;
+}
+
+@media (max-width: 900px) {
+    .admin-overview-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================
+   Stat Cards (cream background)
 ========================== */
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1.25rem;
 }
 
 .stat-card {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 1.5rem;
-    text-align: center;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-    transition: transform .25s ease, box-shadow .25s ease;
-    border: 2px solid var(--light-blue);
+    background: var(--cream);              /* <- all cream */
+    border-radius: 16px;
+    padding: 1.25rem 1.4rem;
+    text-align: left;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.08);
+    transition: transform .2s ease, box-shadow .2s ease;
+    border: 2px solid var(--light-blue);   /* light blue accent border */
 }
 
 .stat-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 26px rgba(0,0,0,0.12);
-}
-
-.stat-icon {
-    width: 45px;
-    height: 45px;
-    opacity: 0.9;
-    margin-bottom: 0.75rem;
+    transform: translateY(-3px);
+    box-shadow: 0 9px 20px rgba(0,0,0,0.12);
 }
 
 .stat-card h3 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 800;
     color: var(--dark-blue);
     margin: 0;
+    font-variant-numeric: tabular-nums;
 }
 
 .stat-card p {
     color: var(--dark-blue);
-    opacity: 0.7;
-    margin-top: 0.25rem;
+    opacity: 0.8;
+    margin-top: 0.35rem;
     font-size: 0.95rem;
 }
 
-/* Chart section */
-.analytics-section {
-    margin-top: 3rem;
-    padding: 2rem;
-    background: var(--cream);
-    border-radius: 18px;
-    border: 2px solid var(--light-blue);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+/* ==========================
+   Analytics Card (cream background)
+========================== */
+
+.analytics-card {
+    background: var(--cream);              /* <- all cream */
+    border-radius: 16px;
+    border: 2px solid var(--light-blue);   /* same frame as stat cards */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    padding: 1.5rem 1.75rem;
 }
 
-.analytics-section h2 {
-    color: var(--dark-blue) !important;
+.analytics-card h3 {
+    margin: 0 0 0.25rem;
+    color: var(--dark-blue);
+    font-size: 1.25rem;
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
 }
 
-#platformChart {
-    margin-top: 2rem;
+.analytics-card p {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    color: var(--dark-blue);
+    opacity: 0.85;
+}
+
+.analytics-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.analytics-bar-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.analytics-bar-label {
+    font-weight: 600;
+    color: var(--dark-blue);
+    white-space: nowrap;
+}
+
+.analytics-bar-track {
+    position: relative;
+    height: 9px;
+    border-radius: 999px;
+    background: #ffffff;
+    overflow: hidden;
+    border: 1px solid rgba(28,52,141,0.15);
+}
+
+.analytics-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--red), var(--dark-blue));
+    width: 0; /* overridden inline from PHP */
+    transition: width 0.6s ease-out;
+}
+
+.analytics-bar-value {
+    font-variant-numeric: tabular-nums;
+    color: var(--dark-blue);
+    white-space: nowrap;
+    font-weight: 600;
 }

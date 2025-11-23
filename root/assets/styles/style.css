@@ -20,6 +20,7 @@
 @import url("templates/comment.css");
 @import url("templates/edit-event.css");
 @import url('templates/admin-users.css');
+@import url('templates/admin.css');
 @import url('templates/notif.css');
 
 .is-hidden {
@@ -72,6 +73,7 @@ main {
     padding: 0 20px;
     box-sizing: border-box;
 }
+
 .scroll-top-btn {
     position: fixed;
     bottom: 60px;
@@ -114,7 +116,7 @@ main {
 }
 
 .scroll-top-btn img {
-    width: 70%;          /* keep some padding inside circle */
+    width: 70%;
     height: auto;
     display: block;
 }
@@ -131,8 +133,6 @@ main {
         right: 18px;
     }
 }
-
-
 
 /* ==========================
    Responsive Design 
@@ -182,4 +182,3 @@ main {
         font-size: 0.9rem;
     }
 }
-
