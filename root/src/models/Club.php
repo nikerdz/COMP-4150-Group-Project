@@ -16,54 +16,52 @@ class Club
     /* --------------------------
        Register a new club (for future use)
        -------------------------- */
-    public function create(array $data): bool
+    public function create(array $data): int
     {
-        $sql = "INSERT INTO Club 
-                (club_name, club_email, club_description, creation_date, club_condition, club_status)
-                VALUES (:name, :email, :description, :creation_date, :condition, :status)";
+        $stmt = $this->pdo->prepare("CALL sp_club_create(?, ?, ?, ?, ?, ?)");
 
-        $stmt = $this->pdo->prepare($sql);
-
-        return $stmt->execute([
-            ':name'          => $data['club_name'],
-            ':email'         => $data['club_email'] ?? null,
-            ':description'   => $data['club_description'] ?? null,
-            ':creation_date' => $data['creation_date'] ?? date('Y-m-d'),
-            ':condition'     => $data['club_condition'] ?? 'none',
-            ':status'        => $data['club_status'] ?? 'active',
+        $stmt->execute([
+            $data['club_name'],
+            $data['club_email'] ?? null,
+            $data['club_description'] ?? null,
+            date('Y-m-d'),
+            $data['club_condition'] ?? 'none',
+            $data['club_status'] ?? 'active',
         ]);
+
+        // Stored procedure returns: SELECT LAST_INSERT_ID() AS club_id;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int)$row['club_id'];
     }
+
+
 
     /* --------------------------
        Get one club by ID
        -------------------------- */
     public function findById(int $clubId): ?array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT c.*, GROUP_CONCAT(cat.category_name) AS categories
-            FROM Club c
-            LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
-            LEFT JOIN Category cat ON ct.category_id = cat.category_id
-            WHERE c.club_id = :id
-            GROUP BY c.club_id
-        ");
-        $stmt->execute([':id' => $clubId]);
+        $sql = file_get_contents(KQ_URL . 'club/kq_club_find_by_id.sql');
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$clubId]);
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
+
 
     /* --------------------------
        Get all categories (for filters)
        -------------------------- */
     public function getAllCategories(): array
     {
-        $stmt = $this->pdo->query("
-            SELECT category_id, category_name
-            FROM Category
-            ORDER BY category_name ASC
-        ");
+        $sql = file_get_contents(KQ_URL . 'club/kq_club_get_all_categories.sql');
+
+        $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     /* --------------------------
        Search clubs with filters
@@ -75,78 +73,33 @@ class Club
         int $limit = 20,
         int $offset = 0
     ): array {
-        $sql = "
-            SELECT 
-                c.*,
-                GROUP_CONCAT(DISTINCT cat.category_name) AS categories
-            FROM Club c
-            LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
-            LEFT JOIN Category cat ON ct.category_id = cat.category_id
-            WHERE c.club_status = 'active'
-        ";
+        $stmt = $this->pdo->prepare("CALL sp_club_search(?, ?, ?, ?, ?)");
 
-        // --------------------
-        // Dynamic filters
-        // --------------------
-        if (!empty($search)) {
-            $sql .= " AND (c.club_name LIKE :search_name OR c.club_description LIKE :search_desc)";
-        }
-
-        if (!empty($categoryId)) {
-            $sql .= " AND ct.category_id = :catId";
-        }
-
-        if (!empty($condition) && $condition !== 'any') {
-            $sql .= " AND c.club_condition = :cond";
-        }
-
-        $sql .= "
-            GROUP BY c.club_id
-            ORDER BY c.club_name ASC
-            LIMIT :limit OFFSET :offset
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
-
-        // --------------------
-        // Bind parameters
-        // --------------------
-        if (!empty($search)) {
-            $like = '%' . $search . '%';
-            $stmt->bindValue(':search_name', $like, PDO::PARAM_STR);
-            $stmt->bindValue(':search_desc', $like, PDO::PARAM_STR);
-        }
-
-        if (!empty($categoryId)) {
-            $stmt->bindValue(':catId', (int)$categoryId, PDO::PARAM_INT);
-        }
-
-        if (!empty($condition) && $condition !== 'any') {
-            $stmt->bindValue(':cond', $condition, PDO::PARAM_STR);
-        }
-
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-
-        $stmt->execute();
+        $stmt->execute([
+            $search ?? '',
+            $categoryId ?? null,
+            $condition ?? 'any',
+            $limit,
+            $offset
+        ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     /* --------------------------
        Get category IDs for a club
        -------------------------- */
     public function getClubCategoryIds(int $clubId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT category_id
-            FROM Club_Tags
-            WHERE club_id = :id
-        ");
-        $stmt->execute([':id' => $clubId]);
+        $sql = file_get_contents(KQ_URL . 'club/kq_club_get_category_ids.sql');
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$clubId]);
 
         return array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'category_id');
     }
+
 
     /* --------------------------
        Update club information
@@ -154,62 +107,37 @@ class Club
     public function updateClub(int $clubId, array $data): bool
     {
         try {
-            // Begin transaction
-            $this->pdo->beginTransaction();
-
-            // --------------------
             // Update main club table
-            // --------------------
-            $sql = "
-                UPDATE Club
-                SET club_name = :name,
-                    club_email = :email,
-                    club_description = :description,
-                    club_condition = :condition
-                WHERE club_id = :id
-            ";
-
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([
-                ':name'        => $data['club_name'],
-                ':email'       => $data['club_email'] ?? null,
-                ':description' => $data['club_description'] ?? null,
-                ':condition'   => $data['club_condition'] ?? 'none',
-                ':id'          => $clubId,
+            $stmtMain = $this->pdo->prepare("CALL sp_club_update_main(?, ?, ?, ?, ?)");
+            $stmtMain->execute([
+                $clubId,
+                $data['club_name'],
+                $data['club_email'] ?? null,
+                $data['club_description'] ?? null,
+                $data['club_condition'] ?? 'none'
             ]);
 
-            // --------------------
-            // Update tags
-            // --------------------
-            if (isset($data['tags']) && is_array($data['tags'])) {
-                // Delete old tags
-                $delStmt = $this->pdo->prepare("DELETE FROM Club_Tags WHERE club_id = :id");
-                $delStmt->execute([':id' => $clubId]);
+            // Clear existing tags
+            $stmtClear = $this->pdo->prepare("CALL sp_club_clear_tags(?)");
+            $stmtClear->execute([$clubId]);
 
-                // Insert new tags
-                if (!empty($data['tags'])) {
-                    $insertStmt = $this->pdo->prepare("
-                        INSERT INTO Club_Tags (club_id, category_id) VALUES (:club_id, :cat_id)
-                    ");
-                    foreach ($data['tags'] as $catId) {
-                        $insertStmt->execute([
-                            ':club_id' => $clubId,
-                            ':cat_id'  => $catId,
-                        ]);
-                    }
+            // Insert new tags
+            if (!empty($data['tags']) && is_array($data['tags'])) {
+                $stmtAddTag = $this->pdo->prepare("CALL sp_club_add_tag(?, ?)");
+
+                foreach ($data['tags'] as $catId) {
+                    $stmtAddTag->execute([$clubId, (int)$catId]);
                 }
             }
 
-            // Commit transaction
-            $this->pdo->commit();
             return true;
 
         } catch (PDOException $e) {
-            $this->pdo->rollBack();
             error_log("Failed to update club: " . $e->getMessage());
             return false;
         }
     }
+
 
     /* --------------------------
        Delete a club completely
@@ -217,89 +145,41 @@ class Club
     public function deleteClub(int $clubId): bool
     {
         try {
-            // Begin transaction for safety
-            $this->pdo->beginTransaction();
+            $stmt = $this->pdo->prepare("CALL sp_club_delete(?)");
+            $stmt->execute([$clubId]);
 
-            // Delete related tags
-            $stmt = $this->pdo->prepare("DELETE FROM Club_Tags WHERE club_id = :id");
-            $stmt->execute([':id' => $clubId]);
-
-            // Delete related memberships
-            $stmt = $this->pdo->prepare("DELETE FROM Membership WHERE club_id = :id");
-            $stmt->execute([':id' => $clubId]);
-
-            // Delete related events (correct table name: Event)
-            $stmt = $this->pdo->prepare("DELETE FROM Event WHERE club_id = :id");
-            $stmt->execute([':id' => $clubId]);
-
-            // Finally delete the club itself
-            $stmt = $this->pdo->prepare("DELETE FROM Club WHERE club_id = :id");
-            $stmt->execute([':id' => $clubId]);
-
-            // Commit all changes
-            $this->pdo->commit();
-
-            // If at least one club row was deleted, consider it success
-            return $stmt->rowCount() > 0;
+            return true;
 
         } catch (PDOException $e) {
-            // Rollback on error
-            $this->pdo->rollBack();
             error_log("Failed to delete club: " . $e->getMessage());
             return false;
         }
     }
 
+
     public function searchClubsAdmin(string $search = '', string $status = 'all'): array
     {
-        $sql = "
-            SELECT *
-            FROM Club
-            WHERE 1=1
-        ";
+        $stmt = $this->pdo->prepare("CALL sp_club_search_admin(?, ?)");
 
-        $params = [];
-
-        // Only apply the status filter if user selected active/inactive
-        if ($status !== 'all') {
-            $sql .= " AND club_status = :status";
-            $params[':status'] = $status;
-        }
-
-        // Search filter
-        if ($search !== '') {
-            $sql .= " AND (
-                club_name LIKE :q1 OR
-                club_description LIKE :q2
-            )";
-
-            $like = "%{$search}%";
-            $params[':q1'] = $like;
-            $params[':q2'] = $like;
-        }
-
-        $sql .= " ORDER BY club_name ASC";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
+        $stmt->execute([
+            $search,
+            $status
+        ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
+
     public function findVisibleById(int $clubId): ?array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT c.*, GROUP_CONCAT(cat.category_name) AS categories
-            FROM Club c
-            LEFT JOIN Club_Tags ct ON c.club_id = ct.club_id
-            LEFT JOIN Category cat ON ct.category_id = cat.category_id
-            WHERE c.club_id = :id
-            AND c.club_status = 'active'
-            GROUP BY c.club_id
-        ");
-        $stmt->execute([':id' => $clubId]);
+        $sql = file_get_contents(KQ_URL . 'club/kq_club_find_visible_by_id.sql');
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$clubId]);
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
+
 }
