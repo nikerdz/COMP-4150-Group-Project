@@ -56,6 +56,6 @@ define('PHP_URL', SCRIPTS_URL . 'php/');            // URL to PHP scripts folder
 define('SQL_URL', SCRIPTS_URL . 'sql/');            // URL to SQL scripts folder
 
 // SQL 
-define('KQ_URL', SQL_URL . 'key_queries/');            // URL to Key Queries folder
+define('KQ_URL', __DIR__ . '/../scripts/sql/key_queries/');          // URL to Key Queries folder
 
 ?>

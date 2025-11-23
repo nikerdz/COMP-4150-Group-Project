@@ -17,11 +17,8 @@ class User
        -------------------------- */
     public function register(array $data): int
     {
-        $sql = "INSERT INTO User 
-                (first_name, last_name, user_email, user_password, gender, faculty, level_of_study, year_of_study)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->pdo->prepare("CALL sp_user_register(?, ?, ?, ?, ?, ?, ?, ?)");
 
-        $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
             $data['first_name'],
             $data['last_name'],
@@ -33,7 +30,10 @@ class User
             $data['year_of_study']
         ]);
 
-        return (int)$this->pdo->lastInsertId();
+        // Stored procedure returns a result set containing LAST_INSERT_ID()
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (int)$row['user_id'];
     }
 
     /* --------------------------
@@ -41,8 +41,12 @@ class User
        -------------------------- */
     public function findByEmail(string $email): ?array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM User WHERE user_email = ?");
+        // Load Key Query SQL file
+        $sql = file_get_contents(KQ_URL . 'user/kq_user_find_by_email.sql');
+
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$email]);
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
@@ -52,8 +56,12 @@ class User
        -------------------------- */
     public function findById(int $userId): ?array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM User WHERE user_id = ?");
+        // Load key query SQL
+        $sql = file_get_contents(KQ_URL . 'user/kq_user_find_by_id.sql');
+
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$userId]);
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
@@ -63,30 +71,23 @@ class User
        -------------------------- */
     public function updateProfile(int $userId, array $data): bool
     {
-        $sql = "UPDATE User
-                SET first_name      = :first_name,
-                    last_name       = :last_name,
-                    faculty         = :faculty,
-                    level_of_study  = :level_of_study,
-                    year_of_study   = :year_of_study
-                WHERE user_id = :user_id";
+        $stmt = $this->pdo->prepare("
+            CALL sp_user_update_profile(?, ?, ?, ?, ?, ?)
+        ");
 
-        $stmt = $this->pdo->prepare($sql);
+        // Convert null year_of_study properly for SP
+        $year = $data['year_of_study'] !== null
+            ? (int)$data['year_of_study']
+            : null;
 
-        $stmt->bindValue(':first_name', $data['first_name']);
-        $stmt->bindValue(':last_name',  $data['last_name']);
-        $stmt->bindValue(':faculty',    $data['faculty']);
-        $stmt->bindValue(':level_of_study', $data['level_of_study']);
-
-        if (array_key_exists('year_of_study', $data) && $data['year_of_study'] !== null) {
-            $stmt->bindValue(':year_of_study', (int)$data['year_of_study'], PDO::PARAM_INT);
-        } else {
-            $stmt->bindValue(':year_of_study', null, PDO::PARAM_NULL);
-        }
-
-        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
-
-        return $stmt->execute();
+        return $stmt->execute([
+            $userId,
+            $data['first_name'],
+            $data['last_name'],
+            $data['faculty'],
+            $data['level_of_study'],
+            $year
+        ]);
     }
 
     /* --------------------------
@@ -94,14 +95,8 @@ class User
        -------------------------- */
     public function updatePassword(int $userId, string $hashedPassword): bool
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE User 
-            SET user_password = :pw
-            WHERE user_id = :id
-        ");
-        $stmt->bindValue(':pw', $hashedPassword);
-        $stmt->bindValue(':id', $userId, PDO::PARAM_INT);
-        return $stmt->execute();
+        $stmt = $this->pdo->prepare("CALL sp_user_update_password(?, ?)");
+        return $stmt->execute([$userId, $hashedPassword]);
     }
 
     /* --------------------------
@@ -110,9 +105,10 @@ class User
        -------------------------- */
     public function deleteUser(int $userId): bool
     {
-        $stmt = $this->pdo->prepare("DELETE FROM User WHERE user_id = ?");
+        $stmt = $this->pdo->prepare("CALL sp_user_delete(?)");
         return $stmt->execute([$userId]);
     }
+
 
     /* --------------------------
        Get interest category IDs
@@ -120,41 +116,36 @@ class User
        -------------------------- */
     public function getInterestCategoryIds(int $userId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT category_id
-            FROM User_Interests
-            WHERE user_id = ?
-        ");
+        // Load Key Query SQL file
+        $sql = file_get_contents(KQ_URL . 'user/kq_user_get_interest_category_ids.sql');
+
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$userId]);
 
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
+
 
     /* --------------------------
        Get interest names for user
        -------------------------- */
     public function getInterestNames(int $userId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT c.category_name
-            FROM User_Interests ui
-            JOIN Category c ON ui.category_id = c.category_id
-            WHERE ui.user_id = ?
-            ORDER BY c.category_name ASC
-        ");
+        // Load Key Query SQL
+        $sql = file_get_contents(KQ_URL . 'user/kq_user_get_interest_names.sql');
+
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$userId]);
 
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
+
     public function saveUserInterests(int $userId, array $categoryIds): void
     {
         if (empty($categoryIds)) return;
 
-        $stmt = $this->pdo->prepare("
-            INSERT INTO User_Interests (user_id, category_id)
-            VALUES (?, ?)
-        ");
+        $stmt = $this->pdo->prepare("CALL sp_user_save_interests(?, ?)");
 
         foreach ($categoryIds as $catId) {
             $catId = (int)$catId;
@@ -164,94 +155,66 @@ class User
         }
     }
 
+
     /* --------------------------
        Replace user's interests with
        a new set
        -------------------------- */
     public function updateInterests(int $userId, array $categoryIds): void
     {
-        $this->pdo->beginTransaction();
+        // Clear existing interests
+        $stmtClear = $this->pdo->prepare("CALL sp_user_clear_interests(?)");
+        $stmtClear->execute([$userId]);
 
-        $del = $this->pdo->prepare("DELETE FROM User_Interests WHERE user_id = ?");
-        $del->execute([$userId]);
-
+        // Re-add new interests
         if (!empty($categoryIds)) {
-            $ins = $this->pdo->prepare("
-                INSERT INTO User_Interests (user_id, category_id)
-                VALUES (?, ?)
-            ");
+            $stmtInsert = $this->pdo->prepare("CALL sp_user_save_interests(?, ?)");
 
             foreach ($categoryIds as $catId) {
                 $catId = (int)$catId;
                 if ($catId > 0) {
-                    $ins->execute([$userId, $catId]);
+                    $stmtInsert->execute([$userId, $catId]);
                 }
             }
         }
-
-        $this->pdo->commit();
     }
 
-    public function getAllUsers(): array {
-        return $this->pdo->query("SELECT * FROM User")->fetchAll(PDO::FETCH_ASSOC);
+
+    public function getAllUsers(): array
+    {
+        $sql = file_get_contents(KQ_URL . 'user/kq_user_get_all_users.sql');
+
+        return $this->pdo
+            ->query($sql)
+            ->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function searchUsers(string $search = '', string $status = 'all', ?int $excludeUserId = null): array
     {
-        $sql = "SELECT * FROM User WHERE 1=1";
-        $params = [];
+        $stmt = $this->pdo->prepare("CALL sp_user_search(?, ?, ?)");
 
-        // Exclude a specific user 
-        if ($excludeUserId !== null && $excludeUserId > 0) {
-            $sql .= " AND user_id <> :excludeId";
-            $params[':excludeId'] = $excludeUserId;
-        }
+        $stmt->execute([
+            $search,
+            $status,
+            $excludeUserId
+        ]);
 
-        if ($status !== 'all') {
-            $sql .= " AND user_status = :status";
-            $params[':status'] = $status;
-        }
-
-        if ($search !== '') {
-            // use distinct placeholders 
-            $sql .= " AND (
-                first_name LIKE :q1 OR
-                last_name  LIKE :q2 OR
-                faculty    LIKE :q3 OR
-                user_email LIKE :q4
-            )";
-
-            $like = "%{$search}%";
-            $params[':q1'] = $like;
-            $params[':q2'] = $like;
-            $params[':q3'] = $like;
-            $params[':q4'] = $like;
-        }
-
-        $sql .= " ORDER BY first_name ASC";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
     public function suspendUser(int $userId): bool
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE User 
-            SET user_status = 'suspended'
-            WHERE user_id = ?
-        ");
+        $stmt = $this->pdo->prepare("CALL sp_user_suspend(?)");
         return $stmt->execute([$userId]);
     }
 
+
     public function activateUser(int $userId): bool
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE User 
-            SET user_status = 'active'
-            WHERE user_id = ?
-        ");
+        $stmt = $this->pdo->prepare("CALL sp_user_activate(?)");
         return $stmt->execute([$userId]);
     }
+
 }
