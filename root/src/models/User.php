@@ -15,16 +15,14 @@ class User
     /* --------------------------
        Register a new user
        -------------------------- */
-    public function register(array $data): bool
+    public function register(array $data): int
     {
-        // 8 columns, 8 placeholders
         $sql = "INSERT INTO User 
                 (first_name, last_name, user_email, user_password, gender, faculty, level_of_study, year_of_study)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->pdo->prepare($sql);
-
-        return $stmt->execute([
+        $stmt->execute([
             $data['first_name'],
             $data['last_name'],
             $data['email'],
@@ -34,6 +32,8 @@ class User
             $data['level_of_study'],
             $data['year_of_study']
         ]);
+
+        return (int)$this->pdo->lastInsertId();
     }
 
     /* --------------------------
@@ -145,6 +145,23 @@ class User
         $stmt->execute([$userId]);
 
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
+    public function saveUserInterests(int $userId, array $categoryIds): void
+    {
+        if (empty($categoryIds)) return;
+
+        $stmt = $this->pdo->prepare("
+            INSERT INTO User_Interests (user_id, category_id)
+            VALUES (?, ?)
+        ");
+
+        foreach ($categoryIds as $catId) {
+            $catId = (int)$catId;
+            if ($catId > 0) {
+                $stmt->execute([$userId, $catId]);
+            }
+        }
     }
 
     /* --------------------------

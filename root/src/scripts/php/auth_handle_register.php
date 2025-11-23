@@ -41,6 +41,9 @@ $gender   = $_POST['gender'];                 // 'M' or 'F'
 $faculty  = $_POST['faculty']        ?? null;
 $level    = $_POST['level_of_study'] ?? 'undergraduate';
 $yearRaw  = $_POST['year_of_study']  ?? null;
+$interests = isset($_POST['interests']) && is_array($_POST['interests'])
+    ? $_POST['interests']
+    : [];
 
 // Simple year validation (optional, can be empty)
 $year = null;
@@ -65,9 +68,10 @@ if (!preg_match("/@uwindsor\.ca$/", $email)) {
 $hashed = password_hash($pass, PASSWORD_DEFAULT);
 
 try {
-    // Use your User model to insert into DB
     $userModel = new User();
-    $userModel->register([
+
+    // Insert user → get new user ID
+    $newUserId = $userModel->register([
         'first_name'     => $first,
         'last_name'      => $last,
         'email'          => $email,
@@ -78,16 +82,19 @@ try {
         'year_of_study'  => $year
     ]);
 
-    // On success: redirect to login with a success message
+    // Save user interests
+    if (!empty($interests)) {
+        $userModel->saveUserInterests($newUserId, $interests);
+    }
+
     header("Location: " . PUBLIC_URL . "login.php?success=" . urlencode("Account created! Please log in."));
     exit();
 
 } catch (PDOException $e) {
-    // Duplicate email / unique constraint violation
     if ($e->getCode() == 23000) {
         register_error_and_back("Email already registered.");
     }
 
-    // Generic error
     register_error_and_back("Registration failed. Please try again later.");
 }
+

@@ -1,6 +1,11 @@
 <?php
 require_once('../src/config/constants.php');
+require_once(MODELS_PATH . 'Club.php');
 session_start();
+
+$clubModel = new Club();
+$allCategories = $clubModel->getAllCategories();
+
 ?>
 
 <!DOCTYPE html>
@@ -112,6 +117,33 @@ session_start();
                         </select>
                     </div>
                 </div>
+
+                <div class="profile-edit-interests" style="margin-top: 20px;">
+                    <label class="profile-interests-title">Your Interests</label>
+
+                    <div class="profile-interests-grid">
+                        <?php foreach ($allCategories as $cat): ?>
+                            <?php
+                                $catId   = (int)$cat['category_id'];
+                                $catName = htmlspecialchars($cat['category_name'], ENT_QUOTES, 'UTF-8');
+                            ?>
+                            <label class="profile-interest-chip">
+                                <input
+                                    type="checkbox"
+                                    name="interests[]"
+                                    value="<?php echo $catId; ?>"
+                                >
+                                <span><?php echo $catName; ?></span>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <p class="profile-interests-hint">
+                        Choose interests so we can recommend clubs and events you'll enjoy.
+                    </p>
+                </div>
+
+
                     <button type="submit" class="auth-btn">Create Account</button>
 
                     <p class="auth-footer-text">
