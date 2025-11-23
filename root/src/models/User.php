@@ -196,10 +196,20 @@ class User
         return $this->pdo->query("SELECT * FROM User")->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function searchUsers(string $search = '', string $status = 'all'): array
+    /**
+     * Search users, with optional status filter and optional exclusion of a specific user_id.
+     * Used by admin Manage Users page.
+     */
+    public function searchUsers(string $search = '', string $status = 'all', ?int $excludeUserId = null): array
     {
         $sql = "SELECT * FROM User WHERE 1=1";
         $params = [];
+
+        // Exclude a specific user (e.g. current admin)
+        if ($excludeUserId !== null && $excludeUserId > 0) {
+            $sql .= " AND user_id <> :excludeId";
+            $params[':excludeId'] = $excludeUserId;
+        }
 
         if ($status !== 'all') {
             $sql .= " AND user_status = :status";

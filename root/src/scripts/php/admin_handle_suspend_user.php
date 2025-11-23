@@ -6,7 +6,7 @@ require_once(MODELS_PATH . 'User.php');
 session_start();
 
 // --- ADMIN CHECK ---
-if (empty($_SESSION['is_admin'])) {
+if (!isset($_SESSION['user_id']) || empty($_SESSION['is_admin'])) {
     die("Unauthorized.");
 }
 
@@ -15,9 +15,17 @@ if (!isset($_POST['user_id'])) {
 }
 
 $userId = (int)$_POST['user_id'];
+$currentAdminId = (int)$_SESSION['user_id'];
 
 if ($userId <= 0) {
     $_SESSION['toast_message'] = 'Invalid user.';
+    header("Location: " . PUBLIC_URL . "admin/manage-users.php");
+    exit();
+}
+
+// Prevent an admin from suspending their own account
+if ($userId === $currentAdminId) {
+    $_SESSION['toast_message'] = 'You cannot suspend your own admin account.';
     header("Location: " . PUBLIC_URL . "admin/manage-users.php");
     exit();
 }

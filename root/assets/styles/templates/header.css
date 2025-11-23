@@ -63,7 +63,7 @@
 .header-right {
     display: flex;
     align-items: center;
-    gap: 8px; /* buttons stay close together but not touching */
+    gap: 8px;
 }
 
 

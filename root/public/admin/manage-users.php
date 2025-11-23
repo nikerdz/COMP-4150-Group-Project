@@ -12,6 +12,7 @@ if (!isset($_SESSION['user_id']) || empty($_SESSION['is_admin'])) {
 }
 
 $userModel = new User();
+$currentAdminId = (int)$_SESSION['user_id'];
 
 // -----------------------------
 // Filters
@@ -26,7 +27,8 @@ if (!in_array($status, ['active', 'suspended', 'all'], true)) {
 // -----------------------------
 // Fetch from DB
 // -----------------------------
-$users = $userModel->searchUsers($search, $status);
+// Pass $currentAdminId so the admin does NOT see themselves in the list.
+$users = $userModel->searchUsers($search, $status, $currentAdminId);
 $totalUsers = count($users);
 
 // For load more
