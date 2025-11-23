@@ -1,7 +1,7 @@
 <?php
 require 'db_config.php';
 
-// Connect to MySQL server (without selecting a database first)
+// Connect to MySQL server without selecting a database first
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

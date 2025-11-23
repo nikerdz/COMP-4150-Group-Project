@@ -17,7 +17,7 @@ $clubModel = new Club();
 
 $user      = $userModel->findById($userId);
 
-// If user somehow vanished, force logout
+// If user somehow vanished force logout
 if (!$user) {
     session_unset();
     session_destroy();
@@ -37,7 +37,7 @@ $allCategories       = $clubModel->getAllCategories();
 // IDs of categories this user already selected
 $selectedInterestIds = $userModel->getInterestCategoryIds($userId);
 
-// Flash error (success now shows on profile.php)
+// Flash error
 $profileError = $_SESSION['profile_error'] ?? null;
 unset($_SESSION['profile_error']);
 ?>

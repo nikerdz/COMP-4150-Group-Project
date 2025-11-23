@@ -70,7 +70,7 @@ if ($currentUser && ($currentUser['user_type'] ?? 'student') === 'admin') {
     $isAdmin = true;
 }
 
-// Permission check: owner OR exec OR admin
+// owner OR exec OR admin
 if (!$isOwner && !$isExec && !$isAdmin) {
     $_SESSION['error'] = 'You do not have permission to delete this comment.';
     header('Location: ' . PUBLIC_URL . 'event/view-event.php?id=' . $eventId);

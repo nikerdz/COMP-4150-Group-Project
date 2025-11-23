@@ -49,7 +49,6 @@ function toggleNotification(id, el) {
     .then(data => {
         if (!data.success) return;
 
-        // Get the <a> element inside the pill
         const link = el.querySelector("a");
 
         if (data.newStatus === "read") {
@@ -329,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const grid        = document.getElementById('userClubsGrid');
     const loadMoreBtn = document.getElementById('userClubsLoadMore');
 
-    // If we're not on the My Clubs page, do nothing
+    // If not on the My Clubs page, do nothing
     if (!grid || !loadMoreBtn) return;
 
     // Show 2 rows per click on desktop (3 cards per row -> 6 cards)
@@ -346,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // If no hidden cards remain, hide the button
+        // If no hidden cards remain hide the button
         if (!grid.querySelector('.explore-card.is-hidden')) {
             loadMoreBtn.style.display = 'none';
         }
@@ -491,3 +490,36 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 );
+
+document.addEventListener('DOMContentLoaded', function () {
+    // "Hold to view" for new password
+    const pwInput = document.getElementById('new_password');
+    const toggleBtn = document.getElementById('hold-view-password');
+
+    if (pwInput && toggleBtn) {
+        const show = () => { pwInput.type = 'text'; };
+        const hide = () => { pwInput.type = 'password'; };
+
+        toggleBtn.addEventListener('mousedown', show);
+        toggleBtn.addEventListener('touchstart', show);
+
+        toggleBtn.addEventListener('mouseup', hide);
+        toggleBtn.addEventListener('mouseleave', hide);
+        toggleBtn.addEventListener('touchend', hide);
+        toggleBtn.addEventListener('touchcancel', hide);
+    }
+
+    // Confirm popup for delete account
+    const deleteForm = document.getElementById('delete-account-form');
+    if (deleteForm) {
+        deleteForm.addEventListener('submit', function (e) {
+            const ok = confirm(
+                "Are you sure you want to delete your account?\n\n" +
+                "This is permanent and cannot be undone."
+            );
+            if (!ok) {
+                e.preventDefault();
+            }
+        });
+    }
+});

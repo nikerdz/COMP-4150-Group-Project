@@ -6,20 +6,6 @@ require_once(MODELS_PATH . 'User.php');
 
 session_start();
 
-/**
- * Check if a user meets the restrictions for an event.
- *
- * Event conditions (from your DB):
- *  - 'none'
- *  - 'women_only'
- *  - 'undergrad_only'
- *  - 'first_year_only'
- *
- * User fields (from User table):
- *  - gender (VARCHAR(20))
- *  - level_of_study ENUM('undergraduate', 'graduate')
- *  - year_of_study INT
- */
 function userMeetsEventCondition(array $user, array $event): bool
 {
     $condition = $event['event_condition'] ?? 'none';
@@ -31,7 +17,6 @@ function userMeetsEventCondition(array $user, array $event): bool
 
     switch ($condition) {
         case 'women_only':
-            // Accept common variants like "female", "woman", etc.
             return in_array($gender, ['female', 'woman', 'girl', 'f'], true);
 
         case 'undergrad_only':
@@ -86,9 +71,6 @@ if (!$event) {
 // Prevent registration for past events
 // --------------------------
 //
-// Event table: event_date DATETIME
-// If event_date is set and is < NOW(), block registration.
-//
 if (!empty($event['event_date'])) {
     try {
         $eventDate = new DateTime($event['event_date']);
@@ -100,7 +82,7 @@ if (!empty($event['event_date'])) {
             exit;
         }
     } catch (Exception $e) {
-        // If parsing fails for some reason, treat it as a past/invalid event
+        // If parsing fails treat it as a past/invalid event
         $_SESSION['error'] = 'This event is not available for registration.';
         header('Location: ' . PUBLIC_URL . 'event/view-event.php?id=' . $eventId);
         exit;
@@ -128,7 +110,6 @@ if (!userMeetsEventCondition($user, $event)) {
 
 // --------------------------
 // Paid vs free event
-// (only send to pay page AFTER passing restriction + date checks)
 // --------------------------
 $fee = (float)($event['event_fee'] ?? 0);
 if ($fee > 0) {

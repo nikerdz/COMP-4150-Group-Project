@@ -42,7 +42,7 @@ if ($payment && (float)($payment['amount'] ?? 0) > 0) {
     $message = 'You have been unregistered from this event.';
 }
 
-// Remove registration (this will also delete Payment due to ON DELETE CASCADE)
+// Remove registration and this will also delete Payment
 $registrationModel->unregister($userId, $eventId);
 
 $_SESSION['toast_message'] = $message;

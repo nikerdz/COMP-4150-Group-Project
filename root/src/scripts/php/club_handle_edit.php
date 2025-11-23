@@ -82,7 +82,7 @@ $updateData = [
 if ($clubModel->updateClub($clubId, $updateData)) {
     // Set toast message for next page
     $_SESSION['toast_message'] = "Club updated successfully.";
-    $_SESSION['toast_type'] = "success"; // optional for different styling
+    $_SESSION['toast_type'] = "success"; 
 
     // Redirect to view-club.php
     header("Location: " . PUBLIC_URL . "club/view-club.php?id=" . $clubId);

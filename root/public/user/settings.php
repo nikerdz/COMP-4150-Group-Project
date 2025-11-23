@@ -170,42 +170,5 @@ unset($_SESSION['settings_error'], $_SESSION['settings_success']);
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>
-
-<!-- Page-specific JS so you can easily remove it later if you want -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // "Hold to view" for new password
-    const pwInput = document.getElementById('new_password');
-    const toggleBtn = document.getElementById('hold-view-password');
-
-    if (pwInput && toggleBtn) {
-        const show = () => { pwInput.type = 'text'; };
-        const hide = () => { pwInput.type = 'password'; };
-
-        toggleBtn.addEventListener('mousedown', show);
-        toggleBtn.addEventListener('touchstart', show);
-
-        toggleBtn.addEventListener('mouseup', hide);
-        toggleBtn.addEventListener('mouseleave', hide);
-        toggleBtn.addEventListener('touchend', hide);
-        toggleBtn.addEventListener('touchcancel', hide);
-    }
-
-    // Confirm popup for delete account
-    const deleteForm = document.getElementById('delete-account-form');
-    if (deleteForm) {
-        deleteForm.addEventListener('submit', function (e) {
-            const ok = confirm(
-                "Are you sure you want to delete your account?\n\n" +
-                "This is permanent and cannot be undone."
-            );
-            if (!ok) {
-                e.preventDefault();
-            }
-        });
-    }
-});
-</script>
-
 </body>
 </html>

@@ -7,20 +7,6 @@ require_once(MODELS_PATH . 'User.php');
 
 session_start();
 
-/**
- * Check if a user meets the restrictions for an event.
- *
- * Event conditions (from your DB):
- *  - 'none'
- *  - 'women_only'
- *  - 'undergrad_only'
- *  - 'first_year_only'
- *
- * User fields (from User table):
- *  - gender (VARCHAR(20))
- *  - level_of_study ENUM('undergraduate', 'graduate')
- *  - year_of_study INT
- */
 function userMeetsEventCondition(array $user, array $event): bool
 {
     $condition = $event['event_condition'] ?? 'none';
@@ -32,7 +18,6 @@ function userMeetsEventCondition(array $user, array $event): bool
 
     switch ($condition) {
         case 'women_only':
-            // Accept common variants like "female", "woman", etc.
             return in_array($gender, ['female', 'woman', 'girl', 'f'], true);
 
         case 'undergrad_only':
@@ -65,7 +50,7 @@ if ($eventId <= 0) {
     exit;
 }
 
-// Clean up card fields (remove spaces)
+// Clean up card fields 
 $cardNumber = preg_replace('/\s+/', '', $cardNumberRaw);
 $expiry     = preg_replace('/\s+/', '', $expiryRaw);
 $cvv        = preg_replace('/\s+/', '', $cvvRaw);
@@ -81,7 +66,7 @@ if (!ctype_digit($cardNumber) || strlen($cardNumber) < 13 || strlen($cardNumber)
     exit;
 }
 
-// Expiry: MMYY (4 digits)
+// Expiry: MMYY 
 if (!ctype_digit($expiry) || strlen($expiry) !== 4) {
     $_SESSION['error'] = 'Please enter expiry in MMYY format.';
     header('Location: ' . PUBLIC_URL . 'event/pay-event.php?id=' . $eventId);
@@ -98,7 +83,7 @@ if ($expMonth < 1 || $expMonth > 12) {
     exit;
 }
 
-// Convert YY -> 20YY (simple assumption)
+// Convert YY -> 20YY
 $expYear = 2000 + $expYear2;
 
 // Build expiry DateTime as last second of that month
@@ -162,7 +147,7 @@ if (!empty($event['event_date'])) {
             exit;
         }
     } catch (Exception $e) {
-        // If parsing fails, block registration
+        // If parsing fails block registration
         $_SESSION['error'] = 'This event is not available for registration.';
         header('Location: ' . PUBLIC_URL . 'event/view-event.php?id=' . $eventId);
         exit;
@@ -197,7 +182,7 @@ if ($fee <= 0) {
     exit;
 }
 
-// Capacity check (safety)
+// Capacity check 
 $capacity = $event['capacity'] !== null ? (int)$event['capacity'] : null;
 if ($capacity !== null) {
     $currentCount = $registrationModel->countRegistrations($eventId);
@@ -222,7 +207,7 @@ if (!$registration) {
 
 $registrationId = (int)$registration['registration_id'];
 
-// Ensure payment record exists, then mark as completed
+// Ensure payment record exists then mark as completed
 $payment = $paymentModel->getPaymentByRegistration($registrationId);
 if (!$payment) {
     $paymentModel->createPending($registrationId, $fee, $paymentMethod);

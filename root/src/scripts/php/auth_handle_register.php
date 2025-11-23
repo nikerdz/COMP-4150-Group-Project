@@ -45,7 +45,7 @@ $interests = isset($_POST['interests']) && is_array($_POST['interests'])
     ? $_POST['interests']
     : [];
 
-// Simple year validation (optional, can be empty)
+// Simple year validation
 $year = null;
 if ($yearRaw !== null && $yearRaw !== '') {
     if (!ctype_digit((string)$yearRaw)) {

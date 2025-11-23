@@ -7,10 +7,10 @@ require_once(MODELS_PATH . 'Club.php');
 
 session_start();
 
-// Ensure user is logged in
+// user is logged in
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['error'] = "You must be logged in to add an event.";
-    // ✅ Redirect to the correct login page
+    // Redirect to the correct login page
     header("Location: " . PUBLIC_URL . 'login.php');
     exit;
 }
@@ -67,7 +67,7 @@ $data = [
 
 // Insert event
 if ($eventModel->createEvent($data)) {
-    // Use toast message for view-club.php ONLY
+    // Use toast message for view-club.php 
     $_SESSION['toast_message'] = "Event '{$eventName}' created successfully, pending Admin approval!";
     $_SESSION['toast_type']    = 'success';
 

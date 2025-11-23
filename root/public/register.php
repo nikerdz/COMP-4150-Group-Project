@@ -19,7 +19,7 @@ $allCategories = $clubModel->getAllCategories();
     <meta property="og:description" content="Join ClubHub and explore clubs, events, and connect with fellow students on campus.">
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
     <meta property="og:url" content="https://khan661.myweb.cs.uwindsor.ca/COMP-4150-Group-Project/root/public/">
-    <meta property="og:type" content="website"> <!-- Enhance link previews when shared on Facebook, LinkedIn, and other platforms -->
+    <meta property="og:type" content="website">
 
     <title>ClubHub | Register</title>
 
@@ -42,7 +42,7 @@ $allCategories = $clubModel->getAllCategories();
                 <p class="contact-error" style="text-align:center; color:#d9534f; font-weight:bold; margin-bottom:10px;">
                     <?php 
                         echo htmlspecialchars($_SESSION['register_error']); 
-                        unset($_SESSION['register_error']); // clear it so it doesn't persist
+                        unset($_SESSION['register_error']);
                     ?>
                 </p>
             <?php endif; ?>

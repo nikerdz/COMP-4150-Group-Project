@@ -1,6 +1,6 @@
 <?php
 
-// Helper used by club-card.php
+// Helper functions
 function prettyCondition(?string $cond): string
 {
     return match ($cond) {

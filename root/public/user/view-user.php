@@ -102,7 +102,7 @@ if (!isset($_SESSION['recent_items']) || !is_array($_SESSION['recent_items'])) {
     $_SESSION['recent_items'] = [];
 }
 
-// We always track the target user as a recent item
+// always track the target user as a recent item
 $recentUserId = $targetUserId;
 
 // Remove existing entry for this user
@@ -308,7 +308,6 @@ $recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
                             </div>
                         </div>
 
-                        <!-- SAME-LINE ECHO TO AVOID BLANK FIRST LINE -->
                         <p class="comment-body"><?= nl2br(htmlspecialchars($c['comment_message'])) ?></p>
 
                     </li>

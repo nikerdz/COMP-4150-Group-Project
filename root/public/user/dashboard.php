@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id'])) {
 // Get logged-in user's info
 $userId = (int)$_SESSION['user_id'];
 
-// First name for greeting – supports both session keys
+// First name for greeting
 if (!empty($_SESSION['first_name'])) {
     $firstName = htmlspecialchars($_SESSION['first_name'], ENT_QUOTES, 'UTF-8');
 } elseif (!empty($_SESSION['user_name'])) {
@@ -27,7 +27,6 @@ if (!empty($_SESSION['first_name'])) {
     $firstName = 'there';
 }
 
-// Instantiate models
 $userModel         = new User();
 $clubModel         = new Club();
 $eventModel        = new Event();
@@ -37,7 +36,6 @@ $registrationModel = new Registration();
 // Fetch clubs the user is a member of
 $myClubs = $membershipModel->getClubsForUser($userId);
 
-// Build a quick lookup of club IDs the user already belongs to
 $myClubIds = [];
 foreach ($myClubs as $myClub) {
     if (isset($myClub['club_id'])) {
@@ -53,7 +51,7 @@ $upcomingEvents = $registrationModel->getUpcomingEventsForUser($userId, 6);
 // ------------------------------
 
 // Get the user's interest category IDs from User_Interests
-$interestCategoryIds = $userModel->getInterestCategoryIds($userId); // returns array of category_id
+$interestCategoryIds = $userModel->getInterestCategoryIds($userId);
 
 $recommendedClubs = [];
 
@@ -67,12 +65,11 @@ if (!empty($interestCategoryIds)) {
         }
 
         // Get clubs tagged with this interest category
-        // searchClubs(search, categoryId, condition, limit, offset)
         $clubsForCategory = $clubModel->searchClubs(
-            null,        // no text search
-            $catId,      // this category
-            'any',       // ignore condition filter
-            50,          // up to 50 per category (you can tweak this)
+            null,    
+            $catId,  
+            'any',   
+            50, 
             0
         );
 
@@ -84,7 +81,7 @@ if (!empty($interestCategoryIds)) {
                 continue;
             }
 
-            // Skip if we've already added this club from another category
+            // Skip if already added this club from another category
             if (isset($seenClubIds[$cid])) {
                 continue;
             }
@@ -142,7 +139,7 @@ if (!empty($_SESSION['recent_items']) && is_array($_SESSION['recent_items'])) {
     }
 }
 
-// Already stored newest-first; just in case, cap at 10
+// just in case, cap at 10
 $recentCombined = array_slice($recentCombined, 0, 10);
 
 ?>

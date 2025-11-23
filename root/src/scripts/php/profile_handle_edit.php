@@ -55,19 +55,18 @@ try {
         'year_of_study'   => $yearRaw === '' ? null : (int)$yearRaw
     ]);
 
-    // Update interests in the junction table
+    // Update interests
     $userModel->updateInterests($userId, $interests);
 
-    // Keep first name fresh in session for header/dashboard
     $_SESSION['first_name'] = $firstName;
 
     // Clear any old errors
     unset($_SESSION['profile_error']);
 
-    // Flash success message for profile.php
+    // Flash success
     $_SESSION['profile_success'] = "Profile updated successfully.";
 
-    // Redirect to profile (toast will show there)
+    // Redirect to profile
     header("Location: " . USER_URL . "profile.php");
     exit();
 

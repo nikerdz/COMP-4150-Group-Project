@@ -33,7 +33,7 @@ $search     = isset($_GET['q']) ? trim($_GET['q']) : '';
 $categoryId = isset($_GET['category']) && $_GET['category'] !== '' ? (int)$_GET['category'] : null;
 $condition  = isset($_GET['condition']) && $_GET['condition'] !== '' ? $_GET['condition'] : null;
 
-// New: clubs / events filters
+// clubs / events filters
 $clubFilter  = isset($_GET['club_filter'])  ? $_GET['club_filter']  : 'all';
 $eventFilter = isset($_GET['event_filter']) ? $_GET['event_filter'] : 'all';
 
@@ -54,13 +54,12 @@ $searchPlaceholder = match ($view) {
     default  => "Search clubs or events (e.g. 'Chess')",
 };
 
-// For “Load more” we’ll fetch up to this many total items
 $MAX_ITEMS = 50;
 
 // Get categories for filter dropdown
 $categories = $clubModel->getAllCategories();
 
-// Pre-compute membership / registration lists only if needed
+// Pre-compute membership / registration lists
 $userClubIds = [];
 if (($view === 'all' || $view === 'clubs') && $clubFilter !== 'all') {
     $userClubs   = $membershipModel->getClubsForUser($userId);
@@ -90,7 +89,6 @@ if ($view === 'all' || $view === 'clubs') {
                 default        => true,
             };
         });
-        // Reindex
         $clubs = array_values($clubs);
     }
 }
@@ -98,7 +96,7 @@ if ($view === 'all' || $view === 'clubs') {
 if ($view === 'all' || $view === 'events') {
     $events = $eventModel->searchEvents($search, $categoryId, $condition, $MAX_ITEMS, 0);
 
-    // 🔥 Keep ONLY upcoming events (not cancelled, event_date in future or NULL)
+    // Keep ONLY upcoming events
     $now = date('Y-m-d H:i:s');
     if (!empty($events)) {
         $events = array_filter($events, function (array $event) use ($now) {
@@ -109,18 +107,17 @@ if ($view === 'all' || $view === 'events') {
 
             $date = $event['event_date'] ?? null;
             if (empty($date)) {
-                // Treat events with no date as "upcoming" placeholders
+                // Treat events with no date as "upcoming" 
                 return true;
             }
 
-            // event_date is in 'Y-m-d H:i:s' format so string compare is safe
             return $date >= $now;
         });
 
         $events = array_values($events);
     }
 
-    // Apply events registration filter (on the already-upcoming events)
+    // Apply events registration filter on the already-upcoming events
     if ($eventFilter !== 'all' && !empty($events)) {
         $events = array_filter($events, function (array $event) use ($eventFilter, $registeredEventIds) {
             $isRegistered = in_array($event['event_id'], $registeredEventIds, true);
@@ -154,7 +151,7 @@ foreach ($events as $e) {
     ];
 }
 
-// Sort by name (club_name or event_name)
+// Sort by club_name or event_name
 usort($items, function ($a, $b) {
     $nameA = $a['type'] === 'club'
         ? ($a['data']['club_name'] ?? '')
@@ -167,7 +164,7 @@ usort($items, function ($a, $b) {
     return strcasecmp($nameA, $nameB);
 });
 
-// How many cards visible initially
+// 12 cards visible initially
 $VISIBLE_COUNT = 12;
 $totalItems    = count($items);
 ?>
@@ -232,7 +229,6 @@ $totalItems    = count($items);
 
             <!-- Collapsible filters panel -->
             <div class="explore-filter-panel" id="exploreFilterPanel">
-                <!-- Showing (view) -->
                 <div class="explore-filter-group explore-filter-group--showing">
                     <span class="explore-filter-label">Showing</span>
                     <div class="explore-view-options">
@@ -323,7 +319,7 @@ $totalItems    = count($items);
                     </div>
                 </div>
 
-                <!-- Apply / Reset on the right -->
+                <!-- Apply / Reset  -->
                 <div class="explore-filter-actions">
                     <button type="submit" class="explore-apply-btn">Apply</button>
                     <a

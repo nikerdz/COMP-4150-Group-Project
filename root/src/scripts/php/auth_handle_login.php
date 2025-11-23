@@ -11,9 +11,7 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
-/**
- * Helper: store error in session and redirect
- */
+ //Helper: store error in session and redirect
 function login_error_and_back(string $message): void {
     $_SESSION['login_error'] = $message;
     header("Location: " . PUBLIC_URL . "login.php");
@@ -54,14 +52,14 @@ try {
         login_error_and_back("Incorrect password.");
     }
 
-    // Login successful - Set session values
+    // Login successful and Set session values
     $_SESSION['user_id']       = $user['user_id'];
     $_SESSION['user_email']    = $user['user_email'];
 
-    // Name pulled directly from the DB row we just fetched
+    // Name pulled directly from the DB row just fetched
     $_SESSION['first_name']    = $user['first_name'] ?? '';
     $_SESSION['last_name']     = $user['last_name'] ?? '';
-    $_SESSION['user_name']     = $user['first_name'] ?? ''; // alias if you want
+    $_SESSION['user_name']     = $user['first_name'] ?? '';
 
     $_SESSION['is_admin']      = (!empty($user['user_type']) && $user['user_type'] === 'admin');
 

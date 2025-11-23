@@ -26,7 +26,7 @@ if ($success) {
     header("Location: " . CLUB_URL . "view-club.php?id=" . $clubId);
     exit;
 } else {
-    // Could not leave (maybe not a member or DB error)
+    // Could not leave 
     $_SESSION['error'] = "Could not leave the club or you are not a member.";
     header("Location: " . CLUB_URL . "view-club.php?id=" . $clubId);
     exit;

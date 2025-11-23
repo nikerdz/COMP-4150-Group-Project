@@ -42,7 +42,7 @@ if (!password_verify($password, $user['user_password'])) {
 }
 
 try {
-    // Delete user; ON DELETE CASCADE will clean up related tables.
+    // Delete user ON DELETE CASCADE will clean up related tables
     $userModel->deleteUser($userId);
 
     session_unset();

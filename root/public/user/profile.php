@@ -35,7 +35,7 @@ if (!$user) {
     exit();
 }
 
-// Keep first name in session for other pages (dashboard, etc.)
+// Keep first name in session for other pages
 $_SESSION['first_name'] = $user['first_name'] ?? '';
 
 // Profile display values
@@ -60,25 +60,25 @@ if ($genderUpper === 'F') {
     $avatarClass .= ' profile-avatar-male';
 }
 
-// Get upcoming events user is registered for (max 6 rows from DB)
+// Get upcoming events user is registered for max 6 rows
 $upcomingEvents = $registrationModel->getUpcomingEventsForUser($userId, 6);
 $eventCount     = count($upcomingEvents);
 
-// Get clubs user is a member of (all of them)
+// Get all clubs user is a member of
 $userClubs = $membershipModel->getClubsForUser($userId);
 $clubCount = count($userClubs);
 
-// Limit how many we SHOW on profile
+// show 3 on profile
 $MAX_PROFILE_ITEMS = 3;
 
 $displayEvents = array_slice($upcomingEvents, 0, $MAX_PROFILE_ITEMS);
 $displayClubs  = array_slice($userClubs,      0, $MAX_PROFILE_ITEMS);
 
-// Show-more only if there are MORE than 3
+// Show-more only if there are more than 3
 $hasMoreEvents = $eventCount > $MAX_PROFILE_ITEMS;
 $hasMoreClubs  = $clubCount  > $MAX_PROFILE_ITEMS;
 
-// Success message from profile_handle_update.php (session flash)
+// Success message from profile_handle_update.php
 $profileSuccess = $_SESSION['profile_success'] ?? null;
 if ($profileSuccess !== null) {
     $profileSuccess = htmlspecialchars($profileSuccess, ENT_QUOTES, 'UTF-8');
@@ -304,7 +304,6 @@ $isSelf          = true; // you are viewing your own profile
                             </div>
                         </div>
 
-                        <!-- SAME-LINE ECHO LIKE view-event.php -->
                         <p class="comment-body"><?= nl2br(htmlspecialchars($c['comment_message'])) ?></p>
 
                     </li>

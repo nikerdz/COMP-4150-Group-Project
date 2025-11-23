@@ -1,6 +1,4 @@
 <?php
-// Handle "Create Club" form submission (POST from add-club.php)
-
 require_once(__DIR__ . '/../../config/constants.php');
 require_once(CONFIG_PATH . 'db_config.php');
 require_once(MODELS_PATH . 'Club.php');
@@ -47,13 +45,12 @@ if (!in_array($condition, $allowedConditions, true)) {
 $clubModel       = new Club();
 $membershipModel = new Membership();
 
-// We need raw PDO as well for tags + Executive insert
 global $pdo;
 
 try {
     $pdo->beginTransaction();
 
-    // 1) Insert into Club table via model
+    // Insert into Club table via model
     $created = $clubModel->create([
         'club_name'        => $name,
         'club_email'       => $email !== '' ? $email : null,
@@ -72,7 +69,7 @@ try {
         throw new Exception('Could not determine new club ID.');
     }
 
-    // 2) Insert selected categories into Club_Tags
+    // Insert selected categories into Club_Tags
     if (!empty($categories) && is_array($categories)) {
         $stmtTag = $pdo->prepare("
             INSERT IGNORE INTO Club_Tags (club_id, category_id)
@@ -92,10 +89,10 @@ try {
         }
     }
 
-    // 3) Add creator as a member
+    // Add creator as a member
     $membershipModel->join($userId, $clubId);
 
-    // 4) Add creator as an executive
+    // Add creator as an executive
     $stmtExec = $pdo->prepare("
         INSERT INTO Executive (user_id, club_id, executive_role)
         VALUES (:uid, :cid, 'Executive')
@@ -110,18 +107,16 @@ try {
     // All good
     $pdo->commit();
 
-    // ✅ Flash success toast message for next page
+    // Flash success toast message for next page
     $_SESSION['club_add_success'] = 'Your club has been created!';
 
-    // Redirect to the club’s page (this is “whichever page” that will show the toast)
+    // Redirect to the club’s page
     header("Location: " . PUBLIC_URL . "club/view-club.php?id=" . $clubId);
     exit();
 } catch (Exception $e) {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }
-
-    // Optional: log $e->getMessage() somewhere
 
     $_SESSION['club_add_error'] = 'Could not create club. Please try again.';
     header("Location: " . CLUB_URL . "add-club.php");
