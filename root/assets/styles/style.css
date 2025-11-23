@@ -5,7 +5,6 @@
 @import url('templates/colours.css');
 @import url('templates/header.css');
 @import url('templates/footer.css');
-@import url('templates/navbar.css');
 @import url('templates/landing.css');
 @import url('templates/sidebar.css');
 @import url('templates/auth.css');
@@ -21,8 +20,7 @@
 @import url("templates/comment.css");
 @import url("templates/edit-event.css");
 @import url('templates/admin-users.css');
-
-
+@import url('templates/notif.css');
 
 .is-hidden {
     display: none !important;

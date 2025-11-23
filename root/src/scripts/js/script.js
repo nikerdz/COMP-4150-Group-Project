@@ -34,6 +34,104 @@ function toggleSidebar() {
     }
 }
 
+function toggleNotifications() {
+    const box = document.getElementById('notificationsPopup');
+    box.classList.toggle('active');
+}
+
+function toggleNotification(id, el) {
+    fetch(PHP_URL + "notif_handle_toggle.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "id=" + id
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) return;
+
+        // Get the <a> element inside the pill
+        const link = el.querySelector("a");
+
+        if (data.newStatus === "read") {
+            el.classList.remove("notif-card-pill-unread");
+            el.classList.add("notif-card-pill-read");
+            link.textContent = "Mark Unread";
+        } else {
+            el.classList.remove("notif-card-pill-read");
+            el.classList.add("notif-card-pill-unread");
+            link.textContent = "Mark Read";
+        }
+
+        // Change notif icon (gif/png)
+        refreshNotifIcon();
+    });
+}
+
+function refreshNotifIcon() {
+    fetch(PHP_URL + "notif_handle_status_check.php")
+        .then(res => res.json())
+        .then(data => {
+            const icon = document.getElementById("notifIcon");
+            if (data.unread) icon.src = IMG_URL + "btn/notif.gif";
+            else icon.src = IMG_URL + "btn/notif.png";
+        });
+}
+
+
+function markNotifRead(id, element) {
+    fetch(PHP_URL + "notif_handle_read.php?id=" + id)
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+
+            element.classList.remove('notif-card-pill-read');
+            element.classList.add('notif-card-pill-unread');
+
+            element.innerHTML = `
+                <a class="notif-card-link"
+                   onclick="markNotifUnread(${id}, this.parentElement)">
+                    Mark as Unread
+                </a>
+            `;
+
+            updateNotifIcon();
+        }
+    });
+}
+
+function markNotifUnread(id, element) {
+    fetch(PHP_URL + "notif_handle_unread.php?id=" + id)
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+
+            element.classList.remove('notif-card-pill-unread');
+            element.classList.add('notif-card-pill-read');
+
+            element.innerHTML = `
+                <a class="notif-card-link"
+                   onclick="markNotifRead(${id}, this.parentElement)">
+                    Mark as Read
+                </a>
+            `;
+
+            updateNotifIcon();
+        }
+    });
+}
+
+function updateNotifIcon() {
+    const icon = document.getElementById("notifIcon");
+
+    fetch(`${PHP_URL}notif_handle_status_check.php`)
+    .then(res => res.json())
+    .then(data => {
+        icon.src = data.unread ? 
+            `${IMG_URL}btn/notif.gif` :
+            `${IMG_URL}btn/notif.png`;
+    });
+}
+
 const scrollBtn = document.getElementById('scrollTopBtn');
 
 if (scrollBtn) {

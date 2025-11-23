@@ -1,7 +1,30 @@
+<script>
+    const PHP_URL = "<?php echo PHP_URL; ?>";
+    const IMG_URL = "<?php echo IMG_URL; ?>";
+</script>
+
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-?>
 
+require_once(MODELS_PATH . 'Notification.php');
+require_once(CONFIG_PATH . 'constants.php');
+
+// Fetch notifications ONLY if user logged in
+$notifications = [];
+$unreadCount = 0;
+
+if (isset($_SESSION['user_id'])) {
+    $notifModel = new Notification();
+    $notifications = $notifModel->getAllForUser($_SESSION['user_id']);
+
+    // Count unread ones
+    foreach ($notifications as $n) {
+        if ($n['notification_status'] === 'unread') {
+            $unreadCount++;
+        }
+    }
+}
+?>
 <header>
     <nav class="header">
         <div class="container">
@@ -25,10 +48,16 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 
             <div class="header-right">
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <button class="header-btn" onclick="toggleNotifications()">
-                        <img src="<?php echo IMG_URL; ?>btn/notif.png">
-                    </button>
+                    <?php
+                        $unreadNotifications = $notifModel->getUnread($_SESSION['user_id']);
+                        $hasUnread = !empty($unreadNotifications);
+                        $notifIcon = $hasUnread ? 'notif.gif' : 'notif.png';
+                        ?>
 
+                        <button class="header-btn" onclick="toggleNotifications()">
+                            <img src="<?php echo IMG_URL . 'btn/' . $notifIcon; ?>" id="notifIcon">
+                        </button>
+    
                     <button class="header-btn" onclick="window.location.href='<?php echo PHP_URL; ?>auth_handle_logout.php'">
                         <img src="<?php echo IMG_URL; ?>btn/logout.png">
                     </button>
@@ -42,6 +71,23 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         </div>
     </nav>
 </header>
+
+<!-- Notification Popup -->
+<div id="notificationsPopup" class="notif-popup">
+    <div class="notif-popup-inner">
+
+        <h3>Notifications</h3>
+
+        <?php if (empty($notifications)): ?>
+            <p class="no-notifs">No notifications yet.</p>
+        <?php else: ?>
+            <?php foreach ($notifications as $notif): ?>
+                <?php include(LAYOUT_PATH . 'notif-card.php'); ?>
+                <br>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</div>
 
 
 <!-- Sidebar -->

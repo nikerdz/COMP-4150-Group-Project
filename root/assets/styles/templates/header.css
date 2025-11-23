@@ -1,7 +1,6 @@
 /* ==========================
    Header
 ========================== */
-@import url('templates/colours.css');
 
 .header {
     background: var(--light-blue);

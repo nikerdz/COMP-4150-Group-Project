@@ -1,7 +1,6 @@
 /* ==========================
    Hero Section 
 ========================== */
-@import url('templates/colours.css');
 
 .hero-section {
     background: linear-gradient(to bottom, var(--cream), var(--light-blue));

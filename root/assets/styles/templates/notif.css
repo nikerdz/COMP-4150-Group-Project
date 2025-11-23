@@ -1,0 +1,190 @@
+/* ==========================
+   Notification Sidebar (Right Side)
+========================== */
+.notif-popup {
+    position: fixed;
+    top: 50%;
+    right: -320px; /* hidden off-screen */
+    transform: translateY(-50%);
+    
+    width: min(300px, 80vw);
+    max-height: 80vh;
+    height: auto;
+
+    background: linear-gradient(to bottom, var(--cream), var(--light-blue));
+    border-radius: 20px 0 0 20px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+
+    z-index: 2000;
+    transition: right 0.3s ease;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.notif-popup.active {
+    right: 0;
+}
+
+.notif-popup-inner h3 {
+    font-size: 1.7rem;
+    text-align: center;
+    margin: 0 0 10px;
+    font-family: "Cubao", sans-serif;
+    font-weight: lighter;
+    color: var(--dark-blue);
+}
+
+.notif-popup-inner p {
+    text-align: center;
+}
+
+.notif-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notif-list li {
+    color: var(--dark-blue);
+    padding: 14px 16px;
+    text-align: center;
+    font-family: "JosefinSans", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+
+}
+
+/* ==========================
+   Notification Overlay
+========================== */
+.notif-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1500;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.notif-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.notif-card {
+    background: var(--cream);
+    padding: 14px 16px;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: 0.15s ease;
+}
+
+.notif-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.notif-card-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.notif-card-type {
+    font-weight: bold;
+}
+
+.notif-type-reminder { 
+    color: #0a7;
+}
+
+.notif-type-announcement { 
+    color: #c90; 
+
+}
+.notif-type-update { 
+    color: #06c; 
+}
+
+.notif-card-message {
+    text-align: left !important;
+    font-size: 0.95rem;
+    margin: 4px 0;
+}
+
+.notif-card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.notif-card-pill {
+    background: var(--dark-blue);
+    width: fit-content;
+    border-radius: 999px;
+    padding: 2px 8px;
+    transition: 0.3s ease;
+}
+
+.notif-card-pill-read {
+    background: var(--red);
+    width: fit-content;
+    border-radius: 999px;
+    padding: 2px 8px;
+    transition: 0.3s ease;
+    cursor:pointer;
+}
+
+.notif-card-pill-unread {
+    background: var(--red);
+    width: fit-content;
+    border-radius: 999px;
+    padding: 2px 8px;
+    transition: 0.3s ease;
+    cursor:pointer;
+}
+
+.notif-card-pill-unread:hover,
+.notif-card-pill-read:hover,
+.notif-card-pill:hover {
+    width: fit-content;
+    border-radius: 999px;
+    padding: 2px 8px;
+    transform: scale(1.03);
+    transition: 0.3s ease;
+    cursor:pointer;
+}
+
+.notif-card-link {
+    font-size: 0.75rem;
+    text-align: right;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--cream);
+}
+
+
+@media (max-width: 480px) {
+    .notif-popup {
+        top: 0;
+        height: 100vh;
+        width: 75vw;
+        border-radius: 16px 0 0 16px;
+        transform: none;
+    }
+}
