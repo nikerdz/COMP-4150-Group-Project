@@ -337,7 +337,6 @@ $recentComments  = $commentModel->getCommentsForUser($targetUserId, 5);
     <?php unset($_SESSION['toast_message'], $_SESSION['toast_type']); ?>
 <?php endif; ?>
 
-<?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>

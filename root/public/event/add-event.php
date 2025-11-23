@@ -130,7 +130,6 @@ unset($_SESSION['error']);
     </div>
 </main>
 
-<?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?= JS_URL ?>script.js?v=<?= time(); ?>"></script>

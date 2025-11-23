@@ -445,7 +445,6 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
     ?>
 <?php endif; ?>
 
-<?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?php echo time(); ?>"></script>

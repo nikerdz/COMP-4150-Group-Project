@@ -472,7 +472,6 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
     <?php unset($_SESSION['toast_message'], $_SESSION['toast_type']); ?>
 <?php endif; ?>
 
-<?php include_once(LAYOUT_PATH . 'navbar.php'); ?>
 <?php include_once(LAYOUT_PATH . 'footer.php'); ?>
 
 <script src="<?php echo JS_URL; ?>script.js?v=<?= time(); ?>"></script>
