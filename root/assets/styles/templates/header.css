@@ -18,15 +18,14 @@
 }
 
 .header .container {
-  max-width: 1100px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 20px;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
 
-  display: grid;
-  grid-template-columns: max-content 1fr max-content;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .header-btn {
@@ -60,6 +59,14 @@
   display: block;
 
 }
+
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* buttons stay close together but not touching */
+}
+
 
 @media (max-width: 420px) {
   .header-btn img { width: 60px; } 

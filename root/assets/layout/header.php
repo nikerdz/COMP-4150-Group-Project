@@ -6,36 +6,43 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     <nav class="header">
         <div class="container">
 
-            <!-- Left Button: Sidebar -->
-            <button class="header-btn" onclick="toggleSidebar()">
-                <img src="<?php echo IMG_URL; ?>btn/menu.png" alt="Menu">
-            </button>
-
-            <!-- Logo in center -->
-            <a href="<?php echo PUBLIC_URL; ?>" class="logo">
-                <img src="<?php echo IMG_URL; ?>logo.png" alt="ClubHub Logo">
-            </a>
-
-            <!-- Right Button (Login OR Notifications) -->
-            <?php if (!isset($_SESSION['user_id'])): ?>
-                
-                <!-- User NOT logged in → show LOGIN icon -->
-                <a href="<?php echo PUBLIC_URL; ?>login.php" class="header-btn">
-                    <img src="<?php echo IMG_URL; ?>btn/login.png" alt="Login">
-                </a>
-
-            <?php else: ?>
-
-                <!-- User logged in → show NOTIFICATIONS icon -->
-                <button class="header-btn" onclick="window.location.href='<?php echo PHP_URL; ?>auth_handle_logout.php'">
-                    <img src="<?php echo IMG_URL; ?>btn/logout.png" alt="Logout">
+            <!-- Left Button: Sidebar and Back-->
+            <div class="header-left">
+                <button class="header-btn" onclick="toggleSidebar()">
+                    <img src="<?php echo IMG_URL; ?>btn/menu.png">
                 </button>
 
-            <?php endif; ?>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="header-btn" onclick="history.back()">
+                        <img src="<?php echo IMG_URL; ?>btn/back.png">
+                    </button>
+                <?php endif; ?>
+            </div>
+
+            <a href="<?php echo PUBLIC_URL; ?>" class="logo">
+                <img src="<?php echo IMG_URL; ?>logo.png">
+            </a>
+
+            <div class="header-right">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="header-btn" onclick="toggleNotifications()">
+                        <img src="<?php echo IMG_URL; ?>btn/notif.png">
+                    </button>
+
+                    <button class="header-btn" onclick="window.location.href='<?php echo PHP_URL; ?>auth_handle_logout.php'">
+                        <img src="<?php echo IMG_URL; ?>btn/logout.png">
+                    </button>
+                <?php else: ?>
+                    <a href="<?php echo PUBLIC_URL; ?>login.php" class="header-btn">
+                        <img src="<?php echo IMG_URL; ?>btn/login.png">
+                    </a>
+                <?php endif; ?>
+            </div>
 
         </div>
     </nav>
 </header>
+
 
 <!-- Sidebar -->
 <div id="sidebar" class="sidebar">
