@@ -81,11 +81,10 @@ $allCategories = $clubModel->getAllCategories();
                         <label for="faculty">Faculty</label>
                         <select id="faculty" name="faculty" required>
                             <option value="" disabled selected>Select your faculty</option>
-                            <option value="Arts, Humanities & Social Sciences">Arts, Humanities & Social Sciences</option>
-                            <option value="Odette School of Business">Business (Odette)</option>
+                            <option value="Arts, Humanities, & Social Sciences">Arts, Humanities, & Social Sciences</option>
+                            <option value="Odette School of Business">Odette School of Business</option>
                             <option value="Education">Education</option>
                             <option value="Engineering">Engineering</option>
-                            <option value="Graduate Studies">Graduate Studies</option>
                             <option value="Human Kinetics">Human Kinetics</option>
                             <option value="Law">Law</option>
                             <option value="Nursing">Nursing</option>
