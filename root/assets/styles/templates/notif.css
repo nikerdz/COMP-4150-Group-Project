@@ -4,7 +4,7 @@
 .notif-popup {
     position: fixed;
     top: 50%;
-    right: -320px; /* hidden off-screen */
+    right: -320px;
     transform: translateY(-50%);
     
     width: min(300px, 80vw);

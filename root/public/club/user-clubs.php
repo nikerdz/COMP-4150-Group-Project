@@ -1,5 +1,5 @@
 <?php
-// Shows all clubs the logged-in user is a member of (6 at a time with "Load more")
+// Shows all clubs the logged-in user is a member of
 require_once('../../src/config/constants.php');
 require_once('../../src/config/utils.php');
 require_once(MODELS_PATH . 'Membership.php');
@@ -40,7 +40,7 @@ if ($isSelf) {
     $displayName = htmlspecialchars($targetUser['first_name'] ?? 'User', ENT_QUOTES, 'UTF-8');
 }
 
-// Fetch ALL clubs this user is in
+// Fetch ALL clubs this user is in 
 $userClubs  = $membershipModel->getClubsForUser($targetUserId);
 $totalClubs = count($userClubs);
 

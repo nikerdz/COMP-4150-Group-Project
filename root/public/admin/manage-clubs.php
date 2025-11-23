@@ -156,7 +156,7 @@ $VISIBLE = 12;
                 <?php foreach ($clubs as $i => $club): ?>
                     <?php
                         $hiddenClass  = $i >= $VISIBLE ? 'admin-clubs-card-hidden' : '';
-                        $cardContext  = 'explore'; // reuse explore-style card layout
+                        $cardContext  = 'explore';
                         include LAYOUT_PATH . 'club-card.php';
                     ?>
                 <?php endforeach; ?>

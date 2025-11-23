@@ -94,7 +94,7 @@ $VISIBLE = 12;
                 </button>
             </div>
 
-            <!-- Collapsible filter panel (status filter) -->
+            <!-- Collapsible filter panel -->
             <div class="admin-users-filter-panel" id="adminUsersFilterPanel">
                 <div class="admin-users-filter-group">
                     <span class="admin-users-filter-label">User Status</span>
@@ -156,7 +156,6 @@ $VISIBLE = 12;
             <div class="admin-users-grid" id="adminUsersGrid">
                 <?php foreach ($users as $i => $user): ?>
                     <?php
-                        // hide beyond the first $VISIBLE
                         $hiddenClass = $i >= $VISIBLE ? 'admin-users-card-hidden' : '';
                         include LAYOUT_PATH . 'user-card.php';
                     ?>

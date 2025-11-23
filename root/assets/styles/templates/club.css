@@ -199,7 +199,7 @@
     box-shadow: 0 5px 14px rgba(0,0,0,0.25);
 }
 
-/* Secondary button: Settings (if needed later) */
+/* Secondary button: Settings */
 .club-settings-btn {
     background: var(--red);
     color: var(--cream);
@@ -340,12 +340,10 @@
     border: 1px solid rgba(40, 167, 69, 0.35);
 }
 
-/* Make the edit form feel similar to auth forms */
 .club-edit-form {
     margin-top: 4px;
 }
 
-/* Ensure <select> matches your auth input style */
 .auth-field select {
     padding: 10px 12px;
     border: 2px solid #1c348d;
@@ -503,7 +501,7 @@
 }
 
 /* ==========================
-   Club – Interests row (alt)
+   Club – Interests row
 ========================== */
 
 .club-interests-row {
@@ -569,7 +567,7 @@
     box-shadow: 0 5px 14px rgba(0,0,0,0.25);
 }
 
-/* Ensure form buttons (like leave/join) match link buttons */
+/* Ensure form button match link buttons */
 .club-actions form button {
     font-family: inherit;
 }
@@ -647,7 +645,7 @@
 
 .member-bubbles {
     display: flex;
-    gap: 10px; /* spacing between bubbles */
+    gap: 10px;
 }
 
 .member-item:hover {
@@ -699,7 +697,7 @@
     font-weight: 500;
 }
 
-/* Add Event Button – same style as Edit Club */
+/* Add Event Button */
 .club-add-event-btn {
     display: inline-block;
     padding: 8px 16px;

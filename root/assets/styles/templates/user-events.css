@@ -73,7 +73,7 @@
     gap: 18px;
 }
 
-/* Hide cards marked as is-hidden (for "Load more" logic) */
+/* Hide cards marked as is-hidden */
 .user-events-grid .is-hidden {
     display: none;
 }

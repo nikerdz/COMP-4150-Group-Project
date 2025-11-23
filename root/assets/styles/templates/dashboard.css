@@ -100,7 +100,7 @@
         filter 0.18s ease;
 }
 
-/* Hover effect ONLY when hovering the image/link */
+/* Hover effect */
 .quicklink-icon:hover img {
     transform: translateY(-3px) scale(1.05);
 }
@@ -126,9 +126,9 @@
 }
 
 
-/* ==========================
+/* =========================
    Dashboard – Sections
-========================== */
+========================= */
 
 .dashboard-section {
     background: linear-gradient(to bottom, var(--cream), var(--light-blue));

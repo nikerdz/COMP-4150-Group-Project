@@ -111,7 +111,7 @@ foreach ($clubEvents as $ev) {
     // ---------------------------
     if ($isAdmin && isset($ev['event_status']) && $ev['event_status'] === 'pending') {
         $pendingEvents[] = $ev;
-        continue;  // DO NOT process into upcoming/past
+        continue;
     }
 
     // ---------------------------
@@ -440,7 +440,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
         <?= htmlspecialchars($_SESSION['toast_message']) ?>
     </div>
     <?php
-        // Clear flash after displaying so it doesn't keep showing
+        // Clear flash after displaying so it doesn't keep showing 
         unset($_SESSION['toast_message'], $_SESSION['toast_type']);
     ?>
 <?php endif; ?>

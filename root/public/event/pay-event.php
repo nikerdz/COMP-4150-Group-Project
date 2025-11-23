@@ -69,7 +69,7 @@ unset($_SESSION['error']);
     <meta property="og:description" content="Join ClubHub and explore clubs, events, and connect with fellow students on campus.">
     <meta property="og:image" content="<?php echo IMG_URL; ?>logo_hub.png">
     <meta property="og:url" content="https://khan661.myweb.cs.uwindsor.ca/COMP-4150-Group-Project/root/public/">
-    <meta property="og:type" content="website"> <!-- Enhance link previews when shared on Facebook, LinkedIn, and other platforms -->
+    <meta property="og:type" content="website">
 
     <title>ClubHub | <?= htmlspecialchars($pageTitle) ?></title>
     <link rel="stylesheet" href="<?php echo STYLE_URL; ?>?v=<?= time(); ?>">
@@ -134,7 +134,7 @@ unset($_SESSION['error']);
                     </select>
                 </div>
 
-                <!-- Card info (digits only in UI) -->
+                <!-- Card info -->
                 <div class="auth-field">
                     <label for="card_number">Card Number</label>
                     <input

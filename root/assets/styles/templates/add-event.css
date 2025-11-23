@@ -1,6 +1,5 @@
 /* ==========================
    Add Event Page Styles
-   (similar look to auth card)
 ========================== */
 
 /* Main wrapper */
@@ -45,7 +44,7 @@
     gap: 18px;
 }
 
-/* Reuse auth-field blocks so inputs look consistent */
+/* Reuse auth-field blocks */
 .add-event-form .auth-field label {
     font-weight: bold;
     color: var(--dark-blue);

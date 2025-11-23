@@ -150,7 +150,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
         </section>
     <?php else: ?>
 
-        <!-- Event Hero (matches club hero vibe) -->
+        <!-- Event Hero -->
         <section class="event-hero">
             <div class="event-hero-inner">
                 <div class="event-avatar">
@@ -339,7 +339,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
             </div>
         </section>
 
-        <!-- Registrations Section (on the same page) -->
+        <!-- Registrations Section -->
         <section class="club-section">
             <div class="club-section-header">
                 <h2>Registrations</h2>
