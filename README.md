@@ -189,34 +189,34 @@ Core interactions still degrade gracefully if JavaScript is disabled; forms subm
 ## Screenshots
 
 - Landing page  
-  `![Landing page](images/dashboard.png)`
+  ![Landing page](images/dashboard.png)
 
 - Registration page  
-  `![Registration page](images/Register.png)`
+  ![Registration page](images/Register.png)
 
 - Login page  
-  `![Login page](images/Login.png)`
+  ![Login page](images/Login.png)
 
 - Profile page  
-  `![Profile page](images/profile.png)`
+  ![Profile page](images/profile.png)
 
 - Explore page (clubs & events)  
-  `![Explore page](images/explore.png)`
+  ![Explore page](images/explore.png)
 
 - Your Clubs page  
-  `![Your Clubs](images/clubs.png)`
+  ![Your Clubs](images/clubs.png)
 
 - Your Events page  
-  `![Your Events](images/events.png)`
+  ![Your Events](images/events.png)
 
 - Edit Club (executive view)  
-  `![Edit Club](images/edit_club.png)`
+  ![Edit Club](images/edit_club.png)
 
 - Admin dashboard  
-  `![Admin dashboard](images/admindash.png)`
+  ![Admin dashboard](images/admindash.png)
 
 - Manage Users (admin)  
-  `![Manage Users](images/manageusers.png)`
+  ![Manage Users](images/manageusers.png)
 
 ---
 
@@ -229,19 +229,19 @@ Core interactions still degrade gracefully if JavaScript is disabled; forms subm
    cd COMP-4150-Group-Project
    ```
 2. Set up XAMPP
-- Install XAMPP.
-- Place the project inside your htdocs directory, e.g.: C:\xampp\htdocs\COMP-4150-Group-Project
+    - Install XAMPP.
+    - Place the project inside your htdocs directory, e.g.: C:\xampp\htdocs\COMP-4150-Group-Project
 
 3. Create the database
-- Start Apache and MySQL from the XAMPP control panel.
-- Open phpMyAdmin and create a new database (e.g. clubhub).
-- Run the provided SQL scripts (schema, stored procedures, triggers, and sample data).
+    - Start Apache and MySQL from the XAMPP control panel.
+    - Open phpMyAdmin and create a new database (e.g. clubhub).
+    - Run the provided SQL scripts (schema, stored procedures, triggers, and sample data).
 
 4. Configure database connection
-- Update src/config/db_config.php with your local MySQL credentials and database name.
+    - Update src/config/db_config.php with your local MySQL credentials and database name.
 
 5. Access the site
-- Go to: http://localhost/COMP-4150-Group-Project/root/public/
+    - Go to: http://localhost/COMP-4150-Group-Project/root/public/
 
 ## Credits
 
