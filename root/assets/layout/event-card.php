@@ -1,4 +1,10 @@
 <?php
+// Ensure registration model exists
+if (!isset($registrationModel)) {
+    require_once(MODELS_PATH . 'Registration.php');
+    $registrationModel = new Registration();
+}
+
 // Defaults so we don't get "undefined variable" notices
 $cardContext = $cardContext ?? 'explore';
 $hiddenClass = $hiddenClass ?? '';
@@ -22,7 +28,22 @@ $clubId   = isset($event['club_id']) ? (int)$event['club_id'] : null;
         </a>
     </h3>
 
-    <span class="explore-pill explore-pill-event">Event</span>
+    <div class="pill-row">
+        <span class="explore-pill explore-pill-event">Event</span>
+        
+        <?php
+        $isRegistered = false;
+
+        if (isset($_SESSION['user_id'])) {
+            $isRegistered = $registrationModel->isRegistered($_SESSION['user_id'], (int)$event['event_id']);
+        }
+        ?>
+
+        <?php if ($isRegistered): ?>
+            <span class="explore-pill explore-pill-registered">Registered</span>
+        <?php endif; ?>
+    </div>
+
 
     <?php if (!empty($clubName)): ?>
         <p class="explore-meta">

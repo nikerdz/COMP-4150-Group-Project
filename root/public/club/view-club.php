@@ -4,6 +4,7 @@ require_once('../../src/config/utils.php');
 require_once(MODELS_PATH . 'Club.php');
 require_once(MODELS_PATH . 'Membership.php');
 require_once(MODELS_PATH . 'Event.php');
+require_once(MODELS_PATH . 'Registration.php');
 
 session_start();
 

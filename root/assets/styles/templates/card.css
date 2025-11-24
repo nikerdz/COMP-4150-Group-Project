@@ -215,6 +215,18 @@
     margin-bottom: 4px;
 }
 
+.explore-pill-registered {
+    width: fit-content;
+    background: var(--dark-blue);
+    color: var(--cream);
+}
+
+.pill-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
 
 /* ==========================
    Role pills for club cards

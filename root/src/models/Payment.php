@@ -25,67 +25,56 @@ class Payment
        ---------------------------------------------------- */
     public function createPending(int $registrationId, float $amount, string $method = 'cash'): bool
     {
-        $sql = "
-            INSERT INTO Payment (registration_id, amount, payment_status, payment_method)
-            VALUES (:rid, :amount, 'pending', :method)
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
-
         try {
+            $stmt = $this->pdo->prepare("CALL sp_payment_create_pending(:rid, :amount, :method)");
+
             return $stmt->execute([
                 ':rid'    => $registrationId,
                 ':amount' => $amount,
                 ':method' => $method
             ]);
+
         } catch (PDOException $e) {
-            // Avoid duplicate payments
-            return false;
+            return false; // duplicate or failure
         }
     }
+
 
     /* ----------------------------------------------------
        Mark payment as completed
        ---------------------------------------------------- */
     public function markCompleted(int $registrationId): bool
     {
-        $sql = "
-            UPDATE Payment
-            SET payment_status = 'completed', payment_date = NOW()
-            WHERE registration_id = :rid
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([':rid' => $registrationId]);
+        try {
+            $stmt = $this->pdo->prepare("CALL sp_payment_mark_completed(:rid)");
+            return $stmt->execute([':rid' => $registrationId]);
+        } catch (PDOException $e) {
+            return false;
+        }
     }
+
 
     /* ----------------------------------------------------
        Mark payment as refunded
        ---------------------------------------------------- */
     public function refund(int $registrationId): bool
     {
-        $sql = "
-            UPDATE Payment
-            SET payment_status = 'refunded', payment_date = NOW()
-            WHERE registration_id = :rid
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([':rid' => $registrationId]);
+        try {
+            $stmt = $this->pdo->prepare("CALL sp_payment_refund(:rid)");
+            return $stmt->execute([':rid' => $registrationId]);
+        } catch (PDOException $e) {
+            return false;
+        }
     }
+
 
     /* ----------------------------------------------------
        Get payment record for a registration
        ---------------------------------------------------- */
     public function getPaymentByRegistration(int $registrationId): ?array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT *
-            FROM Payment
-            WHERE registration_id = :rid
-            LIMIT 1
-        ");
-        $stmt->execute([':rid' => $registrationId]);
+        $sql = file_get_contents(KQ_URL . 'payment/kq_payment_get_by_registration.sql');
+        $stmt = $this->pdo->prepare($sql);
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
@@ -96,21 +85,32 @@ class Payment
        ---------------------------------------------------- */
     public function deletePaymentByRegistration(int $registrationId): bool
     {
-        $stmt = $this->pdo->prepare("
-            DELETE FROM Payment
-            WHERE registration_id = :rid
-        ");
-
-        return $stmt->execute([':rid' => $registrationId]);
+        try {
+            $stmt = $this->pdo->prepare("CALL sp_payment_delete_by_registration(:rid)");
+            return $stmt->execute([':rid' => $registrationId]);
+        } catch (PDOException $e) {
+            error_log("SP payment delete error: " . $e->getMessage());
+            return false;
+        }
     }
 
-    public function countCompletedPayments() {
-        $stmt = $this->pdo->query("SELECT COUNT(*) FROM Payment WHERE payment_status = 'completed'");
+
+    public function countCompletedPayments(): int
+    {
+        $sql = file_get_contents(KQ_URL . 'payment/kq_payment_count_completed.sql');
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
         return (int)$stmt->fetchColumn();
     }
 
+
     public function getTotalRevenue() {
-        $stmt = $this->pdo->query("SELECT SUM(amount) FROM Payment WHERE payment_status = 'completed'");
+        $sql = file_get_contents(KQ_URL . 'payment/kq_payment_total_revenue.sql');
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
         return (float)$stmt->fetchColumn();
     }
 
