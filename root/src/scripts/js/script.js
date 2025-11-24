@@ -487,6 +487,31 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // --- Manage Events ---
+    const eventsGrid  = document.getElementById("adminEventsGrid");
+    const eventsBtn   = document.getElementById("adminEventsLoadMore");
+
+    if (eventsGrid && eventsBtn) {
+        const CARDS_PER_CLICK_EVENTS = 6;
+
+        eventsBtn.addEventListener("click", () => {
+            const hidden = eventsGrid.querySelectorAll(".admin-users-card-hidden");
+            let shown = 0;
+
+            hidden.forEach(card => {
+                if (shown < CARDS_PER_CLICK_EVENTS) {
+                    card.classList.remove("admin-users-card-hidden");
+                    shown++;
+                }
+            });
+
+            if (!eventsGrid.querySelector(".admin-users-card-hidden")) {
+                eventsBtn.style.display = "none";
+            }
+        });
+    }
+
 }
 
 );
