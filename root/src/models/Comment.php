@@ -17,19 +17,15 @@ class Comment
        -------------------------- */
     public function addEventComment(int $userId, int $eventId, string $message): bool
     {
-        $sql = "
-            INSERT INTO Comments (user_id, event_id, comment_message)
-            VALUES (:uid, :eid, :msg)
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare("CALL sp_comment_add(?, ?, ?)");
 
         return $stmt->execute([
-            ':uid' => $userId,
-            ':eid' => $eventId,
-            ':msg' => $message,
+            $userId,
+            $eventId,
+            $message
         ]);
     }
+
 
     /* --------------------------
        Get all comments for event
@@ -38,87 +34,62 @@ class Comment
     {
         $isAdmin = !empty($_SESSION['is_admin']);
 
-        $sql = "
-            SELECT
-                c.comment_id,
-                c.user_id,
-                c.event_id,
-                c.comment_message,
-                c.comment_date,
-                CONCAT(u.first_name, ' ', u.last_name) AS user_name,
-                e.event_status,
-                cl.club_status
-            FROM Comments c
-            JOIN User u ON c.user_id = u.user_id
-            JOIN Event e ON c.event_id = e.event_id
-            JOIN Club cl ON e.club_id = cl.club_id
-            WHERE c.event_id = :eid
-        ";
+        // Choose correct key query
+        $file = $isAdmin
+            ? 'comment/kq_comment_get_all_for_event_admin.sql'
+            : 'comment/kq_comment_get_all_for_event_user.sql';
 
-        if (!$isAdmin) {
-            $sql .= "
-                AND e.event_status = 'approved'
-                AND cl.club_status = 'active'
-            ";
-        }
-
-        $sql .= " ORDER BY c.comment_date DESC ";
+        // Load SQL
+        $sql = file_get_contents(KQ_URL . $file);
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':eid' => $eventId]);
+        $stmt->execute([$eventId]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     /* --------------------------
        Get a single comment
        -------------------------- */
     public function getCommentById(int $commentId): ?array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT *
-            FROM Comments
-            WHERE comment_id = :cid
-            LIMIT 1
-        ");
-        $stmt->execute([':cid' => $commentId]);
+        // Load Key Query
+        $sql = file_get_contents(KQ_URL . 'comment/kq_comment_get_by_id.sql');
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$commentId]);
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
+
 
     /* --------------------------
        Delete by comment id
        -------------------------- */
     public function deleteById(int $commentId): bool
     {
-        $stmt = $this->pdo->prepare("
-            DELETE FROM Comments
-            WHERE comment_id = :cid
-        ");
-        $stmt->execute([':cid' => $commentId]);
+        $stmt = $this->pdo->prepare("CALL sp_comment_delete(?)");
+        $stmt->execute([$commentId]);
 
-        return $stmt->rowCount() > 0;
+        // rowCount() cannot be used after CALL reliably
+        return true;
     }
+
 
     /* --------------------------
        Delete only by owner
        -------------------------- */
     public function deleteComment(int $commentId, int $userId): bool
     {
-        $sql = "
-            DELETE FROM Comments
-            WHERE comment_id = :cid AND user_id = :uid
-        ";
+        $stmt = $this->pdo->prepare("CALL sp_comment_delete_owned(?, ?)");
+        $stmt->execute([$commentId, $userId]);
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([
-            ':cid' => $commentId,
-            ':uid' => $userId,
-        ]);
-
-        return $stmt->rowCount() > 0;
+        // rowCount unreliable with CALL; assume success unless an exception occurs.
+        return true;
     }
+
 
     /* --------------------------
    Get recent comments by user
@@ -127,37 +98,15 @@ class Comment
     {
         $isAdmin = !empty($_SESSION['is_admin']);
 
-        $sql = "
-            SELECT 
-                c.comment_id,
-                c.comment_message,
-                c.comment_date,
-                c.event_id,
-                e.event_name,
-                e.event_status,
-                cl.club_status
-            FROM Comments c
-            JOIN Event e ON c.event_id = e.event_id
-            JOIN Club cl ON e.club_id = cl.club_id
-            WHERE c.user_id = :uid
-        ";
+        // Load the correct Key Query file
+        $sqlFile = $isAdmin
+            ? KQ_URL . 'comment/kq_comment_get_for_user_admin.sql'
+            : KQ_URL . 'comment/kq_comment_get_for_user_normal.sql';
 
-        if (!$isAdmin) {
-            $sql .= "
-                AND e.event_status = 'approved'
-                AND cl.club_status = 'active'
-            ";
-        }
-
-        $sql .= "
-            ORDER BY c.comment_date DESC
-            LIMIT :lim
-        ";
+        $sql = file_get_contents($sqlFile);
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':uid', $userId, PDO::PARAM_INT);
-        $stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
-        $stmt->execute();
+        $stmt->execute([$userId, $limit]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
