@@ -5,7 +5,7 @@ CREATE PROCEDURE sp_notification_create(
     IN p_user_id INT,
     IN p_event_id INT,
     IN p_message TEXT,
-    IN p_type ENUM('reminder','announcement','update')
+    IN p_type ENUM('reminder','new','update')
 )
 BEGIN
     INSERT INTO Notification (

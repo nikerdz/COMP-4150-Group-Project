@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS Notification (
     user_id INT NOT NULL,
     event_id INT NOT NULL,
     notification_message TEXT NOT NULL,
-    notification_type ENUM('reminder', 'announcement', 'update') DEFAULT 'announcement',
+    notification_type ENUM('reminder', 'new', 'update') DEFAULT 'new',
     notification_status ENUM('unread', 'read') DEFAULT 'unread',
     notification_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY unique_user_event_message (user_id, event_id, notification_message(255)),

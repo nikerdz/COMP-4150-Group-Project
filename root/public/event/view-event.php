@@ -19,7 +19,7 @@ $errorMessage = $_SESSION['error'] ?? null;
 unset($_SESSION['error']);
 
 // Validate event id
-$eventId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$currentEventId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $eventModel        = new Event();
 $registrationModel = new Registration();
@@ -33,9 +33,9 @@ $pageTitle = 'Event Not Found';
 
 // Admin sees everything; normal users only see approved events from active clubs
 if ($isAdmin) {
-    $event = $eventModel->findById($eventId);
+    $event = $eventModel->findById($currentEventId);
 } else {
-    $event = $eventModel->findVisibleById($eventId);
+    $event = $eventModel->findVisibleById($currentEventId);
 }
 
 if ($event) {
@@ -54,13 +54,13 @@ $isPaidEvent      = false;
 $registeredUsers  = [];
 
 if ($event) {
-    $participantCount = $registrationModel->countRegistrations($eventId);
+    $participantCount = $registrationModel->countRegistrations($currentEventId);
     $capacity         = $event['capacity'] !== null ? (int)$event['capacity'] : null;
     $isPaidEvent      = ($event['event_fee'] ?? 0) > 0;
 
     if ($userId && !$isAdmin) {
         // Only relevant for normal users; admins don't register
-        $isRegistered = $registrationModel->isRegistered($userId, $eventId);
+        $isRegistered = $registrationModel->isRegistered($userId, $currentEventId);
     }
 
     // Membership & exec check (same logic as view-club) – applies to non-admin execs
@@ -73,11 +73,11 @@ if ($event) {
     }
 
     // Get registered users (with roles)
-    $registeredUsers = $registrationModel->getUsersForEvent($eventId);
+    $registeredUsers = $registrationModel->getUsersForEvent($currentEventId);
 }
 
 // Load comments for this event (uses Comments table)
-$comments = $event ? $commentModel->getCommentsForEvent($eventId) : [];
+$comments = $event ? $commentModel->getCommentsForEvent($currentEventId) : [];
 
 // ------------------------------------
 // Track recent events (legacy per-type)
@@ -87,12 +87,12 @@ if (!isset($_SESSION['recent_events'])) {
 }
 
 // Prevent duplicates and remove if exists
-$_SESSION['recent_events'] = array_filter($_SESSION['recent_events'], function($id) use ($eventId) {
-    return $id != $eventId;
+$_SESSION['recent_events'] = array_filter($_SESSION['recent_events'], function($id) use ($currentEventId) {
+    return $id != $currentEventId;
 });
 
 // Add newest to the front
-array_unshift($_SESSION['recent_events'], $eventId);
+array_unshift($_SESSION['recent_events'], $currentEventId);
 
 // Limit to latest 10
 $_SESSION['recent_events'] = array_slice($_SESSION['recent_events'], 0, 10);
@@ -107,18 +107,18 @@ if (!isset($_SESSION['recent_items']) || !is_array($_SESSION['recent_items'])) {
 // Remove existing entry for this event
 $_SESSION['recent_items'] = array_values(array_filter(
     $_SESSION['recent_items'],
-    function ($item) use ($eventId) {
+    function ($item) use ($currentEventId) {
         if (!is_array($item) || !isset($item['type'], $item['id'])) {
             return true;
         }
-        return !($item['type'] === 'event' && (int)$item['id'] === $eventId);
+        return !($item['type'] === 'event' && (int)$item['id'] === $currentEventId);
     }
 ));
 
 // Add newest to the front
 array_unshift($_SESSION['recent_items'], [
     'type' => 'event',
-    'id'   => $eventId,
+    'id'   => $currentEventId,
 ]);
 
 // Limit unified list to latest 10
@@ -244,7 +244,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                                     <form method="post"
                                           action="<?= PHP_URL ?>admin_handle_approve_event.php"
                                           style="display:inline;">
-                                        <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                        <input type="hidden" name="event_id" value="<?= $currentEventId ?>">
                                         <button class="event-primary-btn" type="submit">
                                             Approve Event
                                         </button>
@@ -253,7 +253,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                                     <form method="post"
                                           action="<?= PHP_URL ?>admin_handle_unapprove_event.php"
                                           style="display:inline;">
-                                        <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                        <input type="hidden" name="event_id" value="<?= $currentEventId ?>">
                                         <button class="event-primary-btn" type="submit">
                                             Unapprove Event
                                         </button>
@@ -261,12 +261,11 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                                 <?php endif; ?>
 
                             <?php elseif ($userId): ?>
-
                                 <?php if ($isRegistered): ?>
                                     <form method="post"
                                           action="<?= PHP_URL ?>event_handle_unregister.php"
                                           style="display:inline;">
-                                        <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                        <input type="hidden" name="event_id" value="<?= $currentEventId ?>">
                                         <button class="event-primary-btn" type="submit">
                                             <?= $isPaidEvent ? 'Refund &amp; Unregister' : 'Unregister' ?>
                                         </button>
@@ -278,7 +277,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                                         <form method="post"
                                               action="<?= PHP_URL ?>event_handle_register.php"
                                               style="display:inline;">
-                                            <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                            <input type="hidden" name="event_id" value="<?= $currentEventId ?>">
                                             <button class="event-primary-btn" type="submit">
                                                 Pay &amp; Register
                                             </button>
@@ -287,7 +286,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                                         <form method="post"
                                               action="<?= PHP_URL ?>event_handle_register.php"
                                               style="display:inline;">
-                                            <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                            <input type="hidden" name="event_id" value="<?= $currentEventId ?>">
                                             <button class="event-primary-btn" type="submit">Register</button>
                                         </form>
                                     <?php endif; ?>
@@ -295,7 +294,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
 
                                 <?php if ($isExec): ?>
                                     <a class="event-secondary-btn"
-                                       href="<?= EVENT_URL ?>edit-event.php?id=<?= $eventId ?>">
+                                       href="<?= EVENT_URL ?>edit-event.php?id=<?= $currentEventId ?>">
                                         Edit Event
                                     </a>
                                 <?php endif; ?>
@@ -387,7 +386,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                     <form class="comment-form"
                           action="<?= PHP_URL ?>comment_handle_add.php"
                           method="POST">
-                        <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                        <input type="hidden" name="event_id" value="<?= $currentEventId ?>">
 
                         <textarea name="comment"
                                   rows="3"
@@ -440,7 +439,7 @@ $_SESSION['recent_items'] = array_slice($_SESSION['recent_items'], 0, 10);
                                                 <input type="hidden" name="comment_id"
                                                        value="<?= (int)$comment['comment_id']; ?>">
                                                 <input type="hidden" name="event_id"
-                                                       value="<?= $eventId; ?>">
+                                                       value="<?= $currentEventId; ?>">
                                                 <button type="submit" class="comment-delete-btn">
                                                     Delete
                                                 </button>

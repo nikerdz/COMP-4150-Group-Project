@@ -1244,14 +1244,14 @@ INSERT INTO Notification (user_id, event_id, notification_message, notification_
 
 -- --------- ANNOUNCEMENTS (8) ---------
 INSERT INTO Notification (user_id, event_id, notification_message, notification_type, notification_status, notification_timestamp) VALUES
-(10, 1, 'Your registration for Fall Coding Jam is confirmed.', 'announcement', 'unread', '2024-10-01 10:00:00'),
-(3, 4, 'You are registered for the Women in STEM Meet-and-Greet.', 'announcement', 'unread', '2025-03-01 10:30:00'),
-(5, 10, 'PSA Culture Night registration successful.', 'announcement', 'read', '2024-10-11 09:30:00'),
-(6, 7, 'Welcome Social registration received.', 'announcement', 'unread', '2024-09-01 10:15:00'),
-(21, 13, 'You are confirmed for the Fall Networking Mixer.', 'announcement', 'unread', '2024-10-06 12:00:00'),
-(11, 37, 'Your spot in the Fitness & Wellness Seminar is confirmed.', 'announcement', 'unread', '2025-02-25 10:45:00'),
-(25, 33, 'You are registered for CAOS Fall Social.', 'announcement', 'unread', '2024-10-23 11:00:00'),
-(1, 31, 'Your MSA Welcome Dinner registration is confirmed.', 'announcement', 'unread', '2025-09-06 10:00:00');
+(10, 1, 'Your registration for Fall Coding Jam is confirmed.', 'new', 'unread', '2024-10-01 10:00:00'),
+(3, 4, 'You are registered for the Women in STEM Meet-and-Greet.', 'new', 'unread', '2025-03-01 10:30:00'),
+(5, 10, 'PSA Culture Night registration successful.', 'new', 'read', '2024-10-11 09:30:00'),
+(6, 7, 'Welcome Social registration received.', 'new', 'unread', '2024-09-01 10:15:00'),
+(21, 13, 'You are confirmed for the Fall Networking Mixer.', 'new', 'unread', '2024-10-06 12:00:00'),
+(11, 37, 'Your spot in the Fitness & Wellness Seminar is confirmed.', 'new', 'unread', '2025-02-25 10:45:00'),
+(25, 33, 'You are registered for CAOS Fall Social.', 'new', 'unread', '2024-10-23 11:00:00'),
+(1, 31, 'Your MSA Welcome Dinner registration is confirmed.', 'new', 'unread', '2025-09-06 10:00:00');
 
 -- --------- UPDATES (8) ---------
 INSERT INTO Notification (user_id, event_id, notification_message, notification_type, notification_status, notification_timestamp) VALUES

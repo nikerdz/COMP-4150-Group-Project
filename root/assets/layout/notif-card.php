@@ -6,7 +6,7 @@ $type      = htmlspecialchars($notif['notification_type']);
 $timestamp = date('M d, Y · g:i A', strtotime($notif['notification_timestamp']));
 $eventId   = (int)$notif['event_id'];
 
-$typeLabel = ucfirst($type); // Reminder / Announcement / Update
+$typeLabel = ucfirst($type); // Reminder / New / Update
 ?>
 <div class="notif-card">
     <div class="notif-card-header">
