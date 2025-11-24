@@ -37,8 +37,8 @@ VALUES
 ('Selena', 'Kouris', 'selena.kouris@uwindsor.ca', 'pw27', 'active', 'student', 'F', 'Odette School of Business', 'undergraduate', 4),
 ('Jayden', 'Frost', 'jayden.frost@uwindsor.ca', 'pw28', 'active', 'student', 'M', 'Science', 'graduate', 2),
 ('Amira', 'Rahman', 'amira.rahman@uwindsor.ca', 'pw29', 'active', 'student', 'F', 'Engineering', 'undergraduate', 1),
-('Marcus', 'James', 'marcus.james@uwindsor.ca', 'pw30', 'active', 'student', 'M', 'Science', 'undergraduate', 3);
-
+('Marcus', 'James', 'marcus.james@uwindsor.ca', 'pw30', 'active', 'student', 'M', 'Science', 'undergraduate', 3),
+('Admin', 'User', 'admin@uwindsor.ca', '$2y$10$icpd9Juy68td39j78i94.OKyrfPIQgHBAJK5kbeleXHjjGaSROhJy', 'active', 'admin', 'M', 'Science', 'undergraduate', 3);
 
 -- ==========================
 -- CATEGORIES (15)
