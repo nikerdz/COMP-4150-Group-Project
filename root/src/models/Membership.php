@@ -19,7 +19,7 @@ class Membership
 
     public function join(int $userId, int $clubId): bool
     {
-        // Fetch user and club info
+        // Fetch user and club info for PHP-side restriction logic
         $stmt = $this->pdo->prepare("
             SELECT u.gender, u.level_of_study, u.year_of_study, c.club_condition
             FROM User u
@@ -31,82 +31,65 @@ class Membership
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$data) {
-            return false; // user or club not found
+            return false;
         }
 
-        $condition = $data['club_condition'];
-
-        // Check restrictions
-        switch ($condition) {
+        // Restriction logic stays in PHP
+        switch ($data['club_condition']) {
             case 'women_only':
-                if (($data['gender']) !== 'F') {
+                if ($data['gender'] !== 'F') {
                     return false;
                 }
                 break;
+
             case 'undergrad_only':
                 if (strtolower($data['level_of_study']) !== 'undergraduate') {
                     return false;
                 }
                 break;
+
             case 'first_year_only':
                 if ((int)$data['year_of_study'] !== 1) {
                     return false;
                 }
                 break;
+
             case 'none':
             default:
-                // No restriction
                 break;
         }
 
-        // Insert membership
-        $stmt = $this->pdo->prepare("
-            INSERT INTO Membership (user_id, club_id)
-            VALUES (:uid, :cid)
-        ");
-
+        // Use stored procedure to insert membership
         try {
-            return $stmt->execute([':uid' => $userId, ':cid' => $clubId]);
+            $stmtInsert = $this->pdo->prepare("CALL sp_membership_join(?, ?)");
+            return $stmtInsert->execute([$userId, $clubId]);
+
         } catch (PDOException $e) {
-            return false; // Already joined or DB error
+            return false; // already joined or DB error
         }
     }
 
+
     public function leave(int $userId, int $clubId): bool
     {
-        $stmt = $this->pdo->prepare("
-            DELETE FROM Membership 
-            WHERE user_id = :uid AND club_id = :cid
-        ");
-        return $stmt->execute([':uid' => $userId, ':cid' => $clubId]);
+        try {
+            $stmt = $this->pdo->prepare("CALL sp_membership_leave(?, ?)");
+            return $stmt->execute([$userId, $clubId]);
+
+        } catch (PDOException $e) {
+            return false;
+        }
     }
+
 
     public function getClubsForUser(int $userId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT 
-                c.*,
-                m.membership_date,
-                COALESCE(e.executive_role, 'member') AS user_role,
-                CASE
-                    WHEN LOWER(COALESCE(e.executive_role, 'member')) IN ('admin','administrator','president','owner')
-                        THEN 0
-                    WHEN LOWER(COALESCE(e.executive_role, 'member')) <> 'member'
-                        THEN 1
-                    ELSE 2
-                END AS role_priority
-            FROM Membership m
-            JOIN Club c 
-                ON m.club_id = c.club_id
-            LEFT JOIN Executive e
-                ON m.user_id = e.user_id 
-            AND m.club_id = e.club_id
-            WHERE m.user_id = :uid
-            AND c.club_status = 'active'
-            ORDER BY role_priority ASC, c.club_name ASC
-        ");
+        // Load key query
+        $sql = file_get_contents(KQ_URL . 'membership/kq_membership_get_clubs_for_user.sql');
 
-        $stmt->execute([':uid' => $userId]);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$userId]);
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -117,23 +100,16 @@ class Membership
     -------------------------- */
     public function getMembership(int $clubId, int $userId): ?array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT m.user_id, m.club_id, m.membership_date,
-                   COALESCE(e.executive_role, 'member') AS role
-            FROM Membership m
-            LEFT JOIN Executive e 
-              ON m.user_id = e.user_id AND m.club_id = e.club_id
-            WHERE m.club_id = :clubId AND m.user_id = :userId
-            LIMIT 1
-        ");
-        $stmt->execute([
-            ':clubId' => $clubId,
-            ':userId' => $userId
-        ]);
+        // Load KQ SQL file
+        $sql = file_get_contents(KQ_URL . 'membership/kq_membership_get_membership.sql');
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$clubId, $userId]);
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
+
 
     /* --------------------------
        Get all members of a club
@@ -141,19 +117,12 @@ class Membership
     -------------------------- */
     public function getClubMembers(int $clubId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT u.user_id, u.first_name, u.last_name, 
-                   COALESCE(e.executive_role, 'member') AS role,
-                   m.membership_date
-            FROM Membership m
-            JOIN User u ON m.user_id = u.user_id
-            LEFT JOIN Executive e 
-              ON m.user_id = e.user_id AND m.club_id = e.club_id
-            WHERE m.club_id = :clubId
-            ORDER BY role DESC, u.first_name ASC
-        ");
-        $stmt->execute([':clubId' => $clubId]);
+        $sql = file_get_contents(KQ_URL . 'membership/kq_membership_get_club_members.sql');
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$clubId]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }
