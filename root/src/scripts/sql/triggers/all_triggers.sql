@@ -1,5 +1,4 @@
 DROP TRIGGER IF EXISTS trg_comment_after_insert_notify_execs;
-DELIMITER $$
 
 CREATE TRIGGER trg_comment_after_insert_notify_execs
 AFTER INSERT ON Comments
@@ -13,12 +12,10 @@ BEGIN
     FROM Executive e
     JOIN Event ev ON ev.club_id = e.club_id
     WHERE ev.event_id = NEW.event_id;
-END$$
+END;
 
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS trg_event_after_approval_notify_execs;
-DELIMITER $$
 
 CREATE TRIGGER trg_event_after_approval_notify_execs
 AFTER UPDATE ON Event
@@ -41,12 +38,9 @@ BEGIN
         WHERE ex.club_id = NEW.club_id;
 
     END IF;
-END$$
-
-DELIMITER ;
+END;
 
 DROP TRIGGER IF EXISTS trg_event_after_approval_notify_members;
-DELIMITER $$
 
 CREATE TRIGGER trg_event_after_approval_notify_members
 AFTER UPDATE ON Event
@@ -86,12 +80,10 @@ BEGIN
         WHERE m.club_id = NEW.club_id;
 
     END IF;
-END$$
+END;
 
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS trg_event_after_insert_notify_admins;
-DELIMITER $$
 
 CREATE TRIGGER trg_event_after_insert_notify_admins
 AFTER INSERT ON Event
@@ -118,13 +110,11 @@ BEGIN
         WHERE u.user_type = 'admin';
 
     END IF;
-END$$
+END;
 
-DELIMITER ;
 
 
 DROP TRIGGER IF EXISTS trg_event_after_update_notify_registrants;
-DELIMITER $$
 
 CREATE TRIGGER trg_event_after_update_notify_registrants
 AFTER UPDATE ON Event
@@ -143,14 +133,12 @@ BEGIN
         FROM Registration r
         WHERE r.event_id = NEW.event_id;
     END IF;
-END$$
+END;
 
-DELIMITER ;
 
 
 
 DROP TRIGGER IF EXISTS trg_payment_after_insert_notify_user;
-DELIMITER $$
 
 CREATE TRIGGER trg_payment_after_insert_notify_user
 AFTER INSERT ON Payment
@@ -163,6 +151,5 @@ BEGIN
            'announcement'
     FROM Registration r
     WHERE r.registration_id = NEW.registration_id;
-END$$
+END;
 
-DELIMITER ;

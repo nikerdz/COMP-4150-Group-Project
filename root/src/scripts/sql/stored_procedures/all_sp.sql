@@ -1,6 +1,4 @@
-
 DROP PROCEDURE IF EXISTS sp_user_register;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_register(
     IN p_first_name      VARCHAR(50),
@@ -35,14 +33,12 @@ BEGIN
     );
 
     SELECT LAST_INSERT_ID() AS user_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 
 DROP PROCEDURE IF EXISTS sp_user_update_profile;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_update_profile(
     IN p_user_id        INT,
@@ -60,14 +56,11 @@ BEGIN
         level_of_study = p_level_of_study,
         year_of_study  = p_year_of_study
     WHERE user_id = p_user_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 
 DROP PROCEDURE IF EXISTS sp_user_update_password;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_update_password(
     IN p_user_id INT,
@@ -77,14 +70,12 @@ BEGIN
     UPDATE User
     SET user_password = p_hashed_password
     WHERE user_id = p_user_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 
 DROP PROCEDURE IF EXISTS sp_user_delete;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_delete(
     IN p_user_id INT
@@ -92,14 +83,12 @@ CREATE PROCEDURE sp_user_delete(
 BEGIN
     DELETE FROM User
     WHERE user_id = p_user_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 
 DROP PROCEDURE IF EXISTS sp_user_save_interests;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_save_interests(
     IN p_user_id INT,
@@ -108,14 +97,12 @@ CREATE PROCEDURE sp_user_save_interests(
 BEGIN
     INSERT INTO User_Interests (user_id, category_id)
     VALUES (p_user_id, p_category_id);
-END $$
+END;
 
-DELIMITER ;
 
 
 
 DROP PROCEDURE IF EXISTS sp_user_clear_interests;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_clear_interests(
     IN p_user_id INT
@@ -123,14 +110,13 @@ CREATE PROCEDURE sp_user_clear_interests(
 BEGIN
     DELETE FROM User_Interests
     WHERE user_id = p_user_id;
-END $$
+END;
 
-DELIMITER ;
+
 
 
 
 DROP PROCEDURE IF EXISTS sp_user_search;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_search(
     IN p_search VARCHAR(100),
@@ -156,14 +142,12 @@ BEGIN
             user_email LIKE CONCAT('%', p_search, '%')
         )
     ORDER BY first_name ASC;
-END $$
+END;
 
-DELIMITER ;
 
 
 
 DROP PROCEDURE IF EXISTS sp_user_suspend;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_suspend(
     IN p_user_id INT
@@ -172,15 +156,13 @@ BEGIN
     UPDATE User
     SET user_status = 'suspended'
     WHERE user_id = p_user_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 
 
 DROP PROCEDURE IF EXISTS sp_user_activate;
-DELIMITER $$
 
 CREATE PROCEDURE sp_user_activate(
     IN p_user_id INT
@@ -189,9 +171,8 @@ BEGIN
     UPDATE User
     SET user_status = 'active'
     WHERE user_id = p_user_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 
@@ -203,7 +184,7 @@ DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_club_create;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_club_create(
     IN p_club_name        VARCHAR(100),
@@ -233,13 +214,11 @@ BEGIN
 
     SELECT LAST_INSERT_ID() AS club_id;
 
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_club_search;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_club_search(
     IN p_search VARCHAR(255),
@@ -284,13 +263,10 @@ BEGIN
     GROUP BY c.club_id
     ORDER BY c.club_name ASC
     LIMIT p_limit OFFSET p_offset;
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_club_update_main;
-DELIMITER $$
 
 CREATE PROCEDURE sp_club_update_main(
     IN p_club_id INT,
@@ -307,13 +283,9 @@ BEGIN
         club_description = p_club_description,
         club_condition = p_club_condition
     WHERE club_id = p_club_id;
-END $$
-
-DELIMITER ;
-
+END;
 
 DROP PROCEDURE IF EXISTS sp_club_clear_tags;
-DELIMITER $$
 
 CREATE PROCEDURE sp_club_clear_tags(
     IN p_club_id INT
@@ -321,13 +293,10 @@ CREATE PROCEDURE sp_club_clear_tags(
 BEGIN
     DELETE FROM Club_Tags
     WHERE club_id = p_club_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_club_add_tag;
-DELIMITER $$
 
 CREATE PROCEDURE sp_club_add_tag(
     IN p_club_id INT,
@@ -336,13 +305,10 @@ CREATE PROCEDURE sp_club_add_tag(
 BEGIN
     INSERT INTO Club_Tags (club_id, category_id)
     VALUES (p_club_id, p_category_id);
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_club_delete;
-DELIMITER $$
 
 CREATE PROCEDURE sp_club_delete(
     IN p_club_id INT
@@ -373,13 +339,10 @@ BEGIN
 
     COMMIT;
 
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_club_search_admin;
-DELIMITER $$
 
 CREATE PROCEDURE sp_club_search_admin(
     IN p_search VARCHAR(255),
@@ -400,10 +363,7 @@ BEGIN
         )
 
     ORDER BY club_name ASC;
-END $$
-
-DELIMITER ;
-
+END;
 
 
 
@@ -412,7 +372,7 @@ DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_event_search;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_event_search(
     IN p_search VARCHAR(255),
@@ -471,14 +431,12 @@ BEGIN
     GROUP BY e.event_id
     ORDER BY e.event_date ASC
     LIMIT p_limit OFFSET p_offset;
-END $$
-
-DELIMITER ;
+END;
 
 
 
 DROP PROCEDURE IF EXISTS sp_event_search_admin;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_event_search_admin(
     IN p_search VARCHAR(255),
@@ -507,13 +465,10 @@ BEGIN
         )
 
     ORDER BY e.event_date ASC;
-END $$
-
-DELIMITER ;
-
+END;
 
 DROP PROCEDURE IF EXISTS sp_event_create;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_event_create(
     IN p_club_id INT,
@@ -548,13 +503,11 @@ BEGIN
     );
 
     SELECT LAST_INSERT_ID() AS event_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_event_update;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_event_update(
     IN p_event_id INT,
@@ -577,14 +530,12 @@ BEGIN
         event_condition   = p_event_condition,
         event_fee         = p_event_fee
     WHERE event_id = p_event_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 
 DROP PROCEDURE IF EXISTS sp_event_update_status;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_event_update_status(
     IN p_event_id INT,
@@ -594,13 +545,11 @@ BEGIN
     UPDATE Event
     SET event_status = p_status
     WHERE event_id = p_event_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_event_delete;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_event_delete(
     IN p_event_id INT
@@ -622,9 +571,7 @@ BEGIN
     DELETE FROM Event WHERE event_id = p_event_id;
 
     COMMIT;
-END $$
-
-DELIMITER ;
+END;
 
 
 
@@ -635,7 +582,7 @@ DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_membership_join;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_membership_join(
     IN p_user_id INT,
@@ -644,14 +591,12 @@ CREATE PROCEDURE sp_membership_join(
 BEGIN
     INSERT INTO Membership (user_id, club_id)
     VALUES (p_user_id, p_club_id);
-END $$
-
-DELIMITER ;
+END;
 
 
 
 DROP PROCEDURE IF EXISTS sp_membership_leave;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_membership_leave(
     IN p_user_id INT,
@@ -661,9 +606,7 @@ BEGIN
     DELETE FROM Membership
     WHERE user_id = p_user_id
       AND club_id = p_club_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 
@@ -677,7 +620,6 @@ DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_registration_register;
-DELIMITER $$
 
 CREATE PROCEDURE sp_registration_register(
     IN p_user_id INT,
@@ -687,13 +629,12 @@ BEGIN
     -- Insert registration (duplicate key automatically fails)
     INSERT INTO Registration (user_id, event_id)
     VALUES (p_user_id, p_event_id);
-END $$
+END;
 
-DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_registration_unregister;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_registration_unregister(
     IN p_user_id INT,
@@ -703,9 +644,7 @@ BEGIN
     DELETE FROM Registration
     WHERE user_id = p_user_id
       AND event_id = p_event_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 
@@ -717,7 +656,7 @@ DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_payment_create_pending;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_payment_create_pending(
     IN p_registration_id INT,
@@ -727,13 +666,10 @@ CREATE PROCEDURE sp_payment_create_pending(
 BEGIN
     INSERT INTO Payment (registration_id, amount, payment_status, payment_method)
     VALUES (p_registration_id, p_amount, 'pending', p_method);
-END $$
-
-DELIMITER ;
-
+END;
 
 DROP PROCEDURE IF EXISTS sp_payment_mark_completed;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_payment_mark_completed(
     IN p_registration_id INT
@@ -744,13 +680,10 @@ BEGIN
         payment_status = 'completed',
         payment_date = NOW()
     WHERE registration_id = p_registration_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_payment_refund;
-DELIMITER $$
 
 CREATE PROCEDURE sp_payment_refund(
     IN p_registration_id INT
@@ -761,13 +694,10 @@ BEGIN
         payment_status = 'refunded',
         payment_date = NOW()
     WHERE registration_id = p_registration_id;
-END $$
-
-DELIMITER ;
+END;
 
 
 DROP PROCEDURE IF EXISTS sp_payment_delete_by_registration;
-DELIMITER $$
 
 CREATE PROCEDURE sp_payment_delete_by_registration(
     IN p_registration_id INT
@@ -775,10 +705,7 @@ CREATE PROCEDURE sp_payment_delete_by_registration(
 BEGIN
     DELETE FROM Payment
     WHERE registration_id = p_registration_id;
-END $$
-
-DELIMITER ;
-
+END;
 
 
 
@@ -789,7 +716,7 @@ DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_comment_add;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_comment_add(
     IN p_user_id INT,
@@ -799,25 +726,21 @@ CREATE PROCEDURE sp_comment_add(
 BEGIN
     INSERT INTO Comments (user_id, event_id, comment_message)
     VALUES (p_user_id, p_event_id, p_message);
-END $$
+END;
 
-DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_comment_delete;
-DELIMITER $$
 
 CREATE PROCEDURE sp_comment_delete(IN p_comment_id INT)
 BEGIN
     DELETE FROM Comments
     WHERE comment_id = p_comment_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_comment_delete_owned;
-DELIMITER $$
 
 CREATE PROCEDURE sp_comment_delete_owned(
     IN p_comment_id INT,
@@ -827,9 +750,8 @@ BEGIN
     DELETE FROM Comments
     WHERE comment_id = p_comment_id
       AND user_id = p_user_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 
@@ -840,7 +762,6 @@ DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_notification_create;
-DELIMITER $$
 
 CREATE PROCEDURE sp_notification_create(
     IN p_user_id INT,
@@ -861,13 +782,11 @@ BEGIN
         p_message,
         p_type
     );
-END $$
+END;
 
-DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_notification_mark_read;
-DELIMITER $$
 
 CREATE PROCEDURE sp_notification_mark_read(
     IN p_notif_id INT
@@ -876,13 +795,11 @@ BEGIN
     UPDATE Notification
     SET notification_status = 'read'
     WHERE notification_id = p_notif_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_notification_mark_all_read;
-DELIMITER $$
 
 CREATE PROCEDURE sp_notification_mark_all_read(
     IN p_user_id INT
@@ -891,13 +808,11 @@ BEGIN
     UPDATE Notification
     SET notification_status = 'read'
     WHERE user_id = p_user_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_notification_mark_unread;
-DELIMITER $$
 
 CREATE PROCEDURE sp_notification_mark_unread(
     IN p_notif_id INT
@@ -906,13 +821,12 @@ BEGIN
     UPDATE Notification
     SET notification_status = 'unread'
     WHERE notification_id = p_notif_id;
-END $$
+END;
 
-DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS sp_notification_set_status;
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_notification_set_status(
     IN p_notif_id INT,
@@ -922,6 +836,4 @@ BEGIN
     UPDATE Notification
     SET notification_status = p_status
     WHERE notification_id = p_notif_id;
-END $$
-
-DELIMITER ;
+END;
