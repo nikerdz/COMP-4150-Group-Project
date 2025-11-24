@@ -36,7 +36,7 @@ if (isset($_SESSION['user_id'])) {
                 </button>
 
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <button class="header-btn" onclick="history.back()">
+                    <button class="header-btn">
                         <img src="<?php echo IMG_URL; ?>btn/back.png">
                     </button>
                 <?php endif; ?>

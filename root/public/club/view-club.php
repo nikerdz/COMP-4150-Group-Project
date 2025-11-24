@@ -114,6 +114,11 @@ foreach ($clubEvents as $ev) {
         continue;
     }
 
+    // Hide pending events from executives and normal users
+    if (!$isAdmin && $ev['event_status'] === 'pending') {
+        continue;
+    }
+
     // ---------------------------
     // No event date? treat as upcoming
     // ---------------------------

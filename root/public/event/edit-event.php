@@ -240,6 +240,45 @@ unset($_SESSION['event_edit_error'], $_SESSION['event_edit_success']);
                 </button>
             </div>
         </form>
+
+        <!-- ========================
+            Delete Event Section
+        ========================= -->
+        <div class="club-delete-section">
+            <h3>Delete Event</h3>
+
+            <p class="club-delete-warning">
+                This action is <strong>permanent</strong> and cannot be undone.<br>
+                To delete this event, type <strong><?php echo $nameVal; ?></strong> below.
+            </p>
+
+            <form
+                class="club-delete-form"
+                action="<?php echo PHP_URL; ?>event_handle_delete.php"
+                method="post"
+                onsubmit="return confirm('Are you sure you want to permanently delete this event?');"
+            >
+                <input type="hidden" name="event_id" value="<?php echo $eventId; ?>">
+
+                <div class="auth-field">
+                    <label for="confirm_event_name">Type event name to confirm:</label>
+                    <input
+                        type="text"
+                        id="confirm_event_name"
+                        name="confirm_event_name"
+                        placeholder="Enter event name exactly"
+                        required
+                        maxlength="60"
+                    >
+                </div>
+
+                <button type="submit" class="club-delete-button">
+                    Delete Event
+                </button>
+            </form>
+        </div>
+
+
     </section>
 </main>
 
